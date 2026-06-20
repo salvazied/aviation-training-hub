@@ -144,14 +144,14 @@ function Dashboard() {
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2 gradient-card shadow-soft">
           <CardHeader><CardTitle className="text-base">Status by training course</CardTitle></CardHeader>
-          <CardContent className="h-[340px]">
+          <CardContent className="h-[380px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={byCourse} margin={{ top: 8, right: 8, left: 0, bottom: 60 }}>
+              <BarChart data={byCourse} margin={{ top: 8, right: 8, left: 0, bottom: 90 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.9 0.015 240)" />
                 <XAxis dataKey="course" tick={{ fontSize: 11 }} angle={-25} textAnchor="end" interval={0} />
                 <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
                 <Tooltip />
-                <Legend wrapperStyle={{ fontSize: 12 }} />
+                <Legend wrapperStyle={{ paddingTop: '24px', fontSize: 12 }} />
                 <Bar dataKey="Completed" stackId="s" fill="var(--success)" />
                 <Bar dataKey="Scheduled" stackId="s" fill="var(--sky)" />
                 <Bar dataKey="Outstanding" stackId="s" fill="var(--warning)" />
