@@ -1,125 +1,129 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
   Link,
   createRootRouteWithContext,
-  useRouter,
   HeadContent,
   Scripts,
+  useRouterState,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
-
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { ReactNode } from "react";
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
-
-function NotFoundComponent() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
-  const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
-
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Try again
-          </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
+import { AuthProvider, useAuth } from "@/lib/auth";
+import { LoginScreen } from "@/components/LoginScreen";
+import { Plane, LogOut, LayoutDashboard, Users, Table2, RefreshCcw } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { title: "Ground Handling Training Tracker" },
+      { name: "description", content: "Aviation ground handling training tracker — personnel, matrix, return from absence." },
     ],
     links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" },
     ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
-  notFoundComponent: NotFoundComponent,
-  errorComponent: ErrorComponent,
+  notFoundComponent: () => (
+    <div className="flex min-h-screen items-center justify-center">
+      <Link to="/" className="text-accent">Go home</Link>
+    </div>
+  ),
 });
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
+      <head><HeadContent /></head>
+      <body>{children}<Scripts /></body>
     </html>
   );
 }
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <AuthProvider>
+        <Shell />
+      </AuthProvider>
     </QueryClientProvider>
+  );
+}
+
+function Shell() {
+  const { user, logout } = useAuth();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  if (!user) return <LoginScreen />;
+
+  const navItems = [
+    { to: "/", label: "Dashboard", icon: LayoutDashboard },
+    { to: "/personnel", label: "Personnel Tracker", icon: Users },
+    { to: "/matrix", label: "Training Matrix", icon: Table2 },
+    { to: "/absence", label: "Return from Absence", icon: RefreshCcw },
+  ];
+
+  return (
+    <div className="min-h-screen">
+      <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
+        <div className="mx-auto flex max-w-[1600px] items-center gap-6 px-6 py-3">
+          <Link to="/" className="flex items-center gap-2.5">
+            <div className="grid h-9 w-9 place-items-center rounded-lg gradient-hero text-primary-foreground shadow-elegant">
+              <Plane className="h-5 w-5 -rotate-45" />
+            </div>
+            <div className="leading-tight">
+              <div className="font-display text-[15px] font-semibold">Training Tracker</div>
+              <div className="text-[11px] text-muted-foreground">Ground Handling · ISAGO</div>
+            </div>
+          </Link>
+          <nav className="ml-4 hidden gap-1 md:flex">
+            {navItems.map((n) => {
+              const active = pathname === n.to;
+              return (
+                <Link
+                  key={n.to}
+                  to={n.to}
+                  className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition ${
+                    active ? "bg-primary text-primary-foreground" : "text-foreground/70 hover:bg-secondary hover:text-foreground"
+                  }`}
+                >
+                  <n.icon className="h-4 w-4" />
+                  {n.label}
+                </Link>
+              );
+            })}
+          </nav>
+          <div className="ml-auto flex items-center gap-3">
+            <div className="hidden text-right sm:block">
+              <div className="text-[12px] font-medium leading-tight">{user.username}</div>
+              <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{user.role}</div>
+            </div>
+            <Button variant="outline" size="sm" onClick={logout}>
+              <LogOut className="h-3.5 w-3.5" /> Sign out
+            </Button>
+          </div>
+        </div>
+        <nav className="flex gap-1 overflow-x-auto border-t px-4 py-1.5 md:hidden">
+          {navItems.map((n) => {
+            const active = pathname === n.to;
+            return (
+              <Link key={n.to} to={n.to} className={`flex shrink-0 items-center gap-1.5 rounded-md px-2.5 py-1 text-xs ${active ? "bg-primary text-primary-foreground" : "text-foreground/70"}`}>
+                <n.icon className="h-3.5 w-3.5" /> {n.label}
+              </Link>
+            );
+          })}
+        </nav>
+      </header>
+      <main className="mx-auto max-w-[1600px] px-4 py-6 md:px-6">
+        <Outlet />
+      </main>
+    </div>
   );
 }
