@@ -82,28 +82,33 @@ function PersonnelPage() {
         </div>
         <div className="flex flex-wrap gap-2">
           <PasteDialog onApply={(rows) => {
-            // Paste from Excel: header columns matching Last Name / First Name / Duty Category / Job Title / Station
-            // OR plain 5-col TSV: Last, First, Duty, Title, Station
-            const next = [...employees];
-            const start = next.findIndex((e) => !e.lastName && !e.firstName);
-            let idx = start === -1 ? next.length : start;
-            rows.forEach((cells) => {
-              if (idx >= next.length) {
-                const id = add();
-                // re-pull
-                const fresh = usePersonnel; void fresh;
+            // 5-col TSV: Last · First · Duty · Title · Station. Fills empty rows first, then adds.
+            const targets: string[] = employees.filter((e) => !e.lastName && !e.firstName).map((e) => e.id);
+            const max = employees.reduce((m, e) => {
+              const n = parseInt(e.id.replace(/\D/g, ""), 10);
+              return isNaN(n) ? m : Math.max(m, n);
+            }, 0);
+            const fresh = [...employees];
+            rows.forEach((cells, k) => {
+              let id = targets[k];
+              if (!id) {
+                id = "EMP" + String(max + 1 + (k - targets.length)).padStart(3, "0");
+                fresh.push({
+                  id, lastName: "", firstName: "", dutyCategory: "", jobTitle: "", station: "",
+                  courses: Object.fromEntries(COURSES.map((c) => [c, { trainingDate: "", expiryDate: "", status: "" as const, nextTrainingDate: "" }])),
+                });
               }
-              const target = next[idx] ?? { ...next[next.length - 1] };
-              const updated = {
-                lastName: cells[0] ?? target.lastName,
-                firstName: cells[1] ?? target.firstName,
-                dutyCategory: cells[2] ?? target.dutyCategory,
-                jobTitle: cells[3] ?? target.jobTitle,
-                station: cells[4] ?? target.station,
+              const i = fresh.findIndex((e) => e.id === id);
+              fresh[i] = {
+                ...fresh[i],
+                lastName: cells[0] ?? fresh[i].lastName,
+                firstName: cells[1] ?? fresh[i].firstName,
+                dutyCategory: cells[2] ?? fresh[i].dutyCategory,
+                jobTitle: cells[3] ?? fresh[i].jobTitle,
+                station: cells[4] ?? fresh[i].station,
               };
-              update(target.id, updated);
-              idx++;
             });
+            replaceAll(fresh);
           }} />
           <Button variant="outline" size="sm" onClick={exportCsv}><Download className="h-4 w-4" /> Export CSV</Button>
           <Button size="sm" onClick={() => add()}><Plus className="h-4 w-4" /> Add employee</Button>

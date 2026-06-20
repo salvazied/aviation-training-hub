@@ -9,8 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PersonnelRouteImport } from './routes/personnel'
+import { Route as MatrixRouteImport } from './routes/matrix'
+import { Route as AbsenceRouteImport } from './routes/absence'
 import { Route as IndexRouteImport } from './routes/index'
 
+const PersonnelRoute = PersonnelRouteImport.update({
+  id: '/personnel',
+  path: '/personnel',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MatrixRoute = MatrixRouteImport.update({
+  id: '/matrix',
+  path: '/matrix',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AbsenceRoute = AbsenceRouteImport.update({
+  id: '/absence',
+  path: '/absence',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +37,61 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/absence': typeof AbsenceRoute
+  '/matrix': typeof MatrixRoute
+  '/personnel': typeof PersonnelRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/absence': typeof AbsenceRoute
+  '/matrix': typeof MatrixRoute
+  '/personnel': typeof PersonnelRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/absence': typeof AbsenceRoute
+  '/matrix': typeof MatrixRoute
+  '/personnel': typeof PersonnelRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/absence' | '/matrix' | '/personnel'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/absence' | '/matrix' | '/personnel'
+  id: '__root__' | '/' | '/absence' | '/matrix' | '/personnel'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AbsenceRoute: typeof AbsenceRoute
+  MatrixRoute: typeof MatrixRoute
+  PersonnelRoute: typeof PersonnelRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/personnel': {
+      id: '/personnel'
+      path: '/personnel'
+      fullPath: '/personnel'
+      preLoaderRoute: typeof PersonnelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/matrix': {
+      id: '/matrix'
+      path: '/matrix'
+      fullPath: '/matrix'
+      preLoaderRoute: typeof MatrixRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/absence': {
+      id: '/absence'
+      path: '/absence'
+      fullPath: '/absence'
+      preLoaderRoute: typeof AbsenceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +104,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AbsenceRoute: AbsenceRoute,
+  MatrixRoute: MatrixRoute,
+  PersonnelRoute: PersonnelRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
