@@ -339,6 +339,71 @@ function CellInput({ value, onChange, placeholder }: { value: string; onChange: 
   );
 }
 
+function AttachmentCell({
+  attachment,
+  onAttach,
+  onRemove,
+}: {
+  attachment: TrainingAttachment | null;
+  onAttach: (file: File) => void | Promise<void>;
+  onRemove: () => void | Promise<void>;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = async (file: File | undefined) => {
+    if (!file) return;
+    try {
+      await onAttach(file);
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Could not attach the training file.");
+    } finally {
+      if (inputRef.current) inputRef.current.value = "";
+    }
+  };
+
+  const handleRemove = async () => {
+    try {
+      await onRemove();
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Could not remove the training file.");
+    }
+  };
+
+  return (
+    <div className="flex min-w-[180px] items-center gap-1.5">
+      <input
+        ref={inputRef}
+        type="file"
+        className="sr-only"
+        onChange={(event) => handleFile(event.target.files?.[0])}
+      />
+      <Button type="button" size="icon" variant="outline" className="h-8 w-8" title="Attach training file" onClick={() => inputRef.current?.click()}>
+        <Paperclip className="h-3.5 w-3.5" />
+      </Button>
+      {attachment ? (
+        <>
+          <button
+            type="button"
+            className="max-w-[88px] truncate text-left text-xs font-medium text-accent underline-offset-2 hover:underline"
+            title={attachment.name}
+            onClick={() => openAttachmentFile(attachment).catch((error) => alert(error instanceof Error ? error.message : "Could not open the training file."))}
+          >
+            {attachment.name}
+          </button>
+          <Button type="button" size="icon" variant="ghost" className="h-7 w-7" title="Download file" onClick={() => downloadAttachmentFile(attachment).catch((error) => alert(error instanceof Error ? error.message : "Could not download the training file."))}>
+            <ExternalLink className="h-3.5 w-3.5" />
+          </Button>
+          <Button type="button" size="icon" variant="ghost" className="h-7 w-7 text-destructive" title="Remove file" onClick={handleRemove}>
+            <X className="h-3.5 w-3.5" />
+          </Button>
+        </>
+      ) : (
+        <span className="text-xs text-muted-foreground">No file</span>
+      )}
+    </div>
+  );
+}
+
 function PasteDialog({ onApply }: { onApply: (rows: string[][]) => void }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLTextAreaElement>(null);
