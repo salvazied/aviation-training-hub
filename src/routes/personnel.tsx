@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePersonnel } from "@/lib/store";
 import { useAuth } from "@/lib/auth";
 import { COURSES, DUTY_CATEGORIES, STATUS_VALUES, addYears, deriveStatus, type Status } from "@/lib/data";
+import { useMatrix, coursesForDuty } from "@/lib/matrix-store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,7 +15,9 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Download, ClipboardPaste, RotateCcw, Search } from "lucide-react";
+import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search } from "lucide-react";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export const Route = createFileRoute("/personnel")({
   head: () => ({
