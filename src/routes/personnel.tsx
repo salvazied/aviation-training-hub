@@ -29,12 +29,27 @@ export const Route = createFileRoute("/personnel")({
 function PersonnelPage() {
   const { employees, update, updateCourse, add, remove, reset, replaceAll } = usePersonnel();
   const { user } = useAuth();
+  const { matrix } = useMatrix();
   const isAdmin = user?.role === "admin";
 
   const [search, setSearch] = useState("");
   const [stationFilter, setStationFilter] = useState("all");
   const [dutyFilter, setDutyFilter] = useState("all");
   const [activeCourse, setActiveCourse] = useState<string>(COURSES[0]);
+
+  // Courses available in the "Course view" selector — filtered by Training Matrix
+  // when a specific duty category is selected.
+  const availableCourses = useMemo(
+    () => (dutyFilter === "all" ? COURSES : coursesForDuty(matrix, dutyFilter)),
+    [dutyFilter, matrix]
+  );
+
+  // If active course is no longer available for the chosen duty, fall back.
+  useEffect(() => {
+    if (!availableCourses.includes(activeCourse) && availableCourses.length > 0) {
+      setActiveCourse(availableCourses[0]);
+    }
+  }, [availableCourses, activeCourse]);
 
   const stations = useMemo(() => Array.from(new Set(employees.map((e) => e.station).filter(Boolean))).sort(), [employees]);
 
