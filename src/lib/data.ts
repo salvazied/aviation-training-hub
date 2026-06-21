@@ -110,6 +110,15 @@ export interface CourseRecord {
   expiryDate: string;
   status: Status;
   nextTrainingDate: string; // auto = expiry + 2y, editable
+  attachment: TrainingAttachment | null;
+}
+
+export interface TrainingAttachment {
+  id: string;
+  name: string;
+  type: string;
+  size: number;
+  uploadedAt: string;
 }
 
 export interface Employee {
@@ -125,7 +134,7 @@ export interface Employee {
 export const STATUS_VALUES: Status[] = ["Completed", "Scheduled", "Outstanding", "Overdue"];
 
 export function emptyCourse(): CourseRecord {
-  return { trainingDate: "", expiryDate: "", status: "", nextTrainingDate: "" };
+  return { trainingDate: "", expiryDate: "", status: "", nextTrainingDate: "", attachment: null };
 }
 
 export function emptyEmployee(id: string): Employee {

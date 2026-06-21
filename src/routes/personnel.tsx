@@ -2,8 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePersonnel } from "@/lib/store";
 import { useAuth } from "@/lib/auth";
-import { COURSES, DUTY_CATEGORIES, STATUS_VALUES, addYears, deriveStatus, type Status } from "@/lib/data";
+import { COURSES, DUTY_CATEGORIES, STATUS_VALUES, addYears, deriveStatus, emptyCourse, type Status, type TrainingAttachment } from "@/lib/data";
 import { useMatrix, coursesForDuty } from "@/lib/matrix-store";
+import { deleteAttachmentFile, downloadAttachmentFile, openAttachmentFile, saveAttachmentFile } from "@/lib/attachments";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +16,7 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search } from "lucide-react";
+import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search, Paperclip, ExternalLink, X } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
@@ -122,6 +123,17 @@ function PersonnelPage() {
     doc.save(`personnel-${activeCourse.replace(/[^a-z0-9]+/gi, "_")}.pdf`);
   };
 
+  const attachTrainingFile = async (employeeId: string, file: File, previous: TrainingAttachment | null) => {
+    if (previous) await deleteAttachmentFile(previous.id);
+    const attachment = await saveAttachmentFile(file);
+    updateCourse(employeeId, activeCourse, { attachment });
+  };
+
+  const removeTrainingFile = async (employeeId: string, attachment: TrainingAttachment) => {
+    await deleteAttachmentFile(attachment.id);
+    updateCourse(employeeId, activeCourse, { attachment: null });
+  };
+
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
@@ -144,7 +156,7 @@ function PersonnelPage() {
                 id = "EMP" + String(max + 1 + (k - targets.length)).padStart(3, "0");
                 fresh.push({
                   id, lastName: "", firstName: "", dutyCategory: "", jobTitle: "", station: "",
-                  courses: Object.fromEntries(COURSES.map((c) => [c, { trainingDate: "", expiryDate: "", status: "" as const, nextTrainingDate: "" }])),
+                  courses: Object.fromEntries(COURSES.map((c) => [c, emptyCourse()])),
                 });
               }
               const i = fresh.findIndex((e) => e.id === id);
@@ -213,7 +225,7 @@ function PersonnelPage() {
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[1200px] border-separate border-spacing-0 text-sm">
+            <table className="w-full min-w-[1380px] border-separate border-spacing-0 text-sm">
               <thead className="sticky top-0 z-10 bg-secondary/70 backdrop-blur">
                 <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground">
                   <Th>ID</Th>
@@ -226,6 +238,7 @@ function PersonnelPage() {
                   <Th className="bg-accent/10">Expiry Date</Th>
                   <Th className="bg-accent/10">Status</Th>
                   <Th className="bg-accent/10">Next Training</Th>
+                  <Th className="bg-accent/10">Training File</Th>
                   <Th></Th>
                 </tr>
               </thead>
@@ -279,6 +292,16 @@ function PersonnelPage() {
                           onChange={(ev) => updateCourse(e.id, activeCourse, { nextTrainingDate: ev.target.value })} />
                       </Td>
                       <Td>
+                        <AttachmentCell
+                          attachment={r.attachment}
+                          onAttach={(file) => attachTrainingFile(e.id, file, r.attachment)}
+                          onRemove={() => {
+                            if (!r.attachment) return;
+                            return removeTrainingFile(e.id, r.attachment);
+                          }}
+                        />
+                      </Td>
+                      <Td>
                         {isAdmin && (
                           <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground opacity-0 transition group-hover:opacity-100"
                             onClick={() => { if (confirm(`Delete ${e.id}?`)) remove(e.id); }}>
@@ -290,7 +313,7 @@ function PersonnelPage() {
                   );
                 })}
                 {visible.length === 0 && (
-                  <tr><td colSpan={11} className="p-6 text-center text-sm text-muted-foreground">No employees match your filters.</td></tr>
+                  <tr><td colSpan={12} className="p-6 text-center text-sm text-muted-foreground">No employees match your filters.</td></tr>
                 )}
               </tbody>
             </table>
@@ -316,6 +339,71 @@ function CellInput({ value, onChange, placeholder }: { value: string; onChange: 
       onChange={(e) => onChange(e.target.value)}
       className="h-8 min-w-[120px] border-transparent bg-transparent px-2 text-sm hover:border-input focus:border-accent"
     />
+  );
+}
+
+function AttachmentCell({
+  attachment,
+  onAttach,
+  onRemove,
+}: {
+  attachment: TrainingAttachment | null;
+  onAttach: (file: File) => void | Promise<void>;
+  onRemove: () => void | Promise<void>;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = async (file: File | undefined) => {
+    if (!file) return;
+    try {
+      await onAttach(file);
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Could not attach the training file.");
+    } finally {
+      if (inputRef.current) inputRef.current.value = "";
+    }
+  };
+
+  const handleRemove = async () => {
+    try {
+      await onRemove();
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Could not remove the training file.");
+    }
+  };
+
+  return (
+    <div className="flex min-w-[180px] items-center gap-1.5">
+      <input
+        ref={inputRef}
+        type="file"
+        className="sr-only"
+        onChange={(event) => handleFile(event.target.files?.[0])}
+      />
+      <Button type="button" size="icon" variant="outline" className="h-8 w-8" title="Attach training file" onClick={() => inputRef.current?.click()}>
+        <Paperclip className="h-3.5 w-3.5" />
+      </Button>
+      {attachment ? (
+        <>
+          <button
+            type="button"
+            className="max-w-[88px] truncate text-left text-xs font-medium text-accent underline-offset-2 hover:underline"
+            title={attachment.name}
+            onClick={() => openAttachmentFile(attachment).catch((error) => alert(error instanceof Error ? error.message : "Could not open the training file."))}
+          >
+            {attachment.name}
+          </button>
+          <Button type="button" size="icon" variant="ghost" className="h-7 w-7" title="Download file" onClick={() => downloadAttachmentFile(attachment).catch((error) => alert(error instanceof Error ? error.message : "Could not download the training file."))}>
+            <ExternalLink className="h-3.5 w-3.5" />
+          </Button>
+          <Button type="button" size="icon" variant="ghost" className="h-7 w-7 text-destructive" title="Remove file" onClick={handleRemove}>
+            <X className="h-3.5 w-3.5" />
+          </Button>
+        </>
+      ) : (
+        <span className="text-xs text-muted-foreground">No file</span>
+      )}
+    </div>
   );
 }
 
