@@ -21,7 +21,15 @@ export const Route = createFileRoute("/")({
   component: Dashboard,
 });
 
-const COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
+// Station palette — intentionally avoids orange/gold (reserved for warnings)
+const COLORS = [
+  "var(--chart-1)",            // sky blue
+  "var(--chart-2)",            // green
+  "var(--chart-5)",            // violet
+  "oklch(0.55 0.12 200)",      // teal
+  "oklch(0.45 0.1 260)",       // deep blue
+  "oklch(0.65 0.12 320)",      // magenta
+];
 
 function Dashboard() {
   const { employees } = usePersonnel();
@@ -144,14 +152,14 @@ function Dashboard() {
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2 gradient-card shadow-soft">
           <CardHeader><CardTitle className="text-base">Status by training course</CardTitle></CardHeader>
-          <CardContent className="h-[380px]">
+          <CardContent className="h-[420px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={byCourse} margin={{ top: 8, right: 8, left: 0, bottom: 90 }}>
+              <BarChart data={byCourse} margin={{ top: 8, right: 8, left: 0, bottom: 120 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.9 0.015 240)" />
-                <XAxis dataKey="course" tick={{ fontSize: 11 }} angle={-25} textAnchor="end" interval={0} />
+                <XAxis dataKey="course" tick={{ fontSize: 11 }} angle={-25} textAnchor="end" interval={0} height={90} />
                 <YAxis tick={{ fontSize: 11 }} allowDecimals={false} />
                 <Tooltip />
-                <Legend wrapperStyle={{ paddingTop: '24px', fontSize: 12 }} />
+                <Legend verticalAlign="bottom" align="center" height={28} wrapperStyle={{ fontSize: 12, paddingTop: 8, bottom: 0 }} />
                 <Bar dataKey="Completed" stackId="s" fill="var(--success)" />
                 <Bar dataKey="Scheduled" stackId="s" fill="var(--sky)" />
                 <Bar dataKey="Outstanding" stackId="s" fill="var(--warning)" />
