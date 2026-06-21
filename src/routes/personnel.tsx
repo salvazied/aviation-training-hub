@@ -295,7 +295,10 @@ function PersonnelPage() {
                         <AttachmentCell
                           attachment={r.attachment}
                           onAttach={(file) => attachTrainingFile(e.id, file, r.attachment)}
-                          onRemove={() => r.attachment && removeTrainingFile(e.id, r.attachment)}
+                          onRemove={() => {
+                            if (!r.attachment) return;
+                            return removeTrainingFile(e.id, r.attachment);
+                          }}
                         />
                       </Td>
                       <Td>
