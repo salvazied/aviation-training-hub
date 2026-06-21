@@ -123,6 +123,17 @@ function PersonnelPage() {
     doc.save(`personnel-${activeCourse.replace(/[^a-z0-9]+/gi, "_")}.pdf`);
   };
 
+  const attachTrainingFile = async (employeeId: string, file: File, previous: TrainingAttachment | null) => {
+    if (previous) await deleteAttachmentFile(previous.id);
+    const attachment = await saveAttachmentFile(file);
+    updateCourse(employeeId, activeCourse, { attachment });
+  };
+
+  const removeTrainingFile = async (employeeId: string, attachment: TrainingAttachment) => {
+    await deleteAttachmentFile(attachment.id);
+    updateCourse(employeeId, activeCourse, { attachment: null });
+  };
+
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
@@ -145,7 +156,7 @@ function PersonnelPage() {
                 id = "EMP" + String(max + 1 + (k - targets.length)).padStart(3, "0");
                 fresh.push({
                   id, lastName: "", firstName: "", dutyCategory: "", jobTitle: "", station: "",
-                  courses: Object.fromEntries(COURSES.map((c) => [c, { trainingDate: "", expiryDate: "", status: "" as const, nextTrainingDate: "" }])),
+                  courses: Object.fromEntries(COURSES.map((c) => [c, emptyCourse()])),
                 });
               }
               const i = fresh.findIndex((e) => e.id === id);
@@ -214,7 +225,7 @@ function PersonnelPage() {
         </CardHeader>
         <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[1200px] border-separate border-spacing-0 text-sm">
+            <table className="w-full min-w-[1380px] border-separate border-spacing-0 text-sm">
               <thead className="sticky top-0 z-10 bg-secondary/70 backdrop-blur">
                 <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground">
                   <Th>ID</Th>
@@ -227,6 +238,7 @@ function PersonnelPage() {
                   <Th className="bg-accent/10">Expiry Date</Th>
                   <Th className="bg-accent/10">Status</Th>
                   <Th className="bg-accent/10">Next Training</Th>
+                  <Th className="bg-accent/10">Training File</Th>
                   <Th></Th>
                 </tr>
               </thead>
@@ -280,6 +292,13 @@ function PersonnelPage() {
                           onChange={(ev) => updateCourse(e.id, activeCourse, { nextTrainingDate: ev.target.value })} />
                       </Td>
                       <Td>
+                        <AttachmentCell
+                          attachment={r.attachment}
+                          onAttach={(file) => attachTrainingFile(e.id, file, r.attachment)}
+                          onRemove={() => r.attachment && removeTrainingFile(e.id, r.attachment)}
+                        />
+                      </Td>
+                      <Td>
                         {isAdmin && (
                           <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground opacity-0 transition group-hover:opacity-100"
                             onClick={() => { if (confirm(`Delete ${e.id}?`)) remove(e.id); }}>
@@ -291,7 +310,7 @@ function PersonnelPage() {
                   );
                 })}
                 {visible.length === 0 && (
-                  <tr><td colSpan={11} className="p-6 text-center text-sm text-muted-foreground">No employees match your filters.</td></tr>
+                  <tr><td colSpan={12} className="p-6 text-center text-sm text-muted-foreground">No employees match your filters.</td></tr>
                 )}
               </tbody>
             </table>
