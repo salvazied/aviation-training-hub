@@ -160,6 +160,7 @@ function PersonnelPage() {
             replaceAll(fresh);
           }} />
           <Button variant="outline" size="sm" onClick={exportCsv}><Download className="h-4 w-4" /> Export CSV</Button>
+          <Button variant="outline" size="sm" onClick={exportPdf}><FileText className="h-4 w-4" /> Export PDF</Button>
           <Button size="sm" onClick={() => add()}><Plus className="h-4 w-4" /> Add employee</Button>
           {isAdmin && (
             <Button variant="outline" size="sm" onClick={() => { if (confirm("Reset all personnel data?")) reset(); }}>
@@ -196,11 +197,16 @@ function PersonnelPage() {
         <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3 bg-secondary/40">
           <CardTitle className="text-base">Employees · {visible.length}</CardTitle>
           <div className="flex items-center gap-2 text-xs">
-            <span className="text-muted-foreground">Course view:</span>
+            <span className="text-muted-foreground">
+              Course view{dutyFilter !== "all" ? ` · ${dutyFilter} (${availableCourses.length})` : ""}:
+            </span>
             <Select value={activeCourse} onValueChange={setActiveCourse}>
-              <SelectTrigger className="h-8 w-[280px] text-xs"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="h-8 w-[300px] text-xs"><SelectValue /></SelectTrigger>
               <SelectContent>
-                {COURSES.map((c, i) => <SelectItem key={c} value={c}>{i + 1}. {c}</SelectItem>)}
+                {availableCourses.map((c) => {
+                  const i = COURSES.indexOf(c);
+                  return <SelectItem key={c} value={c}>{i + 1}. {c}</SelectItem>;
+                })}
               </SelectContent>
             </Select>
           </div>
