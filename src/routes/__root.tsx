@@ -11,8 +11,16 @@ import type { ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { LoginScreen } from "@/components/LoginScreen";
-import { Plane, LogOut, LayoutDashboard, Users, Table2, RefreshCcw } from "lucide-react";
+import { Plane, LogOut, LayoutDashboard, Users, Table2, RefreshCcw, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -73,7 +81,7 @@ function Shell() {
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
-        <div className="mx-auto flex max-w-[1600px] items-center gap-6 px-6 py-3">
+        <div className="mx-auto flex max-w-[1600px] items-center gap-4 px-6 py-3">
           <Link to="/" className="flex items-center gap-2.5">
             <div className="grid h-9 w-9 place-items-center rounded-lg gradient-hero text-primary-foreground shadow-elegant">
               <Plane className="h-5 w-5 -rotate-45" />
@@ -83,23 +91,41 @@ function Shell() {
               <div className="text-[11px] text-muted-foreground">Ground Handling · ISAGO</div>
             </div>
           </Link>
-          <nav className="ml-4 hidden gap-1 md:flex">
-            {navItems.map((n) => {
-              const active = pathname === n.to;
-              return (
-                <Link
-                  key={n.to}
-                  to={n.to}
-                  className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-sm transition ${
-                    active ? "bg-primary text-primary-foreground" : "text-foreground/70 hover:bg-secondary hover:text-foreground"
-                  }`}
-                >
-                  <n.icon className="h-4 w-4" />
-                  {n.label}
-                </Link>
-              );
-            })}
-          </nav>
+
+          {/* Dropdown nav, primary navy background like the airplane logo */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="ml-2 inline-flex items-center gap-2 rounded-md bg-primary px-3.5 py-2 text-sm font-medium text-primary-foreground shadow-soft transition hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
+                <LayoutDashboard className="h-4 w-4" />
+                Training Tracker
+                <ChevronDown className="h-3.5 w-3.5 opacity-80" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-60 bg-primary text-primary-foreground border-primary/40">
+              <DropdownMenuLabel className="text-[11px] uppercase tracking-wider text-primary-foreground/70">
+                Navigation
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator className="bg-primary-foreground/15" />
+              {navItems.map((n) => {
+                const active = pathname === n.to;
+                return (
+                  <DropdownMenuItem
+                    key={n.to}
+                    asChild
+                    className={`gap-2 cursor-pointer focus:bg-primary-foreground/15 focus:text-primary-foreground ${
+                      active ? "bg-primary-foreground/15" : ""
+                    }`}
+                  >
+                    <Link to={n.to}>
+                      <n.icon className="h-4 w-4" />
+                      <span>{n.label}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <div className="ml-auto flex items-center gap-3">
             <div className="hidden text-right sm:block">
               <div className="text-[12px] font-medium leading-tight">{user.username}</div>
@@ -110,16 +136,6 @@ function Shell() {
             </Button>
           </div>
         </div>
-        <nav className="flex gap-1 overflow-x-auto border-t px-4 py-1.5 md:hidden">
-          {navItems.map((n) => {
-            const active = pathname === n.to;
-            return (
-              <Link key={n.to} to={n.to} className={`flex shrink-0 items-center gap-1.5 rounded-md px-2.5 py-1 text-xs ${active ? "bg-primary text-primary-foreground" : "text-foreground/70"}`}>
-                <n.icon className="h-3.5 w-3.5" /> {n.label}
-              </Link>
-            );
-          })}
-        </nav>
       </header>
       <main className="mx-auto max-w-[1600px] px-4 py-6 md:px-6">
         <Outlet />

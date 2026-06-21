@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePersonnel } from "@/lib/store";
 import { useAuth } from "@/lib/auth";
 import { COURSES, DUTY_CATEGORIES, STATUS_VALUES, addYears, deriveStatus, type Status } from "@/lib/data";
+import { useMatrix, coursesForDuty } from "@/lib/matrix-store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,7 +15,9 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Download, ClipboardPaste, RotateCcw, Search } from "lucide-react";
+import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search } from "lucide-react";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 export const Route = createFileRoute("/personnel")({
   head: () => ({
@@ -26,12 +29,27 @@ export const Route = createFileRoute("/personnel")({
 function PersonnelPage() {
   const { employees, update, updateCourse, add, remove, reset, replaceAll } = usePersonnel();
   const { user } = useAuth();
+  const { matrix } = useMatrix();
   const isAdmin = user?.role === "admin";
 
   const [search, setSearch] = useState("");
   const [stationFilter, setStationFilter] = useState("all");
   const [dutyFilter, setDutyFilter] = useState("all");
   const [activeCourse, setActiveCourse] = useState<string>(COURSES[0]);
+
+  // Courses available in the "Course view" selector — filtered by Training Matrix
+  // when a specific duty category is selected.
+  const availableCourses = useMemo(
+    () => (dutyFilter === "all" ? COURSES : coursesForDuty(matrix, dutyFilter)),
+    [dutyFilter, matrix]
+  );
+
+  // If active course is no longer available for the chosen duty, fall back.
+  useEffect(() => {
+    if (!availableCourses.includes(activeCourse) && availableCourses.length > 0) {
+      setActiveCourse(availableCourses[0]);
+    }
+  }, [availableCourses, activeCourse]);
 
   const stations = useMemo(() => Array.from(new Set(employees.map((e) => e.station).filter(Boolean))).sort(), [employees]);
 
@@ -73,6 +91,37 @@ function PersonnelPage() {
     URL.revokeObjectURL(url);
   };
 
+  const exportPdf = () => {
+    const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+    const title = `Personnel Tracker — ${activeCourse}`;
+    doc.setFontSize(14);
+    doc.text(title, 40, 36);
+    doc.setFontSize(9);
+    const meta = [
+      `Generated: ${new Date().toLocaleString()}`,
+      `Duty filter: ${dutyFilter === "all" ? "All" : dutyFilter}`,
+      `Station filter: ${stationFilter === "all" ? "All" : stationFilter}`,
+      `Records: ${visible.length}`,
+    ].join("   ·   ");
+    doc.text(meta, 40, 52);
+
+    const head = [["ID", "Last Name", "First Name", "Duty", "Job Title", "Station", "Training", "Expiry", "Status", "Next Training"]];
+    const body = visible.map((e) => {
+      const r = e.courses[activeCourse];
+      const st = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+      return [e.id, e.lastName, e.firstName, e.dutyCategory, e.jobTitle, e.station, r.trainingDate, r.expiryDate, st, r.nextTrainingDate];
+    });
+    autoTable(doc, {
+      head,
+      body,
+      startY: 64,
+      styles: { fontSize: 8, cellPadding: 4 },
+      headStyles: { fillColor: [36, 49, 92], textColor: 255 },
+      alternateRowStyles: { fillColor: [243, 246, 252] },
+    });
+    doc.save(`personnel-${activeCourse.replace(/[^a-z0-9]+/gi, "_")}.pdf`);
+  };
+
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
@@ -111,6 +160,7 @@ function PersonnelPage() {
             replaceAll(fresh);
           }} />
           <Button variant="outline" size="sm" onClick={exportCsv}><Download className="h-4 w-4" /> Export CSV</Button>
+          <Button variant="outline" size="sm" onClick={exportPdf}><FileText className="h-4 w-4" /> Export PDF</Button>
           <Button size="sm" onClick={() => add()}><Plus className="h-4 w-4" /> Add employee</Button>
           {isAdmin && (
             <Button variant="outline" size="sm" onClick={() => { if (confirm("Reset all personnel data?")) reset(); }}>
@@ -147,11 +197,16 @@ function PersonnelPage() {
         <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3 bg-secondary/40">
           <CardTitle className="text-base">Employees · {visible.length}</CardTitle>
           <div className="flex items-center gap-2 text-xs">
-            <span className="text-muted-foreground">Course view:</span>
+            <span className="text-muted-foreground">
+              Course view{dutyFilter !== "all" ? ` · ${dutyFilter} (${availableCourses.length})` : ""}:
+            </span>
             <Select value={activeCourse} onValueChange={setActiveCourse}>
-              <SelectTrigger className="h-8 w-[280px] text-xs"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="h-8 w-[300px] text-xs"><SelectValue /></SelectTrigger>
               <SelectContent>
-                {COURSES.map((c, i) => <SelectItem key={c} value={c}>{i + 1}. {c}</SelectItem>)}
+                {availableCourses.map((c) => {
+                  const i = COURSES.indexOf(c);
+                  return <SelectItem key={c} value={c}>{i + 1}. {c}</SelectItem>;
+                })}
               </SelectContent>
             </Select>
           </div>
