@@ -21,7 +21,7 @@ function load(): Employee[] {
     parsed.forEach((e) => {
       COURSES.forEach((c) => {
         if (!e.courses[c]) e.courses[c] = emptyCourse();
-        if (!("attachment" in e.courses[c])) e.courses[c].attachment = null;
+        e.courses[c] = { ...e.courses[c], attachment: e.courses[c].attachment ?? null };
       });
     });
     return parsed;
