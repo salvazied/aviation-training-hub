@@ -91,6 +91,37 @@ function PersonnelPage() {
     URL.revokeObjectURL(url);
   };
 
+  const exportPdf = () => {
+    const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
+    const title = `Personnel Tracker — ${activeCourse}`;
+    doc.setFontSize(14);
+    doc.text(title, 40, 36);
+    doc.setFontSize(9);
+    const meta = [
+      `Generated: ${new Date().toLocaleString()}`,
+      `Duty filter: ${dutyFilter === "all" ? "All" : dutyFilter}`,
+      `Station filter: ${stationFilter === "all" ? "All" : stationFilter}`,
+      `Records: ${visible.length}`,
+    ].join("   ·   ");
+    doc.text(meta, 40, 52);
+
+    const head = [["ID", "Last Name", "First Name", "Duty", "Job Title", "Station", "Training", "Expiry", "Status", "Next Training"]];
+    const body = visible.map((e) => {
+      const r = e.courses[activeCourse];
+      const st = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+      return [e.id, e.lastName, e.firstName, e.dutyCategory, e.jobTitle, e.station, r.trainingDate, r.expiryDate, st, r.nextTrainingDate];
+    });
+    autoTable(doc, {
+      head,
+      body,
+      startY: 64,
+      styles: { fontSize: 8, cellPadding: 4 },
+      headStyles: { fillColor: [36, 49, 92], textColor: 255 },
+      alternateRowStyles: { fillColor: [243, 246, 252] },
+    });
+    doc.save(`personnel-${activeCourse.replace(/[^a-z0-9]+/gi, "_")}.pdf`);
+  };
+
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
