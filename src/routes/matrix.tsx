@@ -4,9 +4,10 @@ import { COURSES, DUTY_CATEGORIES } from "@/lib/data";
 import { useMatrix } from "@/lib/matrix-store";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { Check, Minus, RotateCcw, Pencil, Eye } from "lucide-react";
+import { Check, Minus, RotateCcw, Pencil, Eye, Save } from "lucide-react";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/matrix")({
   head: () => ({ meta: [{ title: "Training Matrix — Training Tracker" }] }),
