@@ -301,10 +301,9 @@ function PersonnelPage() {
                   return (
                     <tr key={e.id} className="group border-b hover:bg-secondary/30">
                       <Td>
-                        <CellInput
+                        <IdInput
                           value={e.id}
-                          placeholder="EMP / matricule"
-                          onChange={(v) => {
+                          onCommit={(v) => {
                             if (!v || v === e.id) return;
                             if (!updateId(e.id, v)) toast.error(`ID "${v}" is already in use`);
                           }}
