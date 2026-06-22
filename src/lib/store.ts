@@ -89,6 +89,14 @@ export function usePersonnel() {
   const remove = useCallback((id: string) => {
     save(getAll().filter((e) => e.id !== id));
   }, []);
+  const updateId = useCallback((oldId: string, newId: string): boolean => {
+    const trimmed = newId.trim();
+    if (!trimmed) return false;
+    const all = getAll();
+    if (all.some((e) => e.id !== oldId && e.id === trimmed)) return false;
+    save(all.map((e) => (e.id === oldId ? { ...e, id: trimmed } : e)));
+    return true;
+  }, []);
   const reset = useCallback(() => {
     localStorage.removeItem(KEY);
     memory = null;
@@ -96,5 +104,5 @@ export function usePersonnel() {
   }, []);
   const replaceAll = useCallback((next: Employee[]) => save(next), []);
 
-  return { employees, update, updateCourse, add, remove, reset, replaceAll };
+  return { employees, update, updateCourse, add, remove, updateId, reset, replaceAll };
 }

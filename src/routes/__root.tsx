@@ -13,6 +13,7 @@ import { AuthProvider, useAuth } from "@/lib/auth";
 import { LoginScreen } from "@/components/LoginScreen";
 import { Plane, LogOut, LayoutDashboard, Users, Table2, RefreshCcw, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/sonner";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -148,6 +149,7 @@ function Shell() {
       <main className="mx-auto max-w-[1600px] px-4 py-6 md:px-6">
         <Outlet />
       </main>
+      <Toaster position="top-right" richColors />
     </div>
   );
 }

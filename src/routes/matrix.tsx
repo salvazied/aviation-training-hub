@@ -4,9 +4,10 @@ import { COURSES, DUTY_CATEGORIES } from "@/lib/data";
 import { useMatrix } from "@/lib/matrix-store";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { Check, Minus, RotateCcw, Pencil, Eye } from "lucide-react";
+import { Check, Minus, RotateCcw, Pencil, Eye, Save } from "lucide-react";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/matrix")({
   head: () => ({ meta: [{ title: "Training Matrix — Training Tracker" }] }),
@@ -36,6 +37,9 @@ function MatrixPage() {
             <Button size="sm" variant={editMode ? "default" : "outline"} onClick={() => setEditing((v) => !v)}>
               {editMode ? <Eye className="h-4 w-4" /> : <Pencil className="h-4 w-4" />}
               {editMode ? "Done editing" : "Edit matrix"}
+            </Button>
+            <Button size="sm" onClick={() => toast.success("Training matrix saved")}>
+              <Save className="h-4 w-4" /> Save
             </Button>
             <Button size="sm" variant="outline" onClick={() => { if (confirm("Reset Training Matrix to defaults?")) reset(); }}>
               <RotateCcw className="h-4 w-4" /> Reset

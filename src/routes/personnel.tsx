@@ -16,9 +16,11 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search, Paperclip, ExternalLink, X } from "lucide-react";
+import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search, Paperclip, ExternalLink, X, Save, ChevronLeft, ChevronRight } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/personnel")({
   head: () => ({
@@ -28,7 +30,7 @@ export const Route = createFileRoute("/personnel")({
 });
 
 function PersonnelPage() {
-  const { employees, update, updateCourse, add, remove, reset, replaceAll } = usePersonnel();
+  const { employees, update, updateCourse, add, remove, updateId, reset, replaceAll } = usePersonnel();
   const { user } = useAuth();
   const { matrix } = useMatrix();
   const isAdmin = user?.role === "admin";
@@ -36,7 +38,10 @@ function PersonnelPage() {
   const [search, setSearch] = useState("");
   const [stationFilter, setStationFilter] = useState("all");
   const [dutyFilter, setDutyFilter] = useState("all");
+  const ALL_COURSES = "__all";
   const [activeCourse, setActiveCourse] = useState<string>(COURSES[0]);
+  const [pageSize, setPageSize] = useState<number>(50);
+  const [page, setPage] = useState(1);
 
   // Courses available in the "Course view" selector — filtered by Training Matrix
   // when a specific duty category is selected.
@@ -47,10 +52,12 @@ function PersonnelPage() {
 
   // If active course is no longer available for the chosen duty, fall back.
   useEffect(() => {
-    if (!availableCourses.includes(activeCourse) && availableCourses.length > 0) {
+    if (activeCourse !== ALL_COURSES && !availableCourses.includes(activeCourse) && availableCourses.length > 0) {
       setActiveCourse(availableCourses[0]);
     }
   }, [availableCourses, activeCourse]);
+
+  useEffect(() => { setPage(1); }, [search, stationFilter, dutyFilter, pageSize, activeCourse]);
 
   const stations = useMemo(() => Array.from(new Set(employees.map((e) => e.station).filter(Boolean))).sort(), [employees]);
 
@@ -68,6 +75,9 @@ function PersonnelPage() {
       }),
     [employees, search, stationFilter, dutyFilter]
   );
+
+  const totalPages = Math.max(1, Math.ceil(visible.length / pageSize));
+  const paged = useMemo(() => visible.slice((page - 1) * pageSize, page * pageSize), [visible, page, pageSize]);
 
   const exportCsv = () => {
     const headers = ["Employee ID","Last Name","First Name","Duty Category","Job Title","Station"];
@@ -94,7 +104,8 @@ function PersonnelPage() {
 
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
-    const title = `Personnel Tracker — ${activeCourse}`;
+    const isAll = activeCourse === ALL_COURSES;
+    const title = `Personnel Tracker — ${isAll ? "All courses" : activeCourse}`;
     doc.setFontSize(14);
     doc.text(title, 40, 36);
     doc.setFontSize(9);
@@ -106,12 +117,22 @@ function PersonnelPage() {
     ].join("   ·   ");
     doc.text(meta, 40, 52);
 
-    const head = [["ID", "Last Name", "First Name", "Duty", "Job Title", "Station", "Training", "Expiry", "Status", "Next Training"]];
-    const body = visible.map((e) => {
-      const r = e.courses[activeCourse];
-      const st = deriveStatus(r.trainingDate, r.expiryDate, r.status);
-      return [e.id, e.lastName, e.firstName, e.dutyCategory, e.jobTitle, e.station, r.trainingDate, r.expiryDate, st, r.nextTrainingDate];
-    });
+    let head: string[][];
+    let body: (string | number)[][];
+    if (isAll) {
+      head = [["ID", "Last Name", "First Name", "Duty", "Job Title", "Station", "Completed", "Scheduled", "Outstanding", "Overdue"]];
+      body = visible.map((e) => {
+        const c = statusCounts(e);
+        return [e.id, e.lastName, e.firstName, e.dutyCategory, e.jobTitle, e.station, c.Completed, c.Scheduled, c.Outstanding, c.Overdue];
+      });
+    } else {
+      head = [["ID", "Last Name", "First Name", "Duty", "Job Title", "Station", "Training", "Expiry", "Status", "Next Training"]];
+      body = visible.map((e) => {
+        const r = e.courses[activeCourse];
+        const st = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+        return [e.id, e.lastName, e.firstName, e.dutyCategory, e.jobTitle, e.station, r.trainingDate, r.expiryDate, st, r.nextTrainingDate];
+      });
+    }
     autoTable(doc, {
       head,
       body,
@@ -120,7 +141,19 @@ function PersonnelPage() {
       headStyles: { fillColor: [36, 49, 92], textColor: 255 },
       alternateRowStyles: { fillColor: [243, 246, 252] },
     });
-    doc.save(`personnel-${activeCourse.replace(/[^a-z0-9]+/gi, "_")}.pdf`);
+    doc.save(`personnel-${(isAll ? "all" : activeCourse).replace(/[^a-z0-9]+/gi, "_")}.pdf`);
+  };
+
+  const statusCounts = (e: typeof employees[number]) => {
+    const counts = { Completed: 0, Scheduled: 0, Outstanding: 0, Overdue: 0 } as Record<string, number>;
+    const list = dutyFilter === "all" ? COURSES : coursesForDuty(matrix, e.dutyCategory || dutyFilter);
+    list.forEach((c) => {
+      const r = e.courses[c];
+      if (!r) return;
+      const s = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+      if (s && counts[s] !== undefined) counts[s]++;
+    });
+    return counts;
   };
 
   const attachTrainingFile = async (employeeId: string, file: File, previous: TrainingAttachment | null) => {
@@ -173,7 +206,8 @@ function PersonnelPage() {
           }} />
           <Button variant="outline" size="sm" onClick={exportCsv}><Download className="h-4 w-4" /> Export CSV</Button>
           <Button variant="outline" size="sm" onClick={exportPdf}><FileText className="h-4 w-4" /> Export PDF</Button>
-          <Button size="sm" onClick={() => add()}><Plus className="h-4 w-4" /> Add employee</Button>
+          <Button size="sm" onClick={() => { const id = add(); toast.success(`Employee ${id} added`); }}><Plus className="h-4 w-4" /> Add employee</Button>
+          <Button variant="default" size="sm" onClick={() => toast.success("All changes saved")}><Save className="h-4 w-4" /> Save</Button>
           {isAdmin && (
             <Button variant="outline" size="sm" onClick={() => { if (confirm("Reset all personnel data?")) reset(); }}>
               <RotateCcw className="h-4 w-4" /> Reset
@@ -208,19 +242,31 @@ function PersonnelPage() {
       <Card className="overflow-hidden shadow-soft">
         <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3 bg-secondary/40">
           <CardTitle className="text-base">Employees · {visible.length}</CardTitle>
-          <div className="flex items-center gap-2 text-xs">
-            <span className="text-muted-foreground">
-              Course view{dutyFilter !== "all" ? ` · ${dutyFilter} (${availableCourses.length})` : ""}:
-            </span>
-            <Select value={activeCourse} onValueChange={setActiveCourse}>
-              <SelectTrigger className="h-8 w-[300px] text-xs"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {availableCourses.map((c) => {
-                  const i = COURSES.indexOf(c);
-                  return <SelectItem key={c} value={c}>{i + 1}. {c}</SelectItem>;
-                })}
-              </SelectContent>
-            </Select>
+          <div className="flex flex-wrap items-center gap-3 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="text-muted-foreground">Rows:</span>
+              <Select value={String(pageSize)} onValueChange={(v) => setPageSize(Number(v))}>
+                <SelectTrigger className="h-8 w-[72px] text-xs"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {[10, 50, 100, 200].map((n) => <SelectItem key={n} value={String(n)}>{n}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-muted-foreground">
+                Course view{dutyFilter !== "all" ? ` · ${dutyFilter} (${availableCourses.length})` : ""}:
+              </span>
+              <Select value={activeCourse} onValueChange={setActiveCourse}>
+                <SelectTrigger className="h-8 w-[300px] text-xs"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={ALL_COURSES}>All courses (summary)</SelectItem>
+                  {availableCourses.map((c) => {
+                    const i = COURSES.indexOf(c);
+                    return <SelectItem key={c} value={c}>{i + 1}. {c}</SelectItem>;
+                  })}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -234,21 +280,35 @@ function PersonnelPage() {
                   <Th>Duty</Th>
                   <Th>Job Title / Function</Th>
                   <Th>Station</Th>
-                  <Th className="bg-accent/10">Training Date</Th>
-                  <Th className="bg-accent/10">Expiry Date</Th>
-                  <Th className="bg-accent/10">Status</Th>
-                  <Th className="bg-accent/10">Next Training</Th>
-                  <Th className="bg-accent/10">Training File</Th>
+                  {activeCourse === ALL_COURSES ? (
+                    <Th className="bg-accent/10" colSpan={5}>Courses status summary</Th>
+                  ) : (
+                    <>
+                      <Th className="bg-accent/10">Training Date</Th>
+                      <Th className="bg-accent/10">Expiry Date</Th>
+                      <Th className="bg-accent/10">Status</Th>
+                      <Th className="bg-accent/10">Next Training</Th>
+                      <Th className="bg-accent/10">Training File</Th>
+                    </>
+                  )}
                   <Th></Th>
                 </tr>
               </thead>
               <tbody>
-                {visible.map((e) => {
-                  const r = e.courses[activeCourse];
-                  const status = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+                {paged.map((e) => {
+                  const r = activeCourse === ALL_COURSES ? null : e.courses[activeCourse];
+                  const status = r ? deriveStatus(r.trainingDate, r.expiryDate, r.status) : "";
                   return (
                     <tr key={e.id} className="group border-b hover:bg-secondary/30">
-                      <Td className="font-mono text-[12px] text-muted-foreground">{e.id}</Td>
+                      <Td>
+                        <IdInput
+                          value={e.id}
+                          onCommit={(v) => {
+                            if (!v || v === e.id) return;
+                            if (!updateId(e.id, v)) toast.error(`ID "${v}" is already in use`);
+                          }}
+                        />
+                      </Td>
                       <Td><CellInput value={e.lastName} onChange={(v) => update(e.id, { lastName: v })} placeholder="Last name" /></Td>
                       <Td><CellInput value={e.firstName} onChange={(v) => update(e.id, { firstName: v })} placeholder="First name" /></Td>
                       <Td>
@@ -260,54 +320,79 @@ function PersonnelPage() {
                           </SelectContent>
                         </Select>
                       </Td>
-                      <Td><CellInput value={e.jobTitle} onChange={(v) => update(e.id, { jobTitle: v })} placeholder="Job title" /></Td>
+                      <Td>
+                        <Select value={e.jobTitle || "__none"} onValueChange={(v) => update(e.id, { jobTitle: v === "__none" ? "" : v })}>
+                          <SelectTrigger className="h-8 w-[240px] text-xs"><SelectValue placeholder="Select job title" /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="__none">—</SelectItem>
+                            {DUTY_CATEGORIES.map((d) => <SelectItem key={d.code} value={d.description}>{d.description}</SelectItem>)}
+                          </SelectContent>
+                        </Select>
+                      </Td>
                       <Td><CellInput value={e.station} onChange={(v) => update(e.id, { station: v })} placeholder="Station" /></Td>
+                      {activeCourse === ALL_COURSES || !r ? (
+                        <Td colSpan={5}>
+                          {(() => {
+                            const c = statusCounts(e);
+                            return (
+                              <div className="flex flex-wrap gap-1.5">
+                                <Badge className="bg-[color-mix(in_oklab,var(--success)_20%,transparent)] text-[var(--success)] hover:bg-[color-mix(in_oklab,var(--success)_30%,transparent)]">Completed {c.Completed}</Badge>
+                                <Badge variant="secondary">Scheduled {c.Scheduled}</Badge>
+                                <Badge className="bg-[color-mix(in_oklab,var(--gold)_22%,transparent)] text-[oklch(0.5_0.13_80)] hover:bg-[color-mix(in_oklab,var(--gold)_32%,transparent)]">Outstanding {c.Outstanding}</Badge>
+                                <Badge variant="destructive">Overdue {c.Overdue}</Badge>
+                              </div>
+                            );
+                          })()}
+                        </Td>
+                      ) : (
+                        <>
+                          <Td>
+                            <Input type="date" value={r.trainingDate} className="h-8 w-[140px] text-xs"
+                              onChange={(ev) => updateCourse(e.id, activeCourse, { trainingDate: ev.target.value })} />
+                          </Td>
+                          <Td>
+                            <Input type="date" value={r.expiryDate} className="h-8 w-[140px] text-xs"
+                              onChange={(ev) => {
+                                const expiry = ev.target.value;
+                                const patch: any = { expiryDate: expiry };
+                                if (expiry && !r.nextTrainingDate) patch.nextTrainingDate = addYears(expiry, 2);
+                                updateCourse(e.id, activeCourse, patch);
+                              }} />
+                          </Td>
+                          <Td>
+                            <div className="flex items-center gap-1.5">
+                              <StatusPill value={status} />
+                              <Select value={r.status || "__auto"} onValueChange={(v) => updateCourse(e.id, activeCourse, { status: v === "__auto" ? "" : (v as Status) })}>
+                                <SelectTrigger className="h-7 w-[28px] px-1 text-xs" />
+                                <SelectContent align="end">
+                                  <SelectItem value="__auto">Auto</SelectItem>
+                                  {STATUS_VALUES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                          </Td>
+                          <Td>
+                            <Input type="date" value={r.nextTrainingDate} className="h-8 w-[140px] text-xs"
+                              onChange={(ev) => updateCourse(e.id, activeCourse, { nextTrainingDate: ev.target.value })} />
+                          </Td>
+                          <Td>
+                            <AttachmentCell
+                              attachment={r.attachment}
+                              onAttach={(file) => attachTrainingFile(e.id, file, r.attachment)}
+                              onRemove={() => {
+                                if (!r.attachment) return;
+                                return removeTrainingFile(e.id, r.attachment);
+                              }}
+                            />
+                          </Td>
+                        </>
+                      )}
                       <Td>
-                        <Input type="date" value={r.trainingDate} className="h-8 w-[140px] text-xs"
-                          onChange={(ev) => updateCourse(e.id, activeCourse, { trainingDate: ev.target.value })} />
-                      </Td>
-                      <Td>
-                        <Input type="date" value={r.expiryDate} className="h-8 w-[140px] text-xs"
-                          onChange={(ev) => {
-                            const expiry = ev.target.value;
-                            const patch: any = { expiryDate: expiry };
-                            if (expiry && !r.nextTrainingDate) patch.nextTrainingDate = addYears(expiry, 2);
-                            updateCourse(e.id, activeCourse, patch);
-                          }} />
-                      </Td>
-                      <Td>
-                        <div className="flex items-center gap-1.5">
-                          <StatusPill value={status} />
-                          <Select value={r.status || "__auto"} onValueChange={(v) => updateCourse(e.id, activeCourse, { status: v === "__auto" ? "" : (v as Status) })}>
-                            <SelectTrigger className="h-7 w-[28px] px-1 text-xs" />
-                            <SelectContent align="end">
-                              <SelectItem value="__auto">Auto</SelectItem>
-                              {STATUS_VALUES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </Td>
-                      <Td>
-                        <Input type="date" value={r.nextTrainingDate} className="h-8 w-[140px] text-xs"
-                          onChange={(ev) => updateCourse(e.id, activeCourse, { nextTrainingDate: ev.target.value })} />
-                      </Td>
-                      <Td>
-                        <AttachmentCell
-                          attachment={r.attachment}
-                          onAttach={(file) => attachTrainingFile(e.id, file, r.attachment)}
-                          onRemove={() => {
-                            if (!r.attachment) return;
-                            return removeTrainingFile(e.id, r.attachment);
-                          }}
-                        />
-                      </Td>
-                      <Td>
-                        {isAdmin && (
-                          <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground opacity-0 transition group-hover:opacity-100"
-                            onClick={() => { if (confirm(`Delete ${e.id}?`)) remove(e.id); }}>
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </Button>
-                        )}
+                        <Button size="icon" variant="ghost" className="h-7 w-7 text-destructive hover:bg-destructive/10"
+                          title={`Delete ${e.id}`}
+                          onClick={() => { if (confirm(`Delete ${e.id} (${e.firstName} ${e.lastName})?`)) { remove(e.id); toast.success(`Deleted ${e.id}`); } }}>
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
                       </Td>
                     </tr>
                   );
@@ -318,17 +403,48 @@ function PersonnelPage() {
               </tbody>
             </table>
           </div>
+          {visible.length > pageSize && (
+            <div className="flex items-center justify-between gap-3 border-t bg-secondary/20 px-4 py-2 text-xs">
+              <span className="text-muted-foreground">
+                Showing {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, visible.length)} of {visible.length}
+              </span>
+              <div className="flex items-center gap-1">
+                <Button size="icon" variant="outline" className="h-7 w-7" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </Button>
+                <span className="px-2">Page {page} / {totalPages}</span>
+                <Button size="icon" variant="outline" className="h-7 w-7" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
   );
 }
 
-function Th({ children, className = "" }: { children?: React.ReactNode; className?: string }) {
-  return <th className={`whitespace-nowrap border-b px-3 py-2 font-medium ${className}`}>{children}</th>;
+function Th({ children, className = "", colSpan }: { children?: React.ReactNode; className?: string; colSpan?: number }) {
+  return <th colSpan={colSpan} className={`whitespace-nowrap border-b px-3 py-2 font-medium ${className}`}>{children}</th>;
 }
-function Td({ children, className = "" }: { children?: React.ReactNode; className?: string }) {
-  return <td className={`px-3 py-1.5 align-middle ${className}`}>{children}</td>;
+function Td({ children, className = "", colSpan }: { children?: React.ReactNode; className?: string; colSpan?: number }) {
+  return <td colSpan={colSpan} className={`px-3 py-1.5 align-middle ${className}`}>{children}</td>;
+}
+
+function IdInput({ value, onCommit }: { value: string; onCommit: (v: string) => void }) {
+  const [local, setLocal] = useState(value);
+  useEffect(() => { setLocal(value); }, [value]);
+  return (
+    <Input
+      value={local}
+      placeholder="EMP / matricule"
+      onChange={(e) => setLocal(e.target.value)}
+      onBlur={() => { const v = local.trim(); if (v && v !== value) onCommit(v); else setLocal(value); }}
+      onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
+      className="h-8 w-[120px] font-mono text-xs"
+    />
+  );
 }
 
 function CellInput({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
