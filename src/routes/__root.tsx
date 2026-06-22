@@ -13,6 +13,7 @@ import { AuthProvider, useAuth } from "@/lib/auth";
 import { LoginScreen } from "@/components/LoginScreen";
 import { Plane, LogOut, LayoutDashboard, Users, Table2, RefreshCcw, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Toaster } from "@/components/ui/sonner";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
