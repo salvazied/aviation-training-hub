@@ -432,6 +432,21 @@ function Td({ children, className = "", colSpan }: { children?: React.ReactNode;
   return <td colSpan={colSpan} className={`px-3 py-1.5 align-middle ${className}`}>{children}</td>;
 }
 
+function IdInput({ value, onCommit }: { value: string; onCommit: (v: string) => void }) {
+  const [local, setLocal] = useState(value);
+  useEffect(() => { setLocal(value); }, [value]);
+  return (
+    <Input
+      value={local}
+      placeholder="EMP / matricule"
+      onChange={(e) => setLocal(e.target.value)}
+      onBlur={() => { const v = local.trim(); if (v && v !== value) onCommit(v); else setLocal(value); }}
+      onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
+      className="h-8 w-[120px] font-mono text-xs"
+    />
+  );
+}
+
 function CellInput({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
   return (
     <Input
