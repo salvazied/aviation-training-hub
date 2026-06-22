@@ -348,16 +348,24 @@ function PersonnelPage() {
                         <>
                           <Td>
                             <Input type="date" value={r.trainingDate} className="h-8 w-[140px] text-xs"
-                              onChange={(ev) => updateCourse(e.id, activeCourse, { trainingDate: ev.target.value })} />
-                          </Td>
-                          <Td>
-                            <Input type="date" value={r.expiryDate} className="h-8 w-[140px] text-xs"
                               onChange={(ev) => {
-                                const expiry = ev.target.value;
-                                const patch: any = { expiryDate: expiry };
-                                if (expiry && !r.nextTrainingDate) patch.nextTrainingDate = addYears(expiry, 2);
+                                const training = ev.target.value;
+                                const patch: any = { trainingDate: training };
+                                if (training) {
+                                  const d = new Date(training);
+                                  d.setDate(d.getDate() + 729);
+                                  const expiry = d.toISOString().slice(0, 10);
+                                  patch.expiryDate = expiry;
+                                  patch.nextTrainingDate = addYears(expiry, 2);
+                                } else {
+                                  patch.expiryDate = "";
+                                  patch.nextTrainingDate = "";
+                                }
                                 updateCourse(e.id, activeCourse, patch);
                               }} />
+                          </Td>
+                          <Td>
+                            <Input type="date" value={r.expiryDate} readOnly disabled className="h-8 w-[140px] text-xs bg-muted/50" />
                           </Td>
                           <Td>
                             <div className="flex items-center gap-1.5">
