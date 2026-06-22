@@ -101,7 +101,8 @@ function PersonnelPage() {
 
   const exportPdf = () => {
     const doc = new jsPDF({ orientation: "landscape", unit: "pt", format: "a4" });
-    const title = `Personnel Tracker — ${activeCourse}`;
+    const isAll = activeCourse === ALL_COURSES;
+    const title = `Personnel Tracker — ${isAll ? "All courses" : activeCourse}`;
     doc.setFontSize(14);
     doc.text(title, 40, 36);
     doc.setFontSize(9);
@@ -113,12 +114,22 @@ function PersonnelPage() {
     ].join("   ·   ");
     doc.text(meta, 40, 52);
 
-    const head = [["ID", "Last Name", "First Name", "Duty", "Job Title", "Station", "Training", "Expiry", "Status", "Next Training"]];
-    const body = visible.map((e) => {
-      const r = e.courses[activeCourse];
-      const st = deriveStatus(r.trainingDate, r.expiryDate, r.status);
-      return [e.id, e.lastName, e.firstName, e.dutyCategory, e.jobTitle, e.station, r.trainingDate, r.expiryDate, st, r.nextTrainingDate];
-    });
+    let head: string[][];
+    let body: (string | number)[][];
+    if (isAll) {
+      head = [["ID", "Last Name", "First Name", "Duty", "Job Title", "Station", "Completed", "Scheduled", "Outstanding", "Overdue"]];
+      body = visible.map((e) => {
+        const c = statusCounts(e);
+        return [e.id, e.lastName, e.firstName, e.dutyCategory, e.jobTitle, e.station, c.Completed, c.Scheduled, c.Outstanding, c.Overdue];
+      });
+    } else {
+      head = [["ID", "Last Name", "First Name", "Duty", "Job Title", "Station", "Training", "Expiry", "Status", "Next Training"]];
+      body = visible.map((e) => {
+        const r = e.courses[activeCourse];
+        const st = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+        return [e.id, e.lastName, e.firstName, e.dutyCategory, e.jobTitle, e.station, r.trainingDate, r.expiryDate, st, r.nextTrainingDate];
+      });
+    }
     autoTable(doc, {
       head,
       body,
@@ -127,7 +138,19 @@ function PersonnelPage() {
       headStyles: { fillColor: [36, 49, 92], textColor: 255 },
       alternateRowStyles: { fillColor: [243, 246, 252] },
     });
-    doc.save(`personnel-${activeCourse.replace(/[^a-z0-9]+/gi, "_")}.pdf`);
+    doc.save(`personnel-${(isAll ? "all" : activeCourse).replace(/[^a-z0-9]+/gi, "_")}.pdf`);
+  };
+
+  const statusCounts = (e: typeof employees[number]) => {
+    const counts = { Completed: 0, Scheduled: 0, Outstanding: 0, Overdue: 0 } as Record<string, number>;
+    const list = dutyFilter === "all" ? COURSES : coursesForDuty(matrix, e.dutyCategory || dutyFilter);
+    list.forEach((c) => {
+      const r = e.courses[c];
+      if (!r) return;
+      const s = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+      if (s && counts[s] !== undefined) counts[s]++;
+    });
+    return counts;
   };
 
   const attachTrainingFile = async (employeeId: string, file: File, previous: TrainingAttachment | null) => {
