@@ -38,6 +38,9 @@ function MatrixPage() {
               {editMode ? <Eye className="h-4 w-4" /> : <Pencil className="h-4 w-4" />}
               {editMode ? "Done editing" : "Edit matrix"}
             </Button>
+            <Button size="sm" onClick={() => toast.success("Training matrix saved")}>
+              <Save className="h-4 w-4" /> Save
+            </Button>
             <Button size="sm" variant="outline" onClick={() => { if (confirm("Reset Training Matrix to defaults?")) reset(); }}>
               <RotateCcw className="h-4 w-4" /> Reset
             </Button>
