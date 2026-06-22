@@ -76,6 +76,9 @@ function PersonnelPage() {
     [employees, search, stationFilter, dutyFilter]
   );
 
+  const totalPages = Math.max(1, Math.ceil(visible.length / pageSize));
+  const paged = useMemo(() => visible.slice((page - 1) * pageSize, page * pageSize), [visible, page, pageSize]);
+
   const exportCsv = () => {
     const headers = ["Employee ID","Last Name","First Name","Duty Category","Job Title","Station"];
     COURSES.forEach((c) => {
