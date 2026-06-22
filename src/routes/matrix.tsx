@@ -20,7 +20,7 @@ function MatrixPage() {
   const { user } = useAuth();
   const { matrix, setCell, reset } = useMatrix();
   const isAdmin = user?.role === "admin";
-  const [editing, setEditing] = useState(true);
+  const [editing, setEditing] = useState(false);
   const editMode = isAdmin && editing;
 
   return (
