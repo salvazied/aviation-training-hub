@@ -239,19 +239,31 @@ function PersonnelPage() {
       <Card className="overflow-hidden shadow-soft">
         <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3 bg-secondary/40">
           <CardTitle className="text-base">Employees · {visible.length}</CardTitle>
-          <div className="flex items-center gap-2 text-xs">
-            <span className="text-muted-foreground">
-              Course view{dutyFilter !== "all" ? ` · ${dutyFilter} (${availableCourses.length})` : ""}:
-            </span>
-            <Select value={activeCourse} onValueChange={setActiveCourse}>
-              <SelectTrigger className="h-8 w-[300px] text-xs"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {availableCourses.map((c) => {
-                  const i = COURSES.indexOf(c);
-                  return <SelectItem key={c} value={c}>{i + 1}. {c}</SelectItem>;
-                })}
-              </SelectContent>
-            </Select>
+          <div className="flex flex-wrap items-center gap-3 text-xs">
+            <div className="flex items-center gap-2">
+              <span className="text-muted-foreground">Rows:</span>
+              <Select value={String(pageSize)} onValueChange={(v) => setPageSize(Number(v))}>
+                <SelectTrigger className="h-8 w-[72px] text-xs"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {[10, 50, 100, 200].map((n) => <SelectItem key={n} value={String(n)}>{n}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-muted-foreground">
+                Course view{dutyFilter !== "all" ? ` · ${dutyFilter} (${availableCourses.length})` : ""}:
+              </span>
+              <Select value={activeCourse} onValueChange={setActiveCourse}>
+                <SelectTrigger className="h-8 w-[300px] text-xs"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={ALL_COURSES}>All courses (summary)</SelectItem>
+                  {availableCourses.map((c) => {
+                    const i = COURSES.indexOf(c);
+                    return <SelectItem key={c} value={c}>{i + 1}. {c}</SelectItem>;
+                  })}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -265,21 +277,36 @@ function PersonnelPage() {
                   <Th>Duty</Th>
                   <Th>Job Title / Function</Th>
                   <Th>Station</Th>
-                  <Th className="bg-accent/10">Training Date</Th>
-                  <Th className="bg-accent/10">Expiry Date</Th>
-                  <Th className="bg-accent/10">Status</Th>
-                  <Th className="bg-accent/10">Next Training</Th>
-                  <Th className="bg-accent/10">Training File</Th>
+                  {activeCourse === ALL_COURSES ? (
+                    <Th className="bg-accent/10" colSpan={5}>Courses status summary</Th>
+                  ) : (
+                    <>
+                      <Th className="bg-accent/10">Training Date</Th>
+                      <Th className="bg-accent/10">Expiry Date</Th>
+                      <Th className="bg-accent/10">Status</Th>
+                      <Th className="bg-accent/10">Next Training</Th>
+                      <Th className="bg-accent/10">Training File</Th>
+                    </>
+                  )}
                   <Th></Th>
                 </tr>
               </thead>
               <tbody>
-                {visible.map((e) => {
-                  const r = e.courses[activeCourse];
-                  const status = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+                {paged.map((e) => {
+                  const r = activeCourse === ALL_COURSES ? null : e.courses[activeCourse];
+                  const status = r ? deriveStatus(r.trainingDate, r.expiryDate, r.status) : "";
                   return (
                     <tr key={e.id} className="group border-b hover:bg-secondary/30">
-                      <Td className="font-mono text-[12px] text-muted-foreground">{e.id}</Td>
+                      <Td>
+                        <CellInput
+                          value={e.id}
+                          placeholder="EMP / matricule"
+                          onChange={(v) => {
+                            if (!v || v === e.id) return;
+                            if (!updateId(e.id, v)) toast.error(`ID "${v}" is already in use`);
+                          }}
+                        />
+                      </Td>
                       <Td><CellInput value={e.lastName} onChange={(v) => update(e.id, { lastName: v })} placeholder="Last name" /></Td>
                       <Td><CellInput value={e.firstName} onChange={(v) => update(e.id, { firstName: v })} placeholder="First name" /></Td>
                       <Td>
@@ -291,54 +318,79 @@ function PersonnelPage() {
                           </SelectContent>
                         </Select>
                       </Td>
-                      <Td><CellInput value={e.jobTitle} onChange={(v) => update(e.id, { jobTitle: v })} placeholder="Job title" /></Td>
+                      <Td>
+                        <Select value={e.jobTitle || "__none"} onValueChange={(v) => update(e.id, { jobTitle: v === "__none" ? "" : v })}>
+                          <SelectTrigger className="h-8 w-[240px] text-xs"><SelectValue placeholder="Select job title" /></SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="__none">—</SelectItem>
+                            {DUTY_CATEGORIES.map((d) => <SelectItem key={d.code} value={d.description}>{d.description}</SelectItem>)}
+                          </SelectContent>
+                        </Select>
+                      </Td>
                       <Td><CellInput value={e.station} onChange={(v) => update(e.id, { station: v })} placeholder="Station" /></Td>
+                      {activeCourse === ALL_COURSES || !r ? (
+                        <Td colSpan={5}>
+                          {(() => {
+                            const c = statusCounts(e);
+                            return (
+                              <div className="flex flex-wrap gap-1.5">
+                                <Badge className="bg-[color-mix(in_oklab,var(--success)_20%,transparent)] text-[var(--success)] hover:bg-[color-mix(in_oklab,var(--success)_30%,transparent)]">Completed {c.Completed}</Badge>
+                                <Badge variant="secondary">Scheduled {c.Scheduled}</Badge>
+                                <Badge className="bg-[color-mix(in_oklab,var(--gold)_22%,transparent)] text-[oklch(0.5_0.13_80)] hover:bg-[color-mix(in_oklab,var(--gold)_32%,transparent)]">Outstanding {c.Outstanding}</Badge>
+                                <Badge variant="destructive">Overdue {c.Overdue}</Badge>
+                              </div>
+                            );
+                          })()}
+                        </Td>
+                      ) : (
+                        <>
+                          <Td>
+                            <Input type="date" value={r.trainingDate} className="h-8 w-[140px] text-xs"
+                              onChange={(ev) => updateCourse(e.id, activeCourse, { trainingDate: ev.target.value })} />
+                          </Td>
+                          <Td>
+                            <Input type="date" value={r.expiryDate} className="h-8 w-[140px] text-xs"
+                              onChange={(ev) => {
+                                const expiry = ev.target.value;
+                                const patch: any = { expiryDate: expiry };
+                                if (expiry && !r.nextTrainingDate) patch.nextTrainingDate = addYears(expiry, 2);
+                                updateCourse(e.id, activeCourse, patch);
+                              }} />
+                          </Td>
+                          <Td>
+                            <div className="flex items-center gap-1.5">
+                              <StatusPill value={status} />
+                              <Select value={r.status || "__auto"} onValueChange={(v) => updateCourse(e.id, activeCourse, { status: v === "__auto" ? "" : (v as Status) })}>
+                                <SelectTrigger className="h-7 w-[28px] px-1 text-xs" />
+                                <SelectContent align="end">
+                                  <SelectItem value="__auto">Auto</SelectItem>
+                                  {STATUS_VALUES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                          </Td>
+                          <Td>
+                            <Input type="date" value={r.nextTrainingDate} className="h-8 w-[140px] text-xs"
+                              onChange={(ev) => updateCourse(e.id, activeCourse, { nextTrainingDate: ev.target.value })} />
+                          </Td>
+                          <Td>
+                            <AttachmentCell
+                              attachment={r.attachment}
+                              onAttach={(file) => attachTrainingFile(e.id, file, r.attachment)}
+                              onRemove={() => {
+                                if (!r.attachment) return;
+                                return removeTrainingFile(e.id, r.attachment);
+                              }}
+                            />
+                          </Td>
+                        </>
+                      )}
                       <Td>
-                        <Input type="date" value={r.trainingDate} className="h-8 w-[140px] text-xs"
-                          onChange={(ev) => updateCourse(e.id, activeCourse, { trainingDate: ev.target.value })} />
-                      </Td>
-                      <Td>
-                        <Input type="date" value={r.expiryDate} className="h-8 w-[140px] text-xs"
-                          onChange={(ev) => {
-                            const expiry = ev.target.value;
-                            const patch: any = { expiryDate: expiry };
-                            if (expiry && !r.nextTrainingDate) patch.nextTrainingDate = addYears(expiry, 2);
-                            updateCourse(e.id, activeCourse, patch);
-                          }} />
-                      </Td>
-                      <Td>
-                        <div className="flex items-center gap-1.5">
-                          <StatusPill value={status} />
-                          <Select value={r.status || "__auto"} onValueChange={(v) => updateCourse(e.id, activeCourse, { status: v === "__auto" ? "" : (v as Status) })}>
-                            <SelectTrigger className="h-7 w-[28px] px-1 text-xs" />
-                            <SelectContent align="end">
-                              <SelectItem value="__auto">Auto</SelectItem>
-                              {STATUS_VALUES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </Td>
-                      <Td>
-                        <Input type="date" value={r.nextTrainingDate} className="h-8 w-[140px] text-xs"
-                          onChange={(ev) => updateCourse(e.id, activeCourse, { nextTrainingDate: ev.target.value })} />
-                      </Td>
-                      <Td>
-                        <AttachmentCell
-                          attachment={r.attachment}
-                          onAttach={(file) => attachTrainingFile(e.id, file, r.attachment)}
-                          onRemove={() => {
-                            if (!r.attachment) return;
-                            return removeTrainingFile(e.id, r.attachment);
-                          }}
-                        />
-                      </Td>
-                      <Td>
-                        {isAdmin && (
-                          <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground opacity-0 transition group-hover:opacity-100"
-                            onClick={() => { if (confirm(`Delete ${e.id}?`)) remove(e.id); }}>
-                            <Trash2 className="h-3.5 w-3.5" />
-                          </Button>
-                        )}
+                        <Button size="icon" variant="ghost" className="h-7 w-7 text-destructive hover:bg-destructive/10"
+                          title={`Delete ${e.id}`}
+                          onClick={() => { if (confirm(`Delete ${e.id} (${e.firstName} ${e.lastName})?`)) { remove(e.id); toast.success(`Deleted ${e.id}`); } }}>
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
                       </Td>
                     </tr>
                   );
@@ -349,6 +401,22 @@ function PersonnelPage() {
               </tbody>
             </table>
           </div>
+          {visible.length > pageSize && (
+            <div className="flex items-center justify-between gap-3 border-t bg-secondary/20 px-4 py-2 text-xs">
+              <span className="text-muted-foreground">
+                Showing {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, visible.length)} of {visible.length}
+              </span>
+              <div className="flex items-center gap-1">
+                <Button size="icon" variant="outline" className="h-7 w-7" disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))}>
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </Button>
+                <span className="px-2">Page {page} / {totalPages}</span>
+                <Button size="icon" variant="outline" className="h-7 w-7" disabled={page >= totalPages} onClick={() => setPage((p) => Math.min(totalPages, p + 1))}>
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
