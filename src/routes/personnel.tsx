@@ -203,7 +203,8 @@ function PersonnelPage() {
           }} />
           <Button variant="outline" size="sm" onClick={exportCsv}><Download className="h-4 w-4" /> Export CSV</Button>
           <Button variant="outline" size="sm" onClick={exportPdf}><FileText className="h-4 w-4" /> Export PDF</Button>
-          <Button size="sm" onClick={() => add()}><Plus className="h-4 w-4" /> Add employee</Button>
+          <Button size="sm" onClick={() => { const id = add(); toast.success(`Employee ${id} added`); }}><Plus className="h-4 w-4" /> Add employee</Button>
+          <Button variant="default" size="sm" onClick={() => toast.success("All changes saved")}><Save className="h-4 w-4" /> Save</Button>
           {isAdmin && (
             <Button variant="outline" size="sm" onClick={() => { if (confirm("Reset all personnel data?")) reset(); }}>
               <RotateCcw className="h-4 w-4" /> Reset
