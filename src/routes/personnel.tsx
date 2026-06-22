@@ -423,11 +423,11 @@ function PersonnelPage() {
   );
 }
 
-function Th({ children, className = "" }: { children?: React.ReactNode; className?: string }) {
-  return <th className={`whitespace-nowrap border-b px-3 py-2 font-medium ${className}`}>{children}</th>;
+function Th({ children, className = "", colSpan }: { children?: React.ReactNode; className?: string; colSpan?: number }) {
+  return <th colSpan={colSpan} className={`whitespace-nowrap border-b px-3 py-2 font-medium ${className}`}>{children}</th>;
 }
-function Td({ children, className = "" }: { children?: React.ReactNode; className?: string }) {
-  return <td className={`px-3 py-1.5 align-middle ${className}`}>{children}</td>;
+function Td({ children, className = "", colSpan }: { children?: React.ReactNode; className?: string; colSpan?: number }) {
+  return <td colSpan={colSpan} className={`px-3 py-1.5 align-middle ${className}`}>{children}</td>;
 }
 
 function CellInput({ value, onChange, placeholder }: { value: string; onChange: (v: string) => void; placeholder?: string }) {
