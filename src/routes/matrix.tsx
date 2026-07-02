@@ -91,28 +91,38 @@ function MatrixPage() {
                   <tr key={c} className="border-b hover:bg-secondary/30">
                     <td className="sticky left-0 z-10 bg-background px-3 py-2 text-[12px] text-muted-foreground">{i + 1}</td>
                     <td className="sticky left-[60px] z-10 bg-background px-3 py-2 font-medium">{c}</td>
-                    {matrix[i].map((cell, j) => (
-                      <td key={j} className="px-2 py-2 text-center text-[12px]">
-                        {editMode ? (
-                          <Select value={cell || "-"} onValueChange={(value) => setCell(i, j, value)}>
-                            <SelectTrigger className="mx-auto h-7 w-[62px] px-2 text-[11px] font-mono">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {CELL_OPTIONS.map((value) => (
-                                <SelectItem key={value} value={value}>{value}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        ) : cell === "✓" ? (
-                          <span className="inline-grid h-6 w-6 place-items-center rounded-md bg-[color-mix(in_oklab,var(--success)_18%,transparent)] text-[var(--success)]"><Check className="h-3.5 w-3.5" /></span>
-                        ) : cell === "-" || !cell ? (
-                          <Minus className="inline h-3.5 w-3.5 text-muted-foreground/50" />
-                        ) : (
-                          <span className="inline-flex items-center rounded-md bg-[color-mix(in_oklab,var(--gold)_22%,transparent)] px-1.5 py-0.5 font-mono text-[11px] text-[oklch(0.5_0.13_80)]">Cat {cell}</span>
-                        )}
-                      </td>
-                    ))}
+                    {matrix[i].map((cell, j) => {
+                      const kind = classifyCell(cell);
+                      return (
+                        <td key={j} className="px-2 py-2 text-center text-[12px]">
+                          {editMode ? (
+                            <Select value={normalizeCellForSelect(cell)} onValueChange={(value) => setCell(i, j, value)}>
+                              <SelectTrigger className="mx-auto h-7 w-[110px] px-2 text-[11px]">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {CELL_OPTIONS.map((opt) => (
+                                  <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          ) : kind === "none" ? (
+                            <Minus className="inline h-3.5 w-3.5 text-muted-foreground/50" />
+                          ) : kind === "optional" ? (
+                            <span title="Optional" className="inline-flex items-center gap-1 rounded-md bg-[color-mix(in_oklab,var(--sky)_20%,transparent)] px-1.5 py-0.5 text-[11px] font-medium text-[oklch(0.45_0.15_240)]">
+                              <CircleDot className="h-3 w-3" /> Opt
+                            </span>
+                          ) : cell === "M" || cell === "✓" ? (
+                            <span title="Mandatory" className="inline-grid h-6 w-6 place-items-center rounded-md bg-[color-mix(in_oklab,var(--success)_18%,transparent)] text-[var(--success)]">
+                              <Check className="h-3.5 w-3.5" />
+                            </span>
+                          ) : (
+                            <span title={`Mandatory DGR Cat ${cell}`} className="inline-flex items-center rounded-md bg-[color-mix(in_oklab,var(--gold)_22%,transparent)] px-1.5 py-0.5 font-mono text-[11px] text-[oklch(0.5_0.13_80)]">Cat {cell}</span>
+                          )}
+                        </td>
+                      );
+                    })}
+
                   </tr>
                 ))}
               </tbody>
