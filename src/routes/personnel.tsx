@@ -508,9 +508,143 @@ function PersonnelPage() {
           )}
         </CardContent>
       </Card>
+
+      <EmployeeDetailSheet
+        employee={detailId ? employees.find((e) => e.id === detailId) ?? null : null}
+        matrix={matrix}
+        onClose={() => setDetailId(null)}
+        complianceOf={complianceOf}
+      />
     </div>
   );
 }
+
+function EmployeeDetailSheet({
+  employee,
+  matrix,
+  onClose,
+  complianceOf,
+}: {
+  employee: any;
+  matrix: string[][];
+  onClose: () => void;
+  complianceOf: (e: any) => {
+    mandatory: string[];
+    optional: string[];
+    totalAssigned: number;
+    mandatoryDone: number;
+    optionalDone: number;
+    totalDone: number;
+    compliant: boolean;
+    overdueMandatory: number;
+  };
+}) {
+  const open = !!employee;
+  if (!employee) {
+    return (
+      <Sheet open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+        <SheetContent side="right" className="w-full sm:max-w-xl" />
+      </Sheet>
+    );
+  }
+  const comp = complianceOf(employee);
+  const mandTotal = comp.mandatory.length;
+  const pct = mandTotal ? Math.round((comp.mandatoryDone / mandTotal) * 100) : 0;
+
+  const renderRow = (courseName: string) => {
+    const r = employee.courses[courseName];
+    const s = r ? deriveStatus(r.trainingDate, r.expiryDate, r.status) : "";
+    return (
+      <div key={courseName} className="flex items-start justify-between gap-3 border-b py-2 last:border-b-0">
+        <div className="min-w-0 flex-1">
+          <div className="truncate text-sm font-medium">{courseName}</div>
+          <div className="mt-0.5 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-muted-foreground">
+            <span>Training: <span className="font-mono">{r?.trainingDate || "—"}</span></span>
+            <span>Expiry: <span className="font-mono">{r?.expiryDate || "—"}</span></span>
+            <span>Next: <span className="font-mono">{r?.nextTrainingDate || "—"}</span></span>
+          </div>
+        </div>
+        <StatusPill value={s} />
+      </div>
+    );
+  };
+
+  return (
+    <Sheet open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+      <SheetContent side="right" className="flex w-full flex-col gap-0 overflow-y-auto sm:max-w-xl">
+        <SheetHeader>
+          <SheetTitle className="flex flex-wrap items-center gap-2">
+            {employee.firstName} {employee.lastName}
+            <span className="rounded bg-secondary px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">{employee.id}</span>
+          </SheetTitle>
+          <SheetDescription>
+            {employee.dutyCategory || "—"} · {employee.jobTitle || "—"} · {employee.station || "—"}
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="mt-4 space-y-3">
+          <div className="rounded-md border bg-secondary/30 p-3">
+            <div className="mb-1 flex items-center justify-between text-xs">
+              <span className="font-medium">Mandatory progress</span>
+              <span>{comp.mandatoryDone}/{mandTotal} · {pct}%</span>
+            </div>
+            <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+              <div
+                className={`h-full transition-all ${
+                  comp.compliant ? "bg-[var(--success)]" : comp.overdueMandatory ? "bg-destructive" : "bg-[oklch(0.7_0.15_80)]"
+                }`}
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+            <div className="mt-2 flex items-center gap-2 text-xs">
+              {mandTotal === 0 ? (
+                <Badge variant="secondary">No duty category set — assign one in the Personnel table</Badge>
+              ) : comp.compliant ? (
+                <Badge className="gap-1 bg-[color-mix(in_oklab,var(--success)_20%,transparent)] text-[var(--success)]">
+                  <CheckCircle2 className="h-3 w-3" /> Compliant
+                </Badge>
+              ) : (
+                <Badge variant="destructive" className="gap-1"><AlertCircle className="h-3 w-3" /> Non-compliant</Badge>
+              )}
+              <span className="text-muted-foreground">
+                Optional: {comp.optionalDone}/{comp.optional.length} · Total assigned: {comp.totalAssigned}
+              </span>
+            </div>
+          </div>
+
+          <section className="rounded-md border">
+            <header className="flex items-center justify-between bg-secondary/50 px-3 py-2">
+              <h3 className="text-sm font-semibold">
+                Mandatory courses <span className="text-muted-foreground">({comp.mandatory.length})</span>
+              </h3>
+              <Badge variant="outline" className="text-[10px]">Required for compliance</Badge>
+            </header>
+            <div className="px-3">
+              {comp.mandatory.length === 0
+                ? <div className="py-3 text-xs text-muted-foreground">No mandatory course defined for this duty category.</div>
+                : comp.mandatory.map(renderRow)}
+            </div>
+          </section>
+
+          <section className="rounded-md border">
+            <header className="flex items-center justify-between bg-secondary/50 px-3 py-2">
+              <h3 className="text-sm font-semibold">
+                Optional courses <span className="text-muted-foreground">({comp.optional.length})</span>
+              </h3>
+              <Badge variant="outline" className="text-[10px]">Not required</Badge>
+            </header>
+            <div className="px-3">
+              {comp.optional.length === 0
+                ? <div className="py-3 text-xs text-muted-foreground">No optional course defined for this duty category.</div>
+                : comp.optional.map(renderRow)}
+            </div>
+          </section>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
 
 function Th({ children, className = "", colSpan }: { children?: React.ReactNode; className?: string; colSpan?: number }) {
   return <th colSpan={colSpan} className={`whitespace-nowrap border-b px-3 py-2 font-medium ${className}`}>{children}</th>;
