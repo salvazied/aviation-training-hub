@@ -152,7 +152,7 @@ function PersonnelPage() {
 
   const statusCounts = (e: typeof employees[number]) => {
     const counts = { Completed: 0, Scheduled: 0, Outstanding: 0, Overdue: 0 } as Record<string, number>;
-    const list = dutyFilter === "all" ? COURSES : coursesForDuty(matrix, e.dutyCategory || dutyFilter);
+    const list = e.dutyCategory ? coursesForDuty(matrix, e.dutyCategory) : COURSES;
     list.forEach((c) => {
       const r = e.courses[c];
       if (!r) return;
@@ -161,6 +161,33 @@ function PersonnelPage() {
     });
     return counts;
   };
+
+  /** Employee compliance based on MANDATORY courses only. */
+  const complianceOf = (e: typeof employees[number]) => {
+    const mandatory = e.dutyCategory ? mandatoryCoursesForDuty(matrix, e.dutyCategory) : [];
+    const optional = e.dutyCategory ? optionalCoursesForDuty(matrix, e.dutyCategory) : [];
+    const totalAssigned = mandatory.length + optional.length;
+    let mandatoryDone = 0;
+    let overdueMandatory = 0;
+    mandatory.forEach((c) => {
+      const r = e.courses[c];
+      if (!r) return;
+      const s = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+      if (s === "Completed") mandatoryDone++;
+      if (s === "Overdue") overdueMandatory++;
+    });
+    let optionalDone = 0;
+    optional.forEach((c) => {
+      const r = e.courses[c];
+      if (!r) return;
+      const s = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+      if (s === "Completed") optionalDone++;
+    });
+    const compliant = mandatory.length > 0 && mandatoryDone === mandatory.length && overdueMandatory === 0;
+    const totalDone = mandatoryDone + optionalDone;
+    return { mandatory, optional, totalAssigned, mandatoryDone, optionalDone, totalDone, compliant, overdueMandatory };
+  };
+
 
   const attachTrainingFile = async (employeeId: string, file: File, previous: TrainingAttachment | null) => {
     if (previous) await deleteAttachmentFile(previous.id);
