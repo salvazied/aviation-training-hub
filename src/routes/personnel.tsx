@@ -43,9 +43,11 @@ function PersonnelPage() {
   const [stationFilter, setStationFilter] = useState("all");
   const [dutyFilter, setDutyFilter] = useState("all");
   const ALL_COURSES = "__all";
-  const [activeCourse, setActiveCourse] = useState<string>(COURSES[0]);
+  const [activeCourse, setActiveCourse] = useState<string>(ALL_COURSES);
   const [pageSize, setPageSize] = useState<number>(50);
   const [page, setPage] = useState(1);
+  const [detailId, setDetailId] = useState<string | null>(null);
+
 
   // Courses available in the "Course view" selector — filtered by Training Matrix
   // when a specific duty category is selected.
