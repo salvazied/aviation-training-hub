@@ -11,17 +11,10 @@ import type { ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { LoginScreen } from "@/components/LoginScreen";
-import { Plane, LogOut, LayoutDashboard, Users, Table2, RefreshCcw, ChevronDown } from "lucide-react";
+import { Plane, LogOut, LayoutDashboard, Users, Table2, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
+
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -88,68 +81,75 @@ function Shell() {
   ];
 
   return (
-    <div className="min-h-screen">
-      <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
-        <div className="mx-auto flex max-w-[1600px] items-center gap-4 px-6 py-3">
-          <Link to="/" className="flex items-center gap-2.5">
-            <div className="grid h-9 w-9 place-items-center rounded-lg gradient-hero text-primary-foreground shadow-elegant">
-              <Plane className="h-5 w-5 -rotate-45" />
-            </div>
-            <div className="leading-tight">
-              <div className="font-display text-[15px] font-semibold">Training Tracker</div>
-              <div className="text-[11px] text-muted-foreground">Ground Handling · ISAGO</div>
-            </div>
-          </Link>
-
-          {/* Dropdown nav, primary navy background like the airplane logo */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="ml-2 inline-flex items-center gap-2 rounded-md bg-primary px-3.5 py-2 text-sm font-medium text-primary-foreground shadow-soft transition hover:bg-primary/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent">
-                <LayoutDashboard className="h-4 w-4" />
-                Training Tracker
-                <ChevronDown className="h-3.5 w-3.5 opacity-80" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-60 bg-primary text-primary-foreground border-primary/40">
-              <DropdownMenuLabel className="text-[11px] uppercase tracking-wider text-primary-foreground/70">
-                Navigation
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator className="bg-primary-foreground/15" />
-              {navItems.map((n) => {
-                const active = pathname === n.to;
-                return (
-                  <DropdownMenuItem
-                    key={n.to}
-                    asChild
-                    className={`gap-2 cursor-pointer focus:bg-primary-foreground/15 focus:text-primary-foreground ${
-                      active ? "bg-primary-foreground/15" : ""
-                    }`}
-                  >
-                    <Link to={n.to}>
-                      <n.icon className="h-4 w-4" />
-                      <span>{n.label}</span>
-                    </Link>
-                  </DropdownMenuItem>
-                );
-              })}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <div className="ml-auto flex items-center gap-3">
-            <div className="hidden text-right sm:block">
-              <div className="text-[12px] font-medium leading-tight">{user.username}</div>
-              <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{user.role}</div>
-            </div>
-            <Button variant="outline" size="sm" onClick={logout}>
-              <LogOut className="h-3.5 w-3.5" /> Sign out
-            </Button>
+    <div className="min-h-screen flex">
+      {/* Permanent left sidebar */}
+      <aside className="sticky top-0 z-40 hidden h-screen w-60 shrink-0 flex-col bg-primary text-primary-foreground shadow-elegant md:flex">
+        <Link to="/" className="flex items-center gap-2.5 border-b border-primary-foreground/15 px-5 py-4">
+          <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary-foreground/15 backdrop-blur">
+            <Plane className="h-5 w-5 -rotate-45" />
           </div>
+          <div className="leading-tight">
+            <div className="font-display text-[15px] font-semibold">Training Tracker</div>
+            <div className="text-[11px] text-primary-foreground/70">Ground Handling · ISAGO</div>
+          </div>
+        </Link>
+
+        <nav className="flex-1 space-y-1 px-3 py-4">
+          <div className="mb-2 px-2 text-[10px] uppercase tracking-wider text-primary-foreground/60">
+            Navigation
+          </div>
+          {navItems.map((n) => {
+            const active = pathname === n.to;
+            return (
+              <Link
+                key={n.to}
+                to={n.to}
+                className={`flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition ${
+                  active
+                    ? "bg-primary-foreground/20 text-primary-foreground shadow-sm"
+                    : "text-primary-foreground/85 hover:bg-primary-foreground/10"
+                }`}
+              >
+                <n.icon className="h-4 w-4" />
+                <span>{n.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="border-t border-primary-foreground/15 px-4 py-3">
+          <div className="mb-2 leading-tight">
+            <div className="text-[12px] font-medium">{user.username}</div>
+            <div className="text-[10px] uppercase tracking-wider text-primary-foreground/60">{user.role}</div>
+          </div>
+          <Button variant="secondary" size="sm" className="w-full" onClick={logout}>
+            <LogOut className="h-3.5 w-3.5" /> Sign out
+          </Button>
+        </div>
+      </aside>
+
+      {/* Mobile top bar */}
+      <header className="sticky top-0 z-40 flex w-full items-center gap-3 border-b bg-primary px-4 py-2.5 text-primary-foreground md:hidden">
+        <Plane className="h-5 w-5 -rotate-45" />
+        <div className="font-display text-sm font-semibold">Training Tracker</div>
+        <div className="ml-auto flex items-center gap-2 overflow-x-auto">
+          {navItems.map((n) => {
+            const active = pathname === n.to;
+            return (
+              <Link key={n.to} to={n.to} className={`rounded-md px-2 py-1 text-xs ${active ? "bg-primary-foreground/20" : "text-primary-foreground/80"}`}>
+                {n.label.split(" ")[0]}
+              </Link>
+            );
+          })}
+          <Button variant="secondary" size="sm" className="h-7" onClick={logout}><LogOut className="h-3 w-3" /></Button>
         </div>
       </header>
-      <main className="mx-auto max-w-[1600px] px-4 py-6 md:px-6">
+
+      <main className="min-w-0 flex-1 px-4 py-6 md:px-6">
         <Outlet />
       </main>
       <Toaster position="top-right" richColors />
     </div>
   );
 }
+

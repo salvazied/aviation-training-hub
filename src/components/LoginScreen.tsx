@@ -57,12 +57,8 @@ export function LoginScreen() {
           </div>
           {err && <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">{err}</div>}
           <Button type="submit" className="w-full">Sign in</Button>
-          <div className="rounded-md border bg-secondary/50 p-3 text-xs leading-relaxed text-muted-foreground">
-            <div className="mb-1 font-medium text-foreground">Demo accounts</div>
-            <div><span className="font-mono">admin</span> / <span className="font-mono">admin2026</span> — full access</div>
-            <div><span className="font-mono">user</span> / <span className="font-mono">user2026</span> — edit only</div>
-          </div>
         </form>
+
       </div>
     </div>
   );

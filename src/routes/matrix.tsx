@@ -4,17 +4,37 @@ import { COURSES, DUTY_CATEGORIES } from "@/lib/data";
 import { useMatrix } from "@/lib/matrix-store";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { Check, Minus, RotateCcw, Pencil, Eye, Save } from "lucide-react";
+import { Check, Minus, RotateCcw, Pencil, Eye, Save, CircleDot } from "lucide-react";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import { classifyCell } from "@/lib/matrix-store";
 
 export const Route = createFileRoute("/matrix")({
   head: () => ({ meta: [{ title: "Training Matrix — Training Tracker" }] }),
   component: MatrixPage,
 });
 
-const CELL_OPTIONS = ["-", "✓", "6", "7.1", "7.2", "7.3", "7.4", "7.5", "7.6"];
+const CELL_OPTIONS: { value: string; label: string }[] = [
+  { value: "-", label: "None" },
+  { value: "M", label: "Mandatory" },
+  { value: "O", label: "Optional" },
+  { value: "6", label: "DGR Cat 6" },
+  { value: "7.1", label: "DGR Cat 7.1" },
+  { value: "7.2", label: "DGR Cat 7.2" },
+  { value: "7.3", label: "DGR Cat 7.3" },
+  { value: "7.4", label: "DGR Cat 7.4" },
+  { value: "7.5", label: "DGR Cat 7.5" },
+  { value: "7.6", label: "DGR Cat 7.6" },
+];
+
+function normalizeCellForSelect(cell: string | undefined): string {
+  if (!cell || cell === "-") return "-";
+  if (cell === "✓") return "M";
+  if (cell === "O" || cell === "OPT") return "O";
+  return cell;
+}
+
 
 function MatrixPage() {
   const { user } = useAuth();
@@ -71,28 +91,38 @@ function MatrixPage() {
                   <tr key={c} className="border-b hover:bg-secondary/30">
                     <td className="sticky left-0 z-10 bg-background px-3 py-2 text-[12px] text-muted-foreground">{i + 1}</td>
                     <td className="sticky left-[60px] z-10 bg-background px-3 py-2 font-medium">{c}</td>
-                    {matrix[i].map((cell, j) => (
-                      <td key={j} className="px-2 py-2 text-center text-[12px]">
-                        {editMode ? (
-                          <Select value={cell || "-"} onValueChange={(value) => setCell(i, j, value)}>
-                            <SelectTrigger className="mx-auto h-7 w-[62px] px-2 text-[11px] font-mono">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {CELL_OPTIONS.map((value) => (
-                                <SelectItem key={value} value={value}>{value}</SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        ) : cell === "✓" ? (
-                          <span className="inline-grid h-6 w-6 place-items-center rounded-md bg-[color-mix(in_oklab,var(--success)_18%,transparent)] text-[var(--success)]"><Check className="h-3.5 w-3.5" /></span>
-                        ) : cell === "-" || !cell ? (
-                          <Minus className="inline h-3.5 w-3.5 text-muted-foreground/50" />
-                        ) : (
-                          <span className="inline-flex items-center rounded-md bg-[color-mix(in_oklab,var(--gold)_22%,transparent)] px-1.5 py-0.5 font-mono text-[11px] text-[oklch(0.5_0.13_80)]">Cat {cell}</span>
-                        )}
-                      </td>
-                    ))}
+                    {matrix[i].map((cell, j) => {
+                      const kind = classifyCell(cell);
+                      return (
+                        <td key={j} className="px-2 py-2 text-center text-[12px]">
+                          {editMode ? (
+                            <Select value={normalizeCellForSelect(cell)} onValueChange={(value) => setCell(i, j, value)}>
+                              <SelectTrigger className="mx-auto h-7 w-[110px] px-2 text-[11px]">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {CELL_OPTIONS.map((opt) => (
+                                  <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          ) : kind === "none" ? (
+                            <Minus className="inline h-3.5 w-3.5 text-muted-foreground/50" />
+                          ) : kind === "optional" ? (
+                            <span title="Optional" className="inline-flex items-center gap-1 rounded-md bg-[color-mix(in_oklab,var(--sky)_20%,transparent)] px-1.5 py-0.5 text-[11px] font-medium text-[oklch(0.45_0.15_240)]">
+                              <CircleDot className="h-3 w-3" /> Opt
+                            </span>
+                          ) : cell === "M" || cell === "✓" ? (
+                            <span title="Mandatory" className="inline-grid h-6 w-6 place-items-center rounded-md bg-[color-mix(in_oklab,var(--success)_18%,transparent)] text-[var(--success)]">
+                              <Check className="h-3.5 w-3.5" />
+                            </span>
+                          ) : (
+                            <span title={`Mandatory DGR Cat ${cell}`} className="inline-flex items-center rounded-md bg-[color-mix(in_oklab,var(--gold)_22%,transparent)] px-1.5 py-0.5 font-mono text-[11px] text-[oklch(0.5_0.13_80)]">Cat {cell}</span>
+                          )}
+                        </td>
+                      );
+                    })}
+
                   </tr>
                 ))}
               </tbody>
@@ -113,9 +143,16 @@ function MatrixPage() {
             ))}
           </div>
           <p className="mt-4 text-xs text-muted-foreground">
-            Legend: <span className="font-medium text-foreground">✓</span> required · <span className="font-medium text-foreground">—</span> not required · <span className="font-medium text-foreground">Cat N</span> DGR category required.
-            {editMode && " · Click any cell to cycle its value."}
+            Legend:
+            <span className="mx-1 inline-grid h-4 w-4 place-items-center rounded bg-[color-mix(in_oklab,var(--success)_18%,transparent)] align-middle text-[var(--success)]"><Check className="h-2.5 w-2.5" /></span>
+            <span className="font-medium text-foreground">Mandatory</span> ·
+            <span className="mx-1 inline-flex items-center rounded bg-[color-mix(in_oklab,var(--sky)_20%,transparent)] px-1 align-middle text-[10px] text-[oklch(0.45_0.15_240)]">Opt</span>
+            <span className="font-medium text-foreground">Optional</span> ·
+            <span className="mx-1 font-medium text-foreground">Cat N</span> DGR category (mandatory) ·
+            <span className="mx-1">—</span> Not required.
+            {editMode && " · Pick a value in each cell to change."}
           </p>
+
         </CardContent>
       </Card>
     </div>

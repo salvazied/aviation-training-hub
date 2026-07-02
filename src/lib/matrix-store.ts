@@ -8,7 +8,6 @@ function load(): string[][] {
     const raw = localStorage.getItem(KEY);
     if (raw) {
       const parsed = JSON.parse(raw) as string[][];
-      // Re-shape if course/duty counts changed
       if (parsed.length === COURSES.length && parsed[0]?.length === DUTY_CATEGORIES.length) {
         return parsed;
       }
@@ -57,13 +56,45 @@ export function useMatrix() {
   return { matrix, setCell, reset };
 }
 
-/** Indices (in COURSES) of trainings required for the given duty code. */
-export function requiredCourseIndices(matrix: string[][], dutyCode: string): number[] {
-  const j = DUTY_CATEGORIES.findIndex((d) => d.code === dutyCode);
-  if (j < 0) return COURSES.map((_, i) => i);
-  return matrix.map((row, i) => (row[j] && row[j] !== "-" ? i : -1)).filter((i) => i >= 0);
+/** Cell classification. Legacy "✓" is treated as mandatory. */
+export type CellKind = "none" | "mandatory" | "optional";
+export function classifyCell(value: string | undefined): CellKind {
+  if (!value || value === "-") return "none";
+  if (value === "O" || value === "OPT") return "optional";
+  return "mandatory"; // "M", "✓", "6", "7.x"
 }
 
+function dutyIndex(dutyCode: string) {
+  return DUTY_CATEGORIES.findIndex((d) => d.code === dutyCode);
+}
+
+/** All courses assigned (mandatory + optional) for a duty. */
 export function coursesForDuty(matrix: string[][], dutyCode: string): string[] {
-  return requiredCourseIndices(matrix, dutyCode).map((i) => COURSES[i]);
+  const j = dutyIndex(dutyCode);
+  if (j < 0) return [...COURSES];
+  return matrix
+    .map((row, i) => (classifyCell(row[j]) !== "none" ? COURSES[i] : ""))
+    .filter(Boolean);
+}
+
+export function mandatoryCoursesForDuty(matrix: string[][], dutyCode: string): string[] {
+  const j = dutyIndex(dutyCode);
+  if (j < 0) return [];
+  return matrix
+    .map((row, i) => (classifyCell(row[j]) === "mandatory" ? COURSES[i] : ""))
+    .filter(Boolean);
+}
+
+export function optionalCoursesForDuty(matrix: string[][], dutyCode: string): string[] {
+  const j = dutyIndex(dutyCode);
+  if (j < 0) return [];
+  return matrix
+    .map((row, i) => (classifyCell(row[j]) === "optional" ? COURSES[i] : ""))
+    .filter(Boolean);
+}
+
+export function requiredCourseIndices(matrix: string[][], dutyCode: string): number[] {
+  const j = dutyIndex(dutyCode);
+  if (j < 0) return COURSES.map((_, i) => i);
+  return matrix.map((row, i) => (classifyCell(row[j]) !== "none" ? i : -1)).filter((i) => i >= 0);
 }

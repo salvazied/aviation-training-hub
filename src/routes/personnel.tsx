@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { usePersonnel } from "@/lib/store";
 import { useAuth } from "@/lib/auth";
 import { COURSES, DUTY_CATEGORIES, STATUS_VALUES, addYears, deriveStatus, emptyCourse, type Status, type TrainingAttachment } from "@/lib/data";
-import { useMatrix, coursesForDuty } from "@/lib/matrix-store";
+import { useMatrix, coursesForDuty, mandatoryCoursesForDuty, optionalCoursesForDuty } from "@/lib/matrix-store";
 import { deleteAttachmentFile, downloadAttachmentFile, openAttachmentFile, saveAttachmentFile } from "@/lib/attachments";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -15,12 +15,16 @@ import { StatusPill } from "@/components/StatusPill";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle,
+} from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search, Paperclip, ExternalLink, X, Save, ChevronLeft, ChevronRight } from "lucide-react";
+import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search, Paperclip, ExternalLink, X, Save, ChevronLeft, ChevronRight, CheckCircle2, AlertCircle, Eye } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+
 
 export const Route = createFileRoute("/personnel")({
   head: () => ({
@@ -39,9 +43,11 @@ function PersonnelPage() {
   const [stationFilter, setStationFilter] = useState("all");
   const [dutyFilter, setDutyFilter] = useState("all");
   const ALL_COURSES = "__all";
-  const [activeCourse, setActiveCourse] = useState<string>(COURSES[0]);
+  const [activeCourse, setActiveCourse] = useState<string>(ALL_COURSES);
   const [pageSize, setPageSize] = useState<number>(50);
   const [page, setPage] = useState(1);
+  const [detailId, setDetailId] = useState<string | null>(null);
+
 
   // Courses available in the "Course view" selector — filtered by Training Matrix
   // when a specific duty category is selected.
@@ -146,7 +152,7 @@ function PersonnelPage() {
 
   const statusCounts = (e: typeof employees[number]) => {
     const counts = { Completed: 0, Scheduled: 0, Outstanding: 0, Overdue: 0 } as Record<string, number>;
-    const list = dutyFilter === "all" ? COURSES : coursesForDuty(matrix, e.dutyCategory || dutyFilter);
+    const list = e.dutyCategory ? coursesForDuty(matrix, e.dutyCategory) : COURSES;
     list.forEach((c) => {
       const r = e.courses[c];
       if (!r) return;
@@ -155,6 +161,33 @@ function PersonnelPage() {
     });
     return counts;
   };
+
+  /** Employee compliance based on MANDATORY courses only. */
+  const complianceOf = (e: typeof employees[number]) => {
+    const mandatory = e.dutyCategory ? mandatoryCoursesForDuty(matrix, e.dutyCategory) : [];
+    const optional = e.dutyCategory ? optionalCoursesForDuty(matrix, e.dutyCategory) : [];
+    const totalAssigned = mandatory.length + optional.length;
+    let mandatoryDone = 0;
+    let overdueMandatory = 0;
+    mandatory.forEach((c) => {
+      const r = e.courses[c];
+      if (!r) return;
+      const s = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+      if (s === "Completed") mandatoryDone++;
+      if (s === "Overdue") overdueMandatory++;
+    });
+    let optionalDone = 0;
+    optional.forEach((c) => {
+      const r = e.courses[c];
+      if (!r) return;
+      const s = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+      if (s === "Completed") optionalDone++;
+    });
+    const compliant = mandatory.length > 0 && mandatoryDone === mandatory.length && overdueMandatory === 0;
+    const totalDone = mandatoryDone + optionalDone;
+    return { mandatory, optional, totalAssigned, mandatoryDone, optionalDone, totalDone, compliant, overdueMandatory };
+  };
+
 
   const attachTrainingFile = async (employeeId: string, file: File, previous: TrainingAttachment | null) => {
     if (previous) await deleteAttachmentFile(previous.id);
@@ -281,7 +314,7 @@ function PersonnelPage() {
                   <Th>Job Title / Function</Th>
                   <Th>Station</Th>
                   {activeCourse === ALL_COURSES ? (
-                    <Th className="bg-accent/10" colSpan={5}>Courses status summary</Th>
+                    <Th className="bg-accent/10" colSpan={5}>Mandatory progress · Compliance</Th>
                   ) : (
                     <>
                       <Th className="bg-accent/10">Training Date</Th>
@@ -292,6 +325,7 @@ function PersonnelPage() {
                     </>
                   )}
                   <Th></Th>
+
                 </tr>
               </thead>
               <tbody>
@@ -299,7 +333,16 @@ function PersonnelPage() {
                   const r = activeCourse === ALL_COURSES ? null : e.courses[activeCourse];
                   const status = r ? deriveStatus(r.trainingDate, r.expiryDate, r.status) : "";
                   return (
-                    <tr key={e.id} className="group border-b hover:bg-secondary/30">
+                    <tr
+                      key={e.id}
+                      className="group cursor-pointer border-b hover:bg-secondary/30"
+                      onClick={(ev) => {
+                        const t = ev.target as HTMLElement;
+                        if (t.closest("button, input, select, a, [role='combobox'], [role='dialog']")) return;
+                        setDetailId(e.id);
+                      }}
+                    >
+
                       <Td>
                         <IdInput
                           value={e.id}
@@ -333,18 +376,54 @@ function PersonnelPage() {
                       {activeCourse === ALL_COURSES || !r ? (
                         <Td colSpan={5}>
                           {(() => {
-                            const c = statusCounts(e);
+                            const comp = complianceOf(e);
+                            const mandTotal = comp.mandatory.length;
+                            const pct = mandTotal ? Math.round((comp.mandatoryDone / mandTotal) * 100) : 0;
+                            const barColor = comp.compliant
+                              ? "bg-[var(--success)]"
+                              : comp.overdueMandatory > 0
+                              ? "bg-destructive"
+                              : "bg-[oklch(0.7_0.15_80)]";
                             return (
-                              <div className="flex flex-wrap gap-1.5">
-                                <Badge className="bg-[color-mix(in_oklab,var(--success)_20%,transparent)] text-[var(--success)] hover:bg-[color-mix(in_oklab,var(--success)_30%,transparent)]">Completed {c.Completed}</Badge>
-                                <Badge variant="secondary">Scheduled {c.Scheduled}</Badge>
-                                <Badge className="bg-[color-mix(in_oklab,var(--gold)_22%,transparent)] text-[oklch(0.5_0.13_80)] hover:bg-[color-mix(in_oklab,var(--gold)_32%,transparent)]">Outstanding {c.Outstanding}</Badge>
-                                <Badge variant="destructive">Overdue {c.Overdue}</Badge>
+                              <div className="flex flex-wrap items-center gap-3">
+                                <div className="min-w-[190px] flex-1 max-w-[280px]">
+                                  <div className="mb-1 flex items-center justify-between text-[11px]">
+                                    <span className="font-medium">
+                                      Mandatory {comp.mandatoryDone}/{mandTotal}
+                                    </span>
+                                    <span className="text-muted-foreground">
+                                      {comp.totalDone}/{comp.totalAssigned} total
+                                    </span>
+                                  </div>
+                                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                                    <div className={`h-full ${barColor} transition-all`} style={{ width: `${pct}%` }} />
+                                  </div>
+                                </div>
+                                {mandTotal === 0 ? (
+                                  <Badge variant="secondary" className="text-[10px]">No duty set</Badge>
+                                ) : comp.compliant ? (
+                                  <Badge className="gap-1 bg-[color-mix(in_oklab,var(--success)_20%,transparent)] text-[var(--success)] hover:bg-[color-mix(in_oklab,var(--success)_30%,transparent)]">
+                                    <CheckCircle2 className="h-3 w-3" /> Compliant
+                                  </Badge>
+                                ) : (
+                                  <Badge variant="destructive" className="gap-1">
+                                    <AlertCircle className="h-3 w-3" /> Non-compliant
+                                  </Badge>
+                                )}
+                                {comp.optional.length > 0 && (
+                                  <span className="text-[10px] text-muted-foreground">
+                                    Optional {comp.optionalDone}/{comp.optional.length}
+                                  </span>
+                                )}
+                                <Button size="sm" variant="ghost" className="h-7 gap-1 px-2 text-[11px]" onClick={() => setDetailId(e.id)}>
+                                  <Eye className="h-3 w-3" /> Details
+                                </Button>
                               </div>
                             );
                           })()}
                         </Td>
                       ) : (
+
                         <>
                           <Td>
                             <Input type="date" value={r.trainingDate} className="h-8 w-[140px] text-xs"
@@ -429,9 +508,143 @@ function PersonnelPage() {
           )}
         </CardContent>
       </Card>
+
+      <EmployeeDetailSheet
+        employee={detailId ? employees.find((e) => e.id === detailId) ?? null : null}
+        matrix={matrix}
+        onClose={() => setDetailId(null)}
+        complianceOf={complianceOf}
+      />
     </div>
   );
 }
+
+function EmployeeDetailSheet({
+  employee,
+  matrix,
+  onClose,
+  complianceOf,
+}: {
+  employee: any;
+  matrix: string[][];
+  onClose: () => void;
+  complianceOf: (e: any) => {
+    mandatory: string[];
+    optional: string[];
+    totalAssigned: number;
+    mandatoryDone: number;
+    optionalDone: number;
+    totalDone: number;
+    compliant: boolean;
+    overdueMandatory: number;
+  };
+}) {
+  const open = !!employee;
+  if (!employee) {
+    return (
+      <Sheet open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+        <SheetContent side="right" className="w-full sm:max-w-xl" />
+      </Sheet>
+    );
+  }
+  const comp = complianceOf(employee);
+  const mandTotal = comp.mandatory.length;
+  const pct = mandTotal ? Math.round((comp.mandatoryDone / mandTotal) * 100) : 0;
+
+  const renderRow = (courseName: string) => {
+    const r = employee.courses[courseName];
+    const s = r ? deriveStatus(r.trainingDate, r.expiryDate, r.status) : "";
+    return (
+      <div key={courseName} className="flex items-start justify-between gap-3 border-b py-2 last:border-b-0">
+        <div className="min-w-0 flex-1">
+          <div className="truncate text-sm font-medium">{courseName}</div>
+          <div className="mt-0.5 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-muted-foreground">
+            <span>Training: <span className="font-mono">{r?.trainingDate || "—"}</span></span>
+            <span>Expiry: <span className="font-mono">{r?.expiryDate || "—"}</span></span>
+            <span>Next: <span className="font-mono">{r?.nextTrainingDate || "—"}</span></span>
+          </div>
+        </div>
+        <StatusPill value={s} />
+      </div>
+    );
+  };
+
+  return (
+    <Sheet open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
+      <SheetContent side="right" className="flex w-full flex-col gap-0 overflow-y-auto sm:max-w-xl">
+        <SheetHeader>
+          <SheetTitle className="flex flex-wrap items-center gap-2">
+            {employee.firstName} {employee.lastName}
+            <span className="rounded bg-secondary px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">{employee.id}</span>
+          </SheetTitle>
+          <SheetDescription>
+            {employee.dutyCategory || "—"} · {employee.jobTitle || "—"} · {employee.station || "—"}
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="mt-4 space-y-3">
+          <div className="rounded-md border bg-secondary/30 p-3">
+            <div className="mb-1 flex items-center justify-between text-xs">
+              <span className="font-medium">Mandatory progress</span>
+              <span>{comp.mandatoryDone}/{mandTotal} · {pct}%</span>
+            </div>
+            <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+              <div
+                className={`h-full transition-all ${
+                  comp.compliant ? "bg-[var(--success)]" : comp.overdueMandatory ? "bg-destructive" : "bg-[oklch(0.7_0.15_80)]"
+                }`}
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+            <div className="mt-2 flex items-center gap-2 text-xs">
+              {mandTotal === 0 ? (
+                <Badge variant="secondary">No duty category set — assign one in the Personnel table</Badge>
+              ) : comp.compliant ? (
+                <Badge className="gap-1 bg-[color-mix(in_oklab,var(--success)_20%,transparent)] text-[var(--success)]">
+                  <CheckCircle2 className="h-3 w-3" /> Compliant
+                </Badge>
+              ) : (
+                <Badge variant="destructive" className="gap-1"><AlertCircle className="h-3 w-3" /> Non-compliant</Badge>
+              )}
+              <span className="text-muted-foreground">
+                Optional: {comp.optionalDone}/{comp.optional.length} · Total assigned: {comp.totalAssigned}
+              </span>
+            </div>
+          </div>
+
+          <section className="rounded-md border">
+            <header className="flex items-center justify-between bg-secondary/50 px-3 py-2">
+              <h3 className="text-sm font-semibold">
+                Mandatory courses <span className="text-muted-foreground">({comp.mandatory.length})</span>
+              </h3>
+              <Badge variant="outline" className="text-[10px]">Required for compliance</Badge>
+            </header>
+            <div className="px-3">
+              {comp.mandatory.length === 0
+                ? <div className="py-3 text-xs text-muted-foreground">No mandatory course defined for this duty category.</div>
+                : comp.mandatory.map(renderRow)}
+            </div>
+          </section>
+
+          <section className="rounded-md border">
+            <header className="flex items-center justify-between bg-secondary/50 px-3 py-2">
+              <h3 className="text-sm font-semibold">
+                Optional courses <span className="text-muted-foreground">({comp.optional.length})</span>
+              </h3>
+              <Badge variant="outline" className="text-[10px]">Not required</Badge>
+            </header>
+            <div className="px-3">
+              {comp.optional.length === 0
+                ? <div className="py-3 text-xs text-muted-foreground">No optional course defined for this duty category.</div>
+                : comp.optional.map(renderRow)}
+            </div>
+          </section>
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
 
 function Th({ children, className = "", colSpan }: { children?: React.ReactNode; className?: string; colSpan?: number }) {
   return <th colSpan={colSpan} className={`whitespace-nowrap border-b px-3 py-2 font-medium ${className}`}>{children}</th>;
