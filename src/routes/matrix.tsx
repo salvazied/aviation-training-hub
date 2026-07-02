@@ -143,9 +143,16 @@ function MatrixPage() {
             ))}
           </div>
           <p className="mt-4 text-xs text-muted-foreground">
-            Legend: <span className="font-medium text-foreground">✓</span> required · <span className="font-medium text-foreground">—</span> not required · <span className="font-medium text-foreground">Cat N</span> DGR category required.
-            {editMode && " · Click any cell to cycle its value."}
+            Legend:
+            <span className="mx-1 inline-grid h-4 w-4 place-items-center rounded bg-[color-mix(in_oklab,var(--success)_18%,transparent)] align-middle text-[var(--success)]"><Check className="h-2.5 w-2.5" /></span>
+            <span className="font-medium text-foreground">Mandatory</span> ·
+            <span className="mx-1 inline-flex items-center rounded bg-[color-mix(in_oklab,var(--sky)_20%,transparent)] px-1 align-middle text-[10px] text-[oklch(0.45_0.15_240)]">Opt</span>
+            <span className="font-medium text-foreground">Optional</span> ·
+            <span className="mx-1 font-medium text-foreground">Cat N</span> DGR category (mandatory) ·
+            <span className="mx-1">—</span> Not required.
+            {editMode && " · Pick a value in each cell to change."}
           </p>
+
         </CardContent>
       </Card>
     </div>
