@@ -333,7 +333,16 @@ function PersonnelPage() {
                   const r = activeCourse === ALL_COURSES ? null : e.courses[activeCourse];
                   const status = r ? deriveStatus(r.trainingDate, r.expiryDate, r.status) : "";
                   return (
-                    <tr key={e.id} className="group border-b hover:bg-secondary/30">
+                    <tr
+                      key={e.id}
+                      className="group cursor-pointer border-b hover:bg-secondary/30"
+                      onClick={(ev) => {
+                        const t = ev.target as HTMLElement;
+                        if (t.closest("button, input, select, a, [role='combobox'], [role='dialog']")) return;
+                        setDetailId(e.id);
+                      }}
+                    >
+
                       <Td>
                         <IdInput
                           value={e.id}
