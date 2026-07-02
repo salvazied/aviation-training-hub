@@ -367,18 +367,54 @@ function PersonnelPage() {
                       {activeCourse === ALL_COURSES || !r ? (
                         <Td colSpan={5}>
                           {(() => {
-                            const c = statusCounts(e);
+                            const comp = complianceOf(e);
+                            const mandTotal = comp.mandatory.length;
+                            const pct = mandTotal ? Math.round((comp.mandatoryDone / mandTotal) * 100) : 0;
+                            const barColor = comp.compliant
+                              ? "bg-[var(--success)]"
+                              : comp.overdueMandatory > 0
+                              ? "bg-destructive"
+                              : "bg-[oklch(0.7_0.15_80)]";
                             return (
-                              <div className="flex flex-wrap gap-1.5">
-                                <Badge className="bg-[color-mix(in_oklab,var(--success)_20%,transparent)] text-[var(--success)] hover:bg-[color-mix(in_oklab,var(--success)_30%,transparent)]">Completed {c.Completed}</Badge>
-                                <Badge variant="secondary">Scheduled {c.Scheduled}</Badge>
-                                <Badge className="bg-[color-mix(in_oklab,var(--gold)_22%,transparent)] text-[oklch(0.5_0.13_80)] hover:bg-[color-mix(in_oklab,var(--gold)_32%,transparent)]">Outstanding {c.Outstanding}</Badge>
-                                <Badge variant="destructive">Overdue {c.Overdue}</Badge>
+                              <div className="flex flex-wrap items-center gap-3">
+                                <div className="min-w-[190px] flex-1 max-w-[280px]">
+                                  <div className="mb-1 flex items-center justify-between text-[11px]">
+                                    <span className="font-medium">
+                                      Mandatory {comp.mandatoryDone}/{mandTotal}
+                                    </span>
+                                    <span className="text-muted-foreground">
+                                      {comp.totalDone}/{comp.totalAssigned} total
+                                    </span>
+                                  </div>
+                                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                                    <div className={`h-full ${barColor} transition-all`} style={{ width: `${pct}%` }} />
+                                  </div>
+                                </div>
+                                {mandTotal === 0 ? (
+                                  <Badge variant="secondary" className="text-[10px]">No duty set</Badge>
+                                ) : comp.compliant ? (
+                                  <Badge className="gap-1 bg-[color-mix(in_oklab,var(--success)_20%,transparent)] text-[var(--success)] hover:bg-[color-mix(in_oklab,var(--success)_30%,transparent)]">
+                                    <CheckCircle2 className="h-3 w-3" /> Compliant
+                                  </Badge>
+                                ) : (
+                                  <Badge variant="destructive" className="gap-1">
+                                    <AlertCircle className="h-3 w-3" /> Non-compliant
+                                  </Badge>
+                                )}
+                                {comp.optional.length > 0 && (
+                                  <span className="text-[10px] text-muted-foreground">
+                                    Optional {comp.optionalDone}/{comp.optional.length}
+                                  </span>
+                                )}
+                                <Button size="sm" variant="ghost" className="h-7 gap-1 px-2 text-[11px]" onClick={() => setDetailId(e.id)}>
+                                  <Eye className="h-3 w-3" /> Details
+                                </Button>
                               </div>
                             );
                           })()}
                         </Td>
                       ) : (
+
                         <>
                           <Td>
                             <Input type="date" value={r.trainingDate} className="h-8 w-[140px] text-xs"
