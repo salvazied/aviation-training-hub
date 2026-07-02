@@ -314,7 +314,7 @@ function PersonnelPage() {
                   <Th>Job Title / Function</Th>
                   <Th>Station</Th>
                   {activeCourse === ALL_COURSES ? (
-                    <Th className="bg-accent/10" colSpan={5}>Courses status summary</Th>
+                    <Th className="bg-accent/10" colSpan={5}>Mandatory progress · Compliance</Th>
                   ) : (
                     <>
                       <Th className="bg-accent/10">Training Date</Th>
@@ -325,6 +325,7 @@ function PersonnelPage() {
                     </>
                   )}
                   <Th></Th>
+
                 </tr>
               </thead>
               <tbody>
