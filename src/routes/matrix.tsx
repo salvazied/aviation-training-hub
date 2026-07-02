@@ -4,17 +4,37 @@ import { COURSES, DUTY_CATEGORIES } from "@/lib/data";
 import { useMatrix } from "@/lib/matrix-store";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { Check, Minus, RotateCcw, Pencil, Eye, Save } from "lucide-react";
+import { Check, Minus, RotateCcw, Pencil, Eye, Save, CircleDot } from "lucide-react";
 import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import { classifyCell } from "@/lib/matrix-store";
 
 export const Route = createFileRoute("/matrix")({
   head: () => ({ meta: [{ title: "Training Matrix — Training Tracker" }] }),
   component: MatrixPage,
 });
 
-const CELL_OPTIONS = ["-", "✓", "6", "7.1", "7.2", "7.3", "7.4", "7.5", "7.6"];
+const CELL_OPTIONS: { value: string; label: string }[] = [
+  { value: "-", label: "None" },
+  { value: "M", label: "Mandatory" },
+  { value: "O", label: "Optional" },
+  { value: "6", label: "DGR Cat 6" },
+  { value: "7.1", label: "DGR Cat 7.1" },
+  { value: "7.2", label: "DGR Cat 7.2" },
+  { value: "7.3", label: "DGR Cat 7.3" },
+  { value: "7.4", label: "DGR Cat 7.4" },
+  { value: "7.5", label: "DGR Cat 7.5" },
+  { value: "7.6", label: "DGR Cat 7.6" },
+];
+
+function normalizeCellForSelect(cell: string | undefined): string {
+  if (!cell || cell === "-") return "-";
+  if (cell === "✓") return "M";
+  if (cell === "O" || cell === "OPT") return "O";
+  return cell;
+}
+
 
 function MatrixPage() {
   const { user } = useAuth();
