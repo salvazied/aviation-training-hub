@@ -37,7 +37,7 @@ export const Route = createFileRoute("/personnel")({
 function PersonnelPage() {
   const { employees, update, updateCourse, add, remove, updateId, reset, replaceAll } = usePersonnel();
   const { user } = useAuth();
-  const { matrix } = useMatrix();
+  const { matrix, setCell } = useMatrix();
   const isAdmin = user?.role === "admin";
 
   const [search, setSearch] = useState("");
