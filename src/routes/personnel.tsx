@@ -326,7 +326,9 @@ function PersonnelPage() {
             <table className="w-full min-w-[1380px] border-separate border-spacing-0 text-sm">
               <thead className="sticky top-0 z-10 bg-secondary/70 backdrop-blur">
                 <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground">
+                  <Th className="w-8"></Th>
                   <Th>ID</Th>
+
                   <Th>Last Name</Th>
                   <Th>First Name</Th>
                   <Th>Duty</Th>
