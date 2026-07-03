@@ -47,6 +47,25 @@ function PersonnelPage() {
   const [pageSize, setPageSize] = useState<number>(50);
   const [page, setPage] = useState(1);
   const [detailId, setDetailId] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const toggleExpanded = (id: string) => {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const attachDossier = async (employeeId: string, file: File, previous: TrainingAttachment | null | undefined) => {
+    if (previous) await deleteAttachmentFile(previous.id);
+    const attachment = await saveAttachmentFile(file);
+    update(employeeId, { dossier: attachment });
+  };
+  const removeDossier = async (employeeId: string, attachment: TrainingAttachment) => {
+    await deleteAttachmentFile(attachment.id);
+    update(employeeId, { dossier: null });
+  };
+
 
 
   // Courses available in the "Course view" selector — filtered by Training Matrix
