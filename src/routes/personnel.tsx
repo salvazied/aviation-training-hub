@@ -528,7 +528,20 @@ function PersonnelPage() {
                     {isOpen && (
                       <tr className="bg-secondary/10">
                         <td colSpan={totalCols} className="border-b p-0">
-                          <EmployeeTrainingBreakdown employee={e} matrix={matrix} />
+                          <EmployeeTrainingBreakdown
+                            employee={e}
+                            matrix={matrix}
+                            isAdmin={isAdmin}
+                            onCourseChange={(course, patch) => updateCourse(e.id, course, patch)}
+                            onToggleKind={(course, kind) => {
+                              const i = COURSES.indexOf(course);
+                              const j = DUTY_CATEGORIES.findIndex((d) => d.code === e.dutyCategory);
+                              if (i < 0 || j < 0) return;
+                              const value = kind === "mandatory" ? "✓" : kind === "optional" ? "O" : "-";
+                              setCell(i, j, value);
+                            }}
+                          />
+
                         </td>
                       </tr>
                     )}
