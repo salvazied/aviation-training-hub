@@ -19,7 +19,7 @@ import {
   Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle,
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search, Paperclip, ExternalLink, X, Save, ChevronLeft, ChevronRight, CheckCircle2, AlertCircle, Eye } from "lucide-react";
+import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search, Paperclip, ExternalLink, X, Save, ChevronLeft, ChevronRight, CheckCircle2, AlertCircle, Eye, ChevronDown } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { toast } from "sonner";
