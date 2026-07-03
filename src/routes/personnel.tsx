@@ -37,7 +37,7 @@ export const Route = createFileRoute("/personnel")({
 function PersonnelPage() {
   const { employees, update, updateCourse, add, remove, updateId, reset, replaceAll } = usePersonnel();
   const { user } = useAuth();
-  const { matrix } = useMatrix();
+  const { matrix, setCell } = useMatrix();
   const isAdmin = user?.role === "admin";
 
   const [search, setSearch] = useState("");
@@ -528,7 +528,20 @@ function PersonnelPage() {
                     {isOpen && (
                       <tr className="bg-secondary/10">
                         <td colSpan={totalCols} className="border-b p-0">
-                          <EmployeeTrainingBreakdown employee={e} matrix={matrix} />
+                          <EmployeeTrainingBreakdown
+                            employee={e}
+                            matrix={matrix}
+                            isAdmin={isAdmin}
+                            onCourseChange={(course, patch) => updateCourse(e.id, course, patch)}
+                            onToggleKind={(course, kind) => {
+                              const i = COURSES.indexOf(course);
+                              const j = DUTY_CATEGORIES.findIndex((d) => d.code === e.dutyCategory);
+                              if (i < 0 || j < 0) return;
+                              const value = kind === "mandatory" ? "✓" : kind === "optional" ? "O" : "-";
+                              setCell(i, j, value);
+                            }}
+                          />
+
                         </td>
                       </tr>
                     )}
@@ -893,11 +906,35 @@ function DossierButton({
   );
 }
 
-function EmployeeTrainingBreakdown({ employee, matrix }: { employee: any; matrix: string[][] }) {
+function EmployeeTrainingBreakdown({
+  employee,
+  matrix,
+  isAdmin,
+  onCourseChange,
+  onToggleKind,
+}: {
+  employee: any;
+  matrix: string[][];
+  isAdmin: boolean;
+  onCourseChange: (course: string, patch: Partial<ReturnType<typeof emptyCourse>>) => void;
+  onToggleKind: (course: string, kind: "mandatory" | "optional" | "none") => void;
+}) {
   const mandatory = employee.dutyCategory ? mandatoryCoursesForDuty(matrix, employee.dutyCategory) : [];
   const optional = employee.dutyCategory ? optionalCoursesForDuty(matrix, employee.dutyCategory) : [];
+  const assigned = new Set([...mandatory, ...optional]);
+  const unassigned = COURSES.filter((c) => !assigned.has(c));
   const today = new Date(); today.setHours(0, 0, 0, 0);
   const soonDays = 60;
+
+  const attachFile = async (course: string, file: File, previous: TrainingAttachment | null) => {
+    if (previous) await deleteAttachmentFile(previous.id);
+    const attachment = await saveAttachmentFile(file);
+    onCourseChange(course, { attachment });
+  };
+  const removeFile = async (course: string, attachment: TrainingAttachment) => {
+    await deleteAttachmentFile(attachment.id);
+    onCourseChange(course, { attachment: null });
+  };
 
   const rowFor = (courseName: string, required: boolean) => {
     const r = employee.courses[courseName];
@@ -918,20 +955,68 @@ function EmployeeTrainingBreakdown({ employee, matrix }: { employee: any; matrix
       indiv = { label: s || "Pending", cls: "bg-muted text-muted-foreground" };
     }
     return (
-      <div key={courseName} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 border-b px-3 py-2 text-xs last:border-b-0">
-        <div className="min-w-0">
-          <div className="flex items-center gap-2">
-            <span className="truncate font-medium">{courseName}</span>
-            {required ? (
-              <span className="rounded bg-[color-mix(in_oklab,var(--success)_20%,transparent)] px-1.5 py-0.5 text-[10px] font-semibold uppercase text-[var(--success)]">Mandatory</span>
-            ) : (
-              <span className="rounded bg-accent/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-accent">Optional</span>
-            )}
-          </div>
+      <div key={courseName} className="flex flex-col gap-1.5 border-b px-3 py-2 text-xs last:border-b-0">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="min-w-0 flex-1 truncate font-medium">{courseName}</span>
+          {isAdmin ? (
+            <Select value={required ? "mandatory" : "optional"} onValueChange={(v) => onToggleKind(courseName, v as any)}>
+              <SelectTrigger className="h-6 w-[110px] text-[10px]"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="mandatory">Mandatory</SelectItem>
+                <SelectItem value="optional">Optional</SelectItem>
+                <SelectItem value="none">Remove</SelectItem>
+              </SelectContent>
+            </Select>
+          ) : required ? (
+            <span className="rounded bg-[color-mix(in_oklab,var(--success)_20%,transparent)] px-1.5 py-0.5 text-[10px] font-semibold uppercase text-[var(--success)]">Mandatory</span>
+          ) : (
+            <span className="rounded bg-accent/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-accent">Optional</span>
+          )}
+          <span className={`rounded px-2 py-0.5 text-[10px] font-semibold ${indiv.cls}`}>{indiv.label}</span>
         </div>
-        <span className="font-mono text-[11px] text-muted-foreground">Training: {training || "—"}</span>
-        <span className="font-mono text-[11px] text-muted-foreground">Expiry: {expiry || "—"}</span>
-        <span className={`rounded px-2 py-0.5 text-[10px] font-semibold ${indiv.cls}`}>{indiv.label}</span>
+        <div className="flex flex-wrap items-center gap-2">
+          {isAdmin ? (
+            <>
+              <label className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                Training
+                <Input
+                  type="date"
+                  value={training}
+                  className="h-7 w-[132px] text-[11px]"
+                  onChange={(ev) => {
+                    const t = ev.target.value;
+                    const patch: any = { trainingDate: t };
+                    if (t) {
+                      const d = new Date(t);
+                      d.setDate(d.getDate() + 729);
+                      const exp = d.toISOString().slice(0, 10);
+                      patch.expiryDate = exp;
+                      patch.nextTrainingDate = addYears(exp, 2);
+                    } else {
+                      patch.expiryDate = "";
+                      patch.nextTrainingDate = "";
+                    }
+                    onCourseChange(courseName, patch);
+                  }}
+                />
+              </label>
+              <label className="flex items-center gap-1 text-[10px] text-muted-foreground">
+                Expiry
+                <Input type="date" value={expiry} readOnly disabled className="h-7 w-[132px] bg-muted/50 text-[11px]" />
+              </label>
+            </>
+          ) : (
+            <>
+              <span className="font-mono text-[11px] text-muted-foreground">Training: {training || "—"}</span>
+              <span className="font-mono text-[11px] text-muted-foreground">Expiry: {expiry || "—"}</span>
+            </>
+          )}
+          <AttachmentCell
+            attachment={r?.attachment ?? null}
+            onAttach={(file) => attachFile(courseName, file, r?.attachment ?? null)}
+            onRemove={() => (r?.attachment ? removeFile(courseName, r.attachment) : undefined)}
+          />
+        </div>
       </div>
     );
   };
@@ -962,7 +1047,30 @@ function EmployeeTrainingBreakdown({ employee, matrix }: { employee: any; matrix
           ) : optional.map((c) => rowFor(c, false))}
         </div>
       </div>
+      {isAdmin && unassigned.length > 0 && (
+        <div className="mt-3 rounded-md border border-dashed p-3">
+          <div className="mb-2 text-[11px] font-semibold text-muted-foreground">
+            Add a course to this duty category ({employee.dutyCategory})
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <Select onValueChange={(v) => { if (v) onToggleKind(v, "mandatory"); }}>
+              <SelectTrigger className="h-7 w-[280px] text-[11px]"><SelectValue placeholder="Add as Mandatory…" /></SelectTrigger>
+              <SelectContent>
+                {unassigned.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            <Select onValueChange={(v) => { if (v) onToggleKind(v, "optional"); }}>
+              <SelectTrigger className="h-7 w-[280px] text-[11px]"><SelectValue placeholder="Add as Optional…" /></SelectTrigger>
+              <SelectContent>
+                {unassigned.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            <span className="text-[10px] text-muted-foreground">Changes apply to all employees in {employee.dutyCategory}.</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+
 
