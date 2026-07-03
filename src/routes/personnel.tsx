@@ -525,8 +525,17 @@ function PersonnelPage() {
                         </Button>
                       </Td>
                     </tr>
+                    {isOpen && (
+                      <tr className="bg-secondary/10">
+                        <td colSpan={totalCols} className="border-b p-0">
+                          <EmployeeTrainingBreakdown employee={e} matrix={matrix} />
+                        </td>
+                      </tr>
+                    )}
+                    </React.Fragment>
                   );
                 })}
+
                 {visible.length === 0 && (
                   <tr><td colSpan={12} className="p-6 text-center text-sm text-muted-foreground">No employees match your filters.</td></tr>
                 )}
