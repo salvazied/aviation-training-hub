@@ -357,7 +357,7 @@ function PersonnelPage() {
                   const isOpen = expanded.has(e.id);
                   const totalCols = activeCourse === ALL_COURSES ? 8 : 12;
                   return (
-                    <FragmentRow key={e.id}>
+                    <React.Fragment key={e.id}>
                     <tr
                       className="group cursor-pointer border-b hover:bg-secondary/30"
                       onClick={(ev) => {
