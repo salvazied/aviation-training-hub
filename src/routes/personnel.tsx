@@ -452,9 +452,15 @@ function PersonnelPage() {
                                     Optional {comp.optionalDone}/{comp.optional.length}
                                   </span>
                                 )}
-                                <Button size="sm" variant="ghost" className="h-7 gap-1 px-2 text-[11px]" onClick={() => setDetailId(e.id)}>
+                                <Button size="sm" variant="ghost" className="h-7 gap-1 px-2 text-[11px]" onClick={(ev) => { ev.stopPropagation(); setDetailId(e.id); }}>
                                   <Eye className="h-3 w-3" /> Details
                                 </Button>
+                                <DossierButton
+                                  attachment={e.dossier ?? null}
+                                  onAttach={(file) => attachDossier(e.id, file, e.dossier ?? null)}
+                                  onRemove={() => e.dossier ? removeDossier(e.id, e.dossier) : undefined}
+                                />
+
                               </div>
                             );
                           })()}
