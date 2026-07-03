@@ -353,9 +353,11 @@ function PersonnelPage() {
                 {paged.map((e) => {
                   const r = activeCourse === ALL_COURSES ? null : e.courses[activeCourse];
                   const status = r ? deriveStatus(r.trainingDate, r.expiryDate, r.status) : "";
+                  const isOpen = expanded.has(e.id);
+                  const totalCols = activeCourse === ALL_COURSES ? 8 : 12;
                   return (
+                    <FragmentRow key={e.id}>
                     <tr
-                      key={e.id}
                       className="group cursor-pointer border-b hover:bg-secondary/30"
                       onClick={(ev) => {
                         const t = ev.target as HTMLElement;
@@ -363,6 +365,19 @@ function PersonnelPage() {
                         setDetailId(e.id);
                       }}
                     >
+                      <Td className="w-8 pr-0">
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="ghost"
+                          className="h-7 w-7"
+                          title={isOpen ? "Hide training details" : "Show training details"}
+                          onClick={(ev) => { ev.stopPropagation(); toggleExpanded(e.id); }}
+                        >
+                          <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                        </Button>
+                      </Td>
+
 
                       <Td>
                         <IdInput
