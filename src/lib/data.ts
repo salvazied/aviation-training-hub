@@ -129,7 +129,9 @@ export interface Employee {
   jobTitle: string;
   station: string;
   courses: Record<string, CourseRecord>; // by course name
+  dossier?: TrainingAttachment | null; // overall training file for the employee
 }
+
 
 export const STATUS_VALUES: Status[] = ["Completed", "Scheduled", "Outstanding", "Overdue"];
 

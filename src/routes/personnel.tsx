@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+
 import { usePersonnel } from "@/lib/store";
 import { useAuth } from "@/lib/auth";
 import { COURSES, DUTY_CATEGORIES, STATUS_VALUES, addYears, deriveStatus, emptyCourse, type Status, type TrainingAttachment } from "@/lib/data";
@@ -19,7 +20,7 @@ import {
   Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle,
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search, Paperclip, ExternalLink, X, Save, ChevronLeft, ChevronRight, CheckCircle2, AlertCircle, Eye } from "lucide-react";
+import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search, Paperclip, ExternalLink, X, Save, ChevronLeft, ChevronRight, CheckCircle2, AlertCircle, Eye, ChevronDown } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { toast } from "sonner";
@@ -47,6 +48,25 @@ function PersonnelPage() {
   const [pageSize, setPageSize] = useState<number>(50);
   const [page, setPage] = useState(1);
   const [detailId, setDetailId] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const toggleExpanded = (id: string) => {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+
+  const attachDossier = async (employeeId: string, file: File, previous: TrainingAttachment | null | undefined) => {
+    if (previous) await deleteAttachmentFile(previous.id);
+    const attachment = await saveAttachmentFile(file);
+    update(employeeId, { dossier: attachment });
+  };
+  const removeDossier = async (employeeId: string, attachment: TrainingAttachment) => {
+    await deleteAttachmentFile(attachment.id);
+    update(employeeId, { dossier: null });
+  };
+
 
 
   // Courses available in the "Course view" selector — filtered by Training Matrix
@@ -307,7 +327,9 @@ function PersonnelPage() {
             <table className="w-full min-w-[1380px] border-separate border-spacing-0 text-sm">
               <thead className="sticky top-0 z-10 bg-secondary/70 backdrop-blur">
                 <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground">
+                  <Th className="w-8"></Th>
                   <Th>ID</Th>
+
                   <Th>Last Name</Th>
                   <Th>First Name</Th>
                   <Th>Duty</Th>
@@ -332,9 +354,11 @@ function PersonnelPage() {
                 {paged.map((e) => {
                   const r = activeCourse === ALL_COURSES ? null : e.courses[activeCourse];
                   const status = r ? deriveStatus(r.trainingDate, r.expiryDate, r.status) : "";
+                  const isOpen = expanded.has(e.id);
+                  const totalCols = activeCourse === ALL_COURSES ? 8 : 12;
                   return (
+                    <React.Fragment key={e.id}>
                     <tr
-                      key={e.id}
                       className="group cursor-pointer border-b hover:bg-secondary/30"
                       onClick={(ev) => {
                         const t = ev.target as HTMLElement;
@@ -342,6 +366,19 @@ function PersonnelPage() {
                         setDetailId(e.id);
                       }}
                     >
+                      <Td className="w-8 pr-0">
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="ghost"
+                          className="h-7 w-7"
+                          title={isOpen ? "Hide training details" : "Show training details"}
+                          onClick={(ev) => { ev.stopPropagation(); toggleExpanded(e.id); }}
+                        >
+                          <ChevronDown className={`h-4 w-4 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                        </Button>
+                      </Td>
+
 
                       <Td>
                         <IdInput
@@ -415,9 +452,15 @@ function PersonnelPage() {
                                     Optional {comp.optionalDone}/{comp.optional.length}
                                   </span>
                                 )}
-                                <Button size="sm" variant="ghost" className="h-7 gap-1 px-2 text-[11px]" onClick={() => setDetailId(e.id)}>
+                                <Button size="sm" variant="ghost" className="h-7 gap-1 px-2 text-[11px]" onClick={(ev) => { ev.stopPropagation(); setDetailId(e.id); }}>
                                   <Eye className="h-3 w-3" /> Details
                                 </Button>
+                                <DossierButton
+                                  attachment={e.dossier ?? null}
+                                  onAttach={(file) => attachDossier(e.id, file, e.dossier ?? null)}
+                                  onRemove={() => e.dossier ? removeDossier(e.id, e.dossier) : undefined}
+                                />
+
                               </div>
                             );
                           })()}
@@ -482,8 +525,17 @@ function PersonnelPage() {
                         </Button>
                       </Td>
                     </tr>
+                    {isOpen && (
+                      <tr className="bg-secondary/10">
+                        <td colSpan={totalCols} className="border-b p-0">
+                          <EmployeeTrainingBreakdown employee={e} matrix={matrix} />
+                        </td>
+                      </tr>
+                    )}
+                    </React.Fragment>
                   );
                 })}
+
                 {visible.length === 0 && (
                   <tr><td colSpan={12} className="p-6 text-center text-sm text-muted-foreground">No employees match your filters.</td></tr>
                 )}
@@ -773,3 +825,144 @@ function PasteDialog({ onApply }: { onApply: (rows: string[][]) => void }) {
     </Dialog>
   );
 }
+
+function DossierButton({
+  attachment,
+  onAttach,
+  onRemove,
+}: {
+  attachment: TrainingAttachment | null;
+  onAttach: (file: File) => void | Promise<void>;
+  onRemove: () => void | Promise<void> | undefined;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const hasFile = !!attachment;
+  const handleClick = (ev: React.MouseEvent) => {
+    ev.stopPropagation();
+    if (hasFile) {
+      openAttachmentFile(attachment!).catch((error) =>
+        alert(error instanceof Error ? error.message : "Could not open the file."),
+      );
+    } else {
+      inputRef.current?.click();
+    }
+  };
+  const handleReplace = (ev: React.MouseEvent) => {
+    ev.stopPropagation();
+    inputRef.current?.click();
+  };
+  const handleRemove = async (ev: React.MouseEvent) => {
+    ev.stopPropagation();
+    try { await onRemove(); } catch (e) { alert(e instanceof Error ? e.message : "Could not remove file."); }
+  };
+  return (
+    <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <input
+        ref={inputRef}
+        type="file"
+        className="sr-only"
+        onChange={async (event) => {
+          const file = event.target.files?.[0];
+          if (!file) return;
+          try { await onAttach(file); }
+          catch (e) { alert(e instanceof Error ? e.message : "Could not attach file."); }
+          finally { if (inputRef.current) inputRef.current.value = ""; }
+        }}
+      />
+      <Button
+        type="button"
+        size="icon"
+        variant={hasFile ? "default" : "ghost"}
+        className={`h-7 w-7 ${hasFile ? "bg-accent text-accent-foreground hover:bg-accent/90" : "text-muted-foreground"}`}
+        title={hasFile ? `Open dossier: ${attachment!.name}` : "Attach training dossier (any format)"}
+        onClick={handleClick}
+      >
+        <Paperclip className="h-3.5 w-3.5" />
+      </Button>
+      {hasFile && (
+        <>
+          <Button type="button" size="icon" variant="ghost" className="h-6 w-6" title="Replace file" onClick={handleReplace}>
+            <ExternalLink className="h-3 w-3" />
+          </Button>
+          <Button type="button" size="icon" variant="ghost" className="h-6 w-6 text-destructive" title="Remove file" onClick={handleRemove}>
+            <X className="h-3 w-3" />
+          </Button>
+        </>
+      )}
+    </div>
+  );
+}
+
+function EmployeeTrainingBreakdown({ employee, matrix }: { employee: any; matrix: string[][] }) {
+  const mandatory = employee.dutyCategory ? mandatoryCoursesForDuty(matrix, employee.dutyCategory) : [];
+  const optional = employee.dutyCategory ? optionalCoursesForDuty(matrix, employee.dutyCategory) : [];
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const soonDays = 60;
+
+  const rowFor = (courseName: string, required: boolean) => {
+    const r = employee.courses[courseName];
+    const training = r?.trainingDate || "";
+    const expiry = r?.expiryDate || "";
+    const s = r ? deriveStatus(training, expiry, r.status) : "";
+    let indiv: { label: string; cls: string };
+    if (!training && !expiry) {
+      indiv = { label: "Missing", cls: "bg-muted text-muted-foreground" };
+    } else if (s === "Overdue") {
+      indiv = { label: "Expired", cls: "bg-destructive/15 text-destructive" };
+    } else if (expiry) {
+      const exp = new Date(expiry);
+      const diffDays = Math.round((exp.getTime() - today.getTime()) / 86_400_000);
+      if (diffDays <= soonDays) indiv = { label: `Renew soon (${diffDays}d)`, cls: "bg-[oklch(0.95_0.08_80)] text-[oklch(0.45_0.15_60)]" };
+      else indiv = { label: "Valid", cls: "bg-[color-mix(in_oklab,var(--success)_18%,transparent)] text-[var(--success)]" };
+    } else {
+      indiv = { label: s || "Pending", cls: "bg-muted text-muted-foreground" };
+    }
+    return (
+      <div key={courseName} className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 border-b px-3 py-2 text-xs last:border-b-0">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <span className="truncate font-medium">{courseName}</span>
+            {required ? (
+              <span className="rounded bg-[color-mix(in_oklab,var(--success)_20%,transparent)] px-1.5 py-0.5 text-[10px] font-semibold uppercase text-[var(--success)]">Mandatory</span>
+            ) : (
+              <span className="rounded bg-accent/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-accent">Optional</span>
+            )}
+          </div>
+        </div>
+        <span className="font-mono text-[11px] text-muted-foreground">Training: {training || "—"}</span>
+        <span className="font-mono text-[11px] text-muted-foreground">Expiry: {expiry || "—"}</span>
+        <span className={`rounded px-2 py-0.5 text-[10px] font-semibold ${indiv.cls}`}>{indiv.label}</span>
+      </div>
+    );
+  };
+
+  if (!employee.dutyCategory) {
+    return <div className="p-4 text-xs text-muted-foreground">Assign a duty category to see this employee's training breakdown.</div>;
+  }
+
+  return (
+    <div className="border-l-4 border-accent/40 bg-background/70 px-2 py-3">
+      <div className="grid gap-3 md:grid-cols-2">
+        <div className="rounded-md border">
+          <div className="flex items-center justify-between border-b bg-secondary/40 px-3 py-1.5">
+            <h4 className="text-xs font-semibold">Mandatory courses ({mandatory.length})</h4>
+            <span className="text-[10px] text-muted-foreground">Impact compliance</span>
+          </div>
+          {mandatory.length === 0 ? (
+            <div className="p-3 text-xs text-muted-foreground">None.</div>
+          ) : mandatory.map((c) => rowFor(c, true))}
+        </div>
+        <div className="rounded-md border">
+          <div className="flex items-center justify-between border-b bg-secondary/40 px-3 py-1.5">
+            <h4 className="text-xs font-semibold">Optional courses ({optional.length})</h4>
+            <span className="text-[10px] text-muted-foreground">Do not affect compliance</span>
+          </div>
+          {optional.length === 0 ? (
+            <div className="p-3 text-xs text-muted-foreground">None.</div>
+          ) : optional.map((c) => rowFor(c, false))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
