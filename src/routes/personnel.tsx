@@ -43,6 +43,8 @@ function PersonnelPage() {
   const [search, setSearch] = useState("");
   const [stationFilter, setStationFilter] = useState("all");
   const [dutyFilter, setDutyFilter] = useState("all");
+  const [complianceFilter, setComplianceFilter] = useState<"all" | "compliant" | "non-compliant" | "training">("all");
+
   const ALL_COURSES = "__all";
   const [activeCourse, setActiveCourse] = useState<string>(ALL_COURSES);
   const [pageSize, setPageSize] = useState<number>(50);
@@ -83,7 +85,7 @@ function PersonnelPage() {
     }
   }, [availableCourses, activeCourse]);
 
-  useEffect(() => { setPage(1); }, [search, stationFilter, dutyFilter, pageSize, activeCourse]);
+  useEffect(() => { setPage(1); }, [search, stationFilter, dutyFilter, complianceFilter, pageSize, activeCourse]);
 
   const stations = useMemo(() => Array.from(new Set(employees.map((e) => e.station).filter(Boolean))).sort(), [employees]);
 
@@ -92,6 +94,26 @@ function PersonnelPage() {
       employees.filter((e) => {
         if (stationFilter !== "all" && e.station !== stationFilter) return false;
         if (dutyFilter !== "all" && e.dutyCategory !== dutyFilter) return false;
+        if (complianceFilter !== "all") {
+          const eff = e.complianceOverride
+            ? e.complianceOverride
+            : (() => {
+                const c = { mandatory: e.dutyCategory ? mandatoryCoursesForDuty(matrix, e.dutyCategory) : [] };
+                const mandatoryList = c.mandatory;
+                let done = 0, over = 0, sched = 0;
+                mandatoryList.forEach((cn) => {
+                  const r = e.courses[cn]; if (!r) return;
+                  const s = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+                  if (s === "Completed") done++;
+                  if (s === "Overdue") over++;
+                  if (s === "Scheduled") sched++;
+                });
+                if (mandatoryList.length > 0 && done === mandatoryList.length && over === 0) return "compliant";
+                if (sched > 0) return "training";
+                return "non-compliant";
+              })();
+          if (eff !== complianceFilter) return false;
+        }
         if (search) {
           const q = search.toLowerCase();
           return [e.id, e.lastName, e.firstName, e.jobTitle, e.station, e.dutyCategory]
@@ -99,8 +121,9 @@ function PersonnelPage() {
         }
         return true;
       }),
-    [employees, search, stationFilter, dutyFilter]
+    [employees, search, stationFilter, dutyFilter, complianceFilter, matrix]
   );
+
 
   const totalPages = Math.max(1, Math.ceil(visible.length / pageSize));
   const paged = useMemo(() => visible.slice((page - 1) * pageSize, page * pageSize), [visible, page, pageSize]);
@@ -208,6 +231,24 @@ function PersonnelPage() {
     return { mandatory, optional, totalAssigned, mandatoryDone, optionalDone, totalDone, compliant, overdueMandatory };
   };
 
+  /** Effective compliance status: honors admin override, else derives from mandatory course statuses. */
+  const effectiveComplianceOf = (e: typeof employees[number]): "compliant" | "non-compliant" | "training" => {
+    if (e.complianceOverride) return e.complianceOverride;
+    const comp = complianceOf(e);
+
+
+    if (comp.compliant) return "compliant";
+    const list = e.dutyCategory ? mandatoryCoursesForDuty(matrix, e.dutyCategory) : [];
+    const hasScheduled = list.some((c) => {
+      const r = e.courses[c];
+      if (!r) return false;
+      const s = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+      return s === "Scheduled";
+    });
+    if (hasScheduled) return "training";
+    return "non-compliant";
+  };
+
 
   const attachTrainingFile = async (employeeId: string, file: File, previous: TrainingAttachment | null) => {
     if (previous) await deleteAttachmentFile(previous.id);
@@ -270,7 +311,7 @@ function PersonnelPage() {
       </div>
 
       <Card className="shadow-soft">
-        <CardContent className="grid grid-cols-1 gap-3 p-4 md:grid-cols-4">
+        <CardContent className="grid grid-cols-1 gap-3 p-4 md:grid-cols-5">
           <div className="relative md:col-span-2">
             <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by name, ID, job…" className="pl-8" />
@@ -282,6 +323,15 @@ function PersonnelPage() {
               {stations.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
             </SelectContent>
           </Select>
+          <Select value={complianceFilter} onValueChange={(v) => setComplianceFilter(v as any)}>
+            <SelectTrigger><SelectValue placeholder="Compliance status" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All statuses</SelectItem>
+              <SelectItem value="compliant">Compliant</SelectItem>
+              <SelectItem value="non-compliant">Non-compliant</SelectItem>
+              <SelectItem value="training">In training</SelectItem>
+            </SelectContent>
+          </Select>
           <Select value={dutyFilter} onValueChange={setDutyFilter}>
             <SelectTrigger><SelectValue placeholder="Duty category" /></SelectTrigger>
             <SelectContent>
@@ -290,6 +340,7 @@ function PersonnelPage() {
             </SelectContent>
           </Select>
         </CardContent>
+
       </Card>
 
       <Card className="overflow-hidden shadow-soft">
@@ -436,17 +487,44 @@ function PersonnelPage() {
                                     <div className={`h-full ${barColor} transition-all`} style={{ width: `${pct}%` }} />
                                   </div>
                                 </div>
-                                {mandTotal === 0 ? (
-                                  <Badge variant="secondary" className="text-[10px]">No duty set</Badge>
-                                ) : comp.compliant ? (
-                                  <Badge className="gap-1 bg-[color-mix(in_oklab,var(--success)_20%,transparent)] text-[var(--success)] hover:bg-[color-mix(in_oklab,var(--success)_30%,transparent)]">
-                                    <CheckCircle2 className="h-3 w-3" /> Compliant
-                                  </Badge>
-                                ) : (
-                                  <Badge variant="destructive" className="gap-1">
-                                    <AlertCircle className="h-3 w-3" /> Non-compliant
-                                  </Badge>
-                                )}
+                                {(() => {
+                                  const eff = effectiveComplianceOf(e);
+                                  const badge =
+                                    eff === "compliant" ? (
+                                      <Badge className="gap-1 bg-[color-mix(in_oklab,var(--success)_20%,transparent)] text-[var(--success)] hover:bg-[color-mix(in_oklab,var(--success)_30%,transparent)]">
+                                        <CheckCircle2 className="h-3 w-3" /> Compliant
+                                      </Badge>
+                                    ) : eff === "training" ? (
+                                      <Badge className="gap-1 bg-[oklch(0.9_0.12_240)] text-[oklch(0.35_0.15_240)] hover:bg-[oklch(0.85_0.14_240)]">
+                                        <AlertCircle className="h-3 w-3" /> In training
+                                      </Badge>
+                                    ) : (
+                                      <Badge variant="destructive" className="gap-1">
+                                        <AlertCircle className="h-3 w-3" /> Non-compliant
+                                      </Badge>
+                                    );
+                                  if (!isAdmin) return badge;
+                                  return (
+                                    <div className="flex items-center gap-1">
+                                      {badge}
+                                      <Select
+                                        value={e.complianceOverride || "__auto"}
+                                        onValueChange={(v) =>
+                                          update(e.id, { complianceOverride: v === "__auto" ? "" : (v as any) })
+                                        }
+                                      >
+                                        <SelectTrigger className="h-6 w-[24px] px-1 text-[10px]" title="Override compliance" />
+                                        <SelectContent align="end">
+                                          <SelectItem value="__auto">Auto</SelectItem>
+                                          <SelectItem value="compliant">Compliant</SelectItem>
+                                          <SelectItem value="training">In training</SelectItem>
+                                          <SelectItem value="non-compliant">Non-compliant</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                    </div>
+                                  );
+                                })()}
+
                                 {comp.optional.length > 0 && (
                                   <span className="text-[10px] text-muted-foreground">
                                     Optional {comp.optionalDone}/{comp.optional.length}
