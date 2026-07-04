@@ -487,17 +487,44 @@ function PersonnelPage() {
                                     <div className={`h-full ${barColor} transition-all`} style={{ width: `${pct}%` }} />
                                   </div>
                                 </div>
-                                {mandTotal === 0 ? (
-                                  <Badge variant="secondary" className="text-[10px]">No duty set</Badge>
-                                ) : comp.compliant ? (
-                                  <Badge className="gap-1 bg-[color-mix(in_oklab,var(--success)_20%,transparent)] text-[var(--success)] hover:bg-[color-mix(in_oklab,var(--success)_30%,transparent)]">
-                                    <CheckCircle2 className="h-3 w-3" /> Compliant
-                                  </Badge>
-                                ) : (
-                                  <Badge variant="destructive" className="gap-1">
-                                    <AlertCircle className="h-3 w-3" /> Non-compliant
-                                  </Badge>
-                                )}
+                                {(() => {
+                                  const eff = effectiveComplianceOf(e);
+                                  const badge =
+                                    eff === "compliant" ? (
+                                      <Badge className="gap-1 bg-[color-mix(in_oklab,var(--success)_20%,transparent)] text-[var(--success)] hover:bg-[color-mix(in_oklab,var(--success)_30%,transparent)]">
+                                        <CheckCircle2 className="h-3 w-3" /> Compliant
+                                      </Badge>
+                                    ) : eff === "training" ? (
+                                      <Badge className="gap-1 bg-[oklch(0.9_0.12_240)] text-[oklch(0.35_0.15_240)] hover:bg-[oklch(0.85_0.14_240)]">
+                                        <AlertCircle className="h-3 w-3" /> In training
+                                      </Badge>
+                                    ) : (
+                                      <Badge variant="destructive" className="gap-1">
+                                        <AlertCircle className="h-3 w-3" /> Non-compliant
+                                      </Badge>
+                                    );
+                                  if (!isAdmin) return badge;
+                                  return (
+                                    <div className="flex items-center gap-1">
+                                      {badge}
+                                      <Select
+                                        value={e.complianceOverride || "__auto"}
+                                        onValueChange={(v) =>
+                                          update(e.id, { complianceOverride: v === "__auto" ? "" : (v as any) })
+                                        }
+                                      >
+                                        <SelectTrigger className="h-6 w-[24px] px-1 text-[10px]" title="Override compliance" />
+                                        <SelectContent align="end">
+                                          <SelectItem value="__auto">Auto</SelectItem>
+                                          <SelectItem value="compliant">Compliant</SelectItem>
+                                          <SelectItem value="training">In training</SelectItem>
+                                          <SelectItem value="non-compliant">Non-compliant</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                    </div>
+                                  );
+                                })()}
+
                                 {comp.optional.length > 0 && (
                                   <span className="text-[10px] text-muted-foreground">
                                     Optional {comp.optionalDone}/{comp.optional.length}
