@@ -958,65 +958,62 @@ function EmployeeTrainingBreakdown({
       <div key={courseName} className="flex flex-col gap-1.5 border-b px-3 py-2 text-xs last:border-b-0">
         <div className="flex flex-wrap items-center gap-2">
           <span className="min-w-0 flex-1 truncate font-medium">{courseName}</span>
-          {isAdmin ? (
-            <Select value={required ? "mandatory" : "optional"} onValueChange={(v) => onToggleKind(courseName, v as any)}>
-              <SelectTrigger className="h-6 w-[110px] text-[10px]"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="mandatory">Mandatory</SelectItem>
-                <SelectItem value="optional">Optional</SelectItem>
-                <SelectItem value="none">Remove</SelectItem>
-              </SelectContent>
-            </Select>
-          ) : required ? (
-            <span className="rounded bg-[color-mix(in_oklab,var(--success)_20%,transparent)] px-1.5 py-0.5 text-[10px] font-semibold uppercase text-[var(--success)]">Mandatory</span>
-          ) : (
-            <span className="rounded bg-accent/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-accent">Optional</span>
-          )}
+          <Select value={required ? "mandatory" : "optional"} onValueChange={(v) => onToggleKind(courseName, v as any)}>
+            <SelectTrigger className="h-6 w-[110px] text-[10px]"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="mandatory">Mandatory</SelectItem>
+              <SelectItem value="optional">Optional</SelectItem>
+              <SelectItem value="none">Remove</SelectItem>
+            </SelectContent>
+          </Select>
           <span className={`rounded px-2 py-0.5 text-[10px] font-semibold ${indiv.cls}`}>{indiv.label}</span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {isAdmin ? (
-            <>
-              <label className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                Training
-                <Input
-                  type="date"
-                  value={training}
-                  className="h-7 w-[132px] text-[11px]"
-                  onChange={(ev) => {
-                    const t = ev.target.value;
-                    const patch: any = { trainingDate: t };
-                    if (t) {
-                      const d = new Date(t);
-                      d.setDate(d.getDate() + 729);
-                      const exp = d.toISOString().slice(0, 10);
-                      patch.expiryDate = exp;
-                      patch.nextTrainingDate = addYears(exp, 2);
-                    } else {
-                      patch.expiryDate = "";
-                      patch.nextTrainingDate = "";
-                    }
-                    onCourseChange(courseName, patch);
-                  }}
-                />
-              </label>
-              <label className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                Expiry
-                <Input type="date" value={expiry} readOnly disabled className="h-7 w-[132px] bg-muted/50 text-[11px]" />
-              </label>
-            </>
-          ) : (
-            <>
-              <span className="font-mono text-[11px] text-muted-foreground">Training: {training || "—"}</span>
-              <span className="font-mono text-[11px] text-muted-foreground">Expiry: {expiry || "—"}</span>
-            </>
-          )}
+          <label className="flex items-center gap-1 text-[10px] text-muted-foreground">
+            Training
+            <Input
+              type="date"
+              value={training}
+              className="h-7 w-[140px] text-[11px]"
+              onChange={(ev) => {
+                const t = ev.target.value;
+                const patch: any = { trainingDate: t };
+                if (t) {
+                  const d = new Date(t);
+                  d.setDate(d.getDate() + 729);
+                  const exp = d.toISOString().slice(0, 10);
+                  patch.expiryDate = exp;
+                  patch.nextTrainingDate = addYears(exp, 2);
+                } else {
+                  patch.expiryDate = "";
+                  patch.nextTrainingDate = "";
+                }
+                onCourseChange(courseName, patch);
+              }}
+            />
+          </label>
+          <label className="flex items-center gap-1 text-[10px] text-muted-foreground">
+            Expiry
+            <Input
+              type="date"
+              value={expiry}
+              className="h-7 w-[140px] text-[11px]"
+              onChange={(ev) => {
+                const exp = ev.target.value;
+                onCourseChange(courseName, {
+                  expiryDate: exp,
+                  nextTrainingDate: exp ? addYears(exp, 2) : "",
+                });
+              }}
+            />
+          </label>
           <AttachmentCell
             attachment={r?.attachment ?? null}
             onAttach={(file) => attachFile(courseName, file, r?.attachment ?? null)}
             onRemove={() => (r?.attachment ? removeFile(courseName, r.attachment) : undefined)}
           />
         </div>
+
       </div>
     );
   };
@@ -1047,7 +1044,7 @@ function EmployeeTrainingBreakdown({
           ) : optional.map((c) => rowFor(c, false))}
         </div>
       </div>
-      {isAdmin && unassigned.length > 0 && (
+      {unassigned.length > 0 && (
         <div className="mt-3 rounded-md border border-dashed p-3">
           <div className="mb-2 text-[11px] font-semibold text-muted-foreground">
             Add a course to this duty category ({employee.dutyCategory})
