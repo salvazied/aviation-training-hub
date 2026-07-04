@@ -43,6 +43,8 @@ function PersonnelPage() {
   const [search, setSearch] = useState("");
   const [stationFilter, setStationFilter] = useState("all");
   const [dutyFilter, setDutyFilter] = useState("all");
+  const [complianceFilter, setComplianceFilter] = useState<"all" | "compliant" | "non-compliant" | "training">("all");
+
   const ALL_COURSES = "__all";
   const [activeCourse, setActiveCourse] = useState<string>(ALL_COURSES);
   const [pageSize, setPageSize] = useState<number>(50);
