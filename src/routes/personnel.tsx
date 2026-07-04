@@ -213,6 +213,8 @@ function PersonnelPage() {
   /** Effective compliance status: honors admin override, else derives from mandatory course statuses. */
   const effectiveComplianceOf = (e: typeof employees[number]): "compliant" | "non-compliant" | "training" => {
     if (e.complianceOverride) return e.complianceOverride;
+    const comp = complianceOf(e);
+
 
     if (comp.compliant) return "compliant";
     const list = e.dutyCategory ? mandatoryCoursesForDuty(matrix, e.dutyCategory) : [];
