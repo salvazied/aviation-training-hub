@@ -210,6 +210,22 @@ function PersonnelPage() {
     return { mandatory, optional, totalAssigned, mandatoryDone, optionalDone, totalDone, compliant, overdueMandatory };
   };
 
+  /** Effective compliance status: honors admin override, else derives from mandatory course statuses. */
+  const effectiveComplianceOf = (e: typeof employees[number]): "compliant" | "non-compliant" | "training" => {
+    if (e.complianceOverride && e.complianceOverride !== "") return e.complianceOverride;
+    const comp = complianceOf(e);
+    if (comp.compliant) return "compliant";
+    const list = e.dutyCategory ? mandatoryCoursesForDuty(matrix, e.dutyCategory) : [];
+    const hasScheduled = list.some((c) => {
+      const r = e.courses[c];
+      if (!r) return false;
+      const s = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+      return s === "Scheduled";
+    });
+    if (hasScheduled) return "training";
+    return "non-compliant";
+  };
+
 
   const attachTrainingFile = async (employeeId: string, file: File, previous: TrainingAttachment | null) => {
     if (previous) await deleteAttachmentFile(previous.id);
