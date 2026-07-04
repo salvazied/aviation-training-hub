@@ -311,7 +311,7 @@ function PersonnelPage() {
       </div>
 
       <Card className="shadow-soft">
-        <CardContent className="grid grid-cols-1 gap-3 p-4 md:grid-cols-4">
+        <CardContent className="grid grid-cols-1 gap-3 p-4 md:grid-cols-5">
           <div className="relative md:col-span-2">
             <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search by name, ID, job…" className="pl-8" />
@@ -323,6 +323,15 @@ function PersonnelPage() {
               {stations.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
             </SelectContent>
           </Select>
+          <Select value={complianceFilter} onValueChange={(v) => setComplianceFilter(v as any)}>
+            <SelectTrigger><SelectValue placeholder="Compliance status" /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All statuses</SelectItem>
+              <SelectItem value="compliant">Compliant</SelectItem>
+              <SelectItem value="non-compliant">Non-compliant</SelectItem>
+              <SelectItem value="training">In training</SelectItem>
+            </SelectContent>
+          </Select>
           <Select value={dutyFilter} onValueChange={setDutyFilter}>
             <SelectTrigger><SelectValue placeholder="Duty category" /></SelectTrigger>
             <SelectContent>
@@ -331,6 +340,7 @@ function PersonnelPage() {
             </SelectContent>
           </Select>
         </CardContent>
+
       </Card>
 
       <Card className="overflow-hidden shadow-soft">
