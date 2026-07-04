@@ -1044,7 +1044,7 @@ function EmployeeTrainingBreakdown({
           ) : optional.map((c) => rowFor(c, false))}
         </div>
       </div>
-      {isAdmin && unassigned.length > 0 && (
+      {unassigned.length > 0 && (
         <div className="mt-3 rounded-md border border-dashed p-3">
           <div className="mb-2 text-[11px] font-semibold text-muted-foreground">
             Add a course to this duty category ({employee.dutyCategory})
