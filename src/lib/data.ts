@@ -130,6 +130,8 @@ export interface Employee {
   station: string;
   courses: Record<string, CourseRecord>; // by course name
   dossier?: TrainingAttachment | null; // overall training file for the employee
+  complianceOverride?: "" | "compliant" | "non-compliant" | "training";
+
 }
 
 
