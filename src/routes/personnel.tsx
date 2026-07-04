@@ -85,7 +85,7 @@ function PersonnelPage() {
     }
   }, [availableCourses, activeCourse]);
 
-  useEffect(() => { setPage(1); }, [search, stationFilter, dutyFilter, pageSize, activeCourse]);
+  useEffect(() => { setPage(1); }, [search, stationFilter, dutyFilter, complianceFilter, pageSize, activeCourse]);
 
   const stations = useMemo(() => Array.from(new Set(employees.map((e) => e.station).filter(Boolean))).sort(), [employees]);
 
@@ -94,6 +94,26 @@ function PersonnelPage() {
       employees.filter((e) => {
         if (stationFilter !== "all" && e.station !== stationFilter) return false;
         if (dutyFilter !== "all" && e.dutyCategory !== dutyFilter) return false;
+        if (complianceFilter !== "all") {
+          const eff = e.complianceOverride
+            ? e.complianceOverride
+            : (() => {
+                const c = { mandatory: e.dutyCategory ? mandatoryCoursesForDuty(matrix, e.dutyCategory) : [] };
+                const mandatoryList = c.mandatory;
+                let done = 0, over = 0, sched = 0;
+                mandatoryList.forEach((cn) => {
+                  const r = e.courses[cn]; if (!r) return;
+                  const s = deriveStatus(r.trainingDate, r.expiryDate, r.status);
+                  if (s === "Completed") done++;
+                  if (s === "Overdue") over++;
+                  if (s === "Scheduled") sched++;
+                });
+                if (mandatoryList.length > 0 && done === mandatoryList.length && over === 0) return "compliant";
+                if (sched > 0) return "training";
+                return "non-compliant";
+              })();
+          if (eff !== complianceFilter) return false;
+        }
         if (search) {
           const q = search.toLowerCase();
           return [e.id, e.lastName, e.firstName, e.jobTitle, e.station, e.dutyCategory]
@@ -101,8 +121,9 @@ function PersonnelPage() {
         }
         return true;
       }),
-    [employees, search, stationFilter, dutyFilter]
+    [employees, search, stationFilter, dutyFilter, complianceFilter, matrix]
   );
+
 
   const totalPages = Math.max(1, Math.ceil(visible.length / pageSize));
   const paged = useMemo(() => visible.slice((page - 1) * pageSize, page * pageSize), [visible, page, pageSize]);
