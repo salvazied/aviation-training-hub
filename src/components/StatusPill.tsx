@@ -5,7 +5,7 @@ export function StatusPill({ value }: { value: Status }) {
   const cls =
     value === "Completed" ? "status-pill status-completed" :
     value === "Scheduled" ? "status-pill status-scheduled" :
-    value === "Overdue" ? "status-pill status-overdue" :
+    value === "Overdue" || value === "Expired" ? "status-pill status-overdue" :
     "status-pill status-outstanding";
   return <span className={cls}>{value}</span>;
 }
