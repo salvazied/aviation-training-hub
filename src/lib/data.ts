@@ -103,14 +103,17 @@ export const RETURN_FROM_ABSENCE = [
   },
 ];
 
-export type Status = "Completed" | "Scheduled" | "Outstanding" | "Overdue" | "";
+export type Status = "Completed" | "Scheduled" | "Outstanding" | "Overdue" | "Expired" | "Recurrent Due" | "Pending Initial Training" | "";
+
+export type TrainingType = "initial" | "recurrent" | "requalification" | "";
 
 export interface CourseRecord {
-  trainingDate: string; // ISO yyyy-mm-dd
+  trainingDate: string;
   expiryDate: string;
   status: Status;
-  nextTrainingDate: string; // auto = expiry + 2y, editable
+  nextTrainingDate: string;
   attachment: TrainingAttachment | null;
+  trainingType?: TrainingType;
 }
 
 export interface TrainingAttachment {
@@ -122,23 +125,23 @@ export interface TrainingAttachment {
 }
 
 export interface Employee {
-  id: string; // EMPxxx
+  id: string;
   lastName: string;
   firstName: string;
-  dutyCategory: string; // S1..S15
+  dutyCategory: string;
   jobTitle: string;
   station: string;
-  courses: Record<string, CourseRecord>; // by course name
-  dossier?: TrainingAttachment | null; // overall training file for the employee
+  courses: Record<string, CourseRecord>;
+  dossier?: TrainingAttachment | null;
   complianceOverride?: "" | "compliant" | "non-compliant" | "training";
-
 }
 
+export const STATUS_VALUES: Status[] = ["Completed", "Scheduled", "Outstanding", "Overdue", "Expired", "Recurrent Due", "Pending Initial Training"];
 
-export const STATUS_VALUES: Status[] = ["Completed", "Scheduled", "Outstanding", "Overdue"];
+export const TRAINING_TYPE_VALUES: Exclude<TrainingType, "">[] = ["initial", "recurrent", "requalification"];
 
 export function emptyCourse(): CourseRecord {
-  return { trainingDate: "", expiryDate: "", status: "", nextTrainingDate: "", attachment: null };
+  return { trainingDate: "", expiryDate: "", status: "", nextTrainingDate: "", attachment: null, trainingType: "" };
 }
 
 export function emptyEmployee(id: string): Employee {
@@ -156,13 +159,12 @@ export function emptyEmployee(id: string): Employee {
 }
 
 export function deriveStatus(training: string, expiry: string, current: Status): Status {
-  // If user manually set Scheduled and there are no dates yet, respect it.
   if (!training && !expiry) return current || "";
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   if (expiry) {
     const exp = new Date(expiry);
-    if (exp < today) return "Overdue";
+    if (exp < today) return current === "Expired" ? "Expired" : "Overdue";
     return "Completed";
   }
   if (training && !expiry) return current === "Scheduled" ? "Scheduled" : "Outstanding";

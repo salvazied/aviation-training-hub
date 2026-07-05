@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { usePersonnel } from "@/lib/store";
 import { useAuth } from "@/lib/auth";
-import { COURSES, DUTY_CATEGORIES, STATUS_VALUES, addYears, deriveStatus, emptyCourse, type Status, type TrainingAttachment } from "@/lib/data";
+import { COURSES, DUTY_CATEGORIES, STATUS_VALUES, TRAINING_TYPE_VALUES, addYears, deriveStatus, emptyCourse, emptyEmployee, type Status, type TrainingType, type TrainingAttachment } from "@/lib/data";
 import { useMatrix, coursesForDuty, mandatoryCoursesForDuty, optionalCoursesForDuty } from "@/lib/matrix-store";
 import { deleteAttachmentFile, downloadAttachmentFile, openAttachmentFile, saveAttachmentFile } from "@/lib/attachments";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,11 +20,12 @@ import {
   Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle,
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search, Paperclip, ExternalLink, X, Save, ChevronLeft, ChevronRight, CheckCircle2, AlertCircle, Eye, ChevronDown } from "lucide-react";
+import { Plus, Trash2, Download, FileText, Upload, RotateCcw, Search, Paperclip, ExternalLink, X, Save, ChevronLeft, ChevronRight, CheckCircle2, AlertCircle, Eye, ChevronDown } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import * as XLSX from "xlsx";
 
 
 export const Route = createFileRoute("/personnel")({
@@ -269,34 +270,49 @@ function PersonnelPage() {
           <p className="text-sm text-muted-foreground">All cells are editable. Status is auto-derived from dates; next training defaults to expiry + 2 years.</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <PasteDialog onApply={(rows) => {
-            // 5-col TSV: Last · First · Duty · Title · Station. Fills empty rows first, then adds.
-            const targets: string[] = employees.filter((e) => !e.lastName && !e.firstName).map((e) => e.id);
-            const max = employees.reduce((m, e) => {
-              const n = parseInt(e.id.replace(/\D/g, ""), 10);
-              return isNaN(n) ? m : Math.max(m, n);
-            }, 0);
-            const fresh = [...employees];
-            rows.forEach((cells, k) => {
-              let id = targets[k];
-              if (!id) {
-                id = "EMP" + String(max + 1 + (k - targets.length)).padStart(3, "0");
-                fresh.push({
-                  id, lastName: "", firstName: "", dutyCategory: "", jobTitle: "", station: "",
-                  courses: Object.fromEntries(COURSES.map((c) => [c, emptyCourse()])),
+          <ImportFileButton onImport={(imported) => {
+            // Merge by employee ID: update matching, add new; keep existing employees not present in file.
+            const map = new Map(employees.map((e) => [e.id, e]));
+            let updated = 0, added = 0;
+            imported.forEach((row) => {
+              const existing = map.get(row.id);
+              if (existing) {
+                const mergedCourses: typeof existing.courses = { ...existing.courses };
+                COURSES.forEach((c) => {
+                  const src = row.courses[c];
+                  if (!src) return;
+                  const has = src.trainingDate || src.expiryDate || src.status || src.nextTrainingDate;
+                  if (has) mergedCourses[c] = { ...existing.courses[c], ...src };
                 });
+                map.set(row.id, {
+                  ...existing,
+                  lastName: row.lastName || existing.lastName,
+                  firstName: row.firstName || existing.firstName,
+                  dutyCategory: row.dutyCategory || existing.dutyCategory,
+                  jobTitle: row.jobTitle || existing.jobTitle,
+                  station: row.station || existing.station,
+                  courses: mergedCourses,
+                });
+                updated++;
+              } else {
+                const base = emptyEmployee(row.id);
+                COURSES.forEach((c) => {
+                  const src = row.courses[c];
+                  if (src) base.courses[c] = { ...base.courses[c], ...src };
+                });
+                map.set(row.id, {
+                  ...base,
+                  lastName: row.lastName,
+                  firstName: row.firstName,
+                  dutyCategory: row.dutyCategory,
+                  jobTitle: row.jobTitle,
+                  station: row.station,
+                });
+                added++;
               }
-              const i = fresh.findIndex((e) => e.id === id);
-              fresh[i] = {
-                ...fresh[i],
-                lastName: cells[0] ?? fresh[i].lastName,
-                firstName: cells[1] ?? fresh[i].firstName,
-                dutyCategory: cells[2] ?? fresh[i].dutyCategory,
-                jobTitle: cells[3] ?? fresh[i].jobTitle,
-                station: cells[4] ?? fresh[i].station,
-              };
             });
-            replaceAll(fresh);
+            replaceAll(Array.from(map.values()));
+            toast.success(`Imported: ${added} added · ${updated} updated`);
           }} />
           <Button variant="outline" size="sm" onClick={exportCsv}><Download className="h-4 w-4" /> Export CSV</Button>
           <Button variant="outline" size="sm" onClick={exportPdf}><FileText className="h-4 w-4" /> Export PDF</Button>
@@ -580,8 +596,20 @@ function PersonnelPage() {
                             </div>
                           </Td>
                           <Td>
-                            <Input type="date" value={r.nextTrainingDate} className="h-8 w-[140px] text-xs"
-                              onChange={(ev) => updateCourse(e.id, activeCourse, { nextTrainingDate: ev.target.value })} />
+                            <div className="flex items-center gap-1.5">
+                              <Input type="date" value={r.nextTrainingDate} className="h-8 w-[130px] text-xs"
+                                onChange={(ev) => updateCourse(e.id, activeCourse, { nextTrainingDate: ev.target.value })} />
+                              <Select
+                                value={(r.trainingType as string) || "__none"}
+                                onValueChange={(v) => updateCourse(e.id, activeCourse, { trainingType: (v === "__none" ? "" : v) as TrainingType })}
+                              >
+                                <SelectTrigger className="h-8 w-[110px] text-xs" title="Training type"><SelectValue placeholder="Type" /></SelectTrigger>
+                                <SelectContent align="end">
+                                  <SelectItem value="__none">—</SelectItem>
+                                  {TRAINING_TYPE_VALUES.map((t) => <SelectItem key={t} value={t}>{t[0].toUpperCase() + t.slice(1)}</SelectItem>)}
+                                </SelectContent>
+                              </Select>
+                            </div>
                           </Td>
                           <Td>
                             <AttachmentCell
@@ -887,35 +915,136 @@ function AttachmentCell({
   );
 }
 
-function PasteDialog({ onApply }: { onApply: (rows: string[][]) => void }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLTextAreaElement>(null);
+export interface ImportedEmployee {
+  id: string;
+  lastName: string;
+  firstName: string;
+  dutyCategory: string;
+  jobTitle: string;
+  station: string;
+  courses: Record<string, Partial<ReturnType<typeof emptyCourse>>>;
+}
+
+function normalizeStatus(raw: string): Status {
+  const v = raw.trim();
+  if (!v) return "";
+  const known = STATUS_VALUES as string[];
+  if (known.includes(v)) return v as Status;
+  const lower = v.toLowerCase();
+  if (lower === "expired") return "Expired";
+  if (lower === "completed" || lower === "valid") return "Completed";
+  if (lower === "scheduled") return "Scheduled";
+  if (lower === "overdue") return "Overdue";
+  if (lower.includes("recurrent")) return "Recurrent Due";
+  if (lower.includes("pending")) return "Pending Initial Training";
+  return "";
+}
+
+function normalizeDate(raw: any): string {
+  if (raw == null || raw === "") return "";
+  if (raw instanceof Date) return raw.toISOString().slice(0, 10);
+  const s = String(raw).trim();
+  if (!s) return "";
+  const iso = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  if (iso) return `${iso[1]}-${iso[2].padStart(2, "0")}-${iso[3].padStart(2, "0")}`;
+  const d = new Date(s);
+  if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+  return "";
+}
+
+function parseImportRows(rows: string[][]): ImportedEmployee[] {
+  if (rows.length < 2) return [];
+  const header = rows[0].map((h) => String(h ?? "").trim());
+  // Map course -> {trainingIdx, expiryIdx, statusIdx, nextIdx}
+  const courseIdx: Record<string, { t?: number; e?: number; s?: number; n?: number }> = {};
+  header.forEach((h, i) => {
+    const m = h.match(/^(.*)\s+[—-]\s+(Training|Expiry|Status|Next Training)$/i);
+    if (!m) return;
+    const name = m[1].trim();
+    const kind = m[2].toLowerCase();
+    courseIdx[name] = courseIdx[name] || {};
+    if (kind === "training") courseIdx[name].t = i;
+    else if (kind === "expiry") courseIdx[name].e = i;
+    else if (kind === "status") courseIdx[name].s = i;
+    else courseIdx[name].n = i;
+  });
+  const idIdx = header.findIndex((h) => /employee\s*id/i.test(h));
+  const lastIdx = header.findIndex((h) => /last\s*name/i.test(h));
+  const firstIdx = header.findIndex((h) => /first\s*name/i.test(h));
+  const dutyIdx = header.findIndex((h) => /duty/i.test(h));
+  const jobIdx = header.findIndex((h) => /job/i.test(h));
+  const stationIdx = header.findIndex((h) => /station/i.test(h));
+
+  const out: ImportedEmployee[] = [];
+  rows.slice(1).forEach((r) => {
+    if (!r.some((c) => String(c ?? "").trim())) return;
+    const id = String(r[idIdx] ?? "").trim();
+    if (!id) return;
+    const emp: ImportedEmployee = {
+      id,
+      lastName: String(r[lastIdx] ?? "").trim(),
+      firstName: String(r[firstIdx] ?? "").trim(),
+      dutyCategory: String(r[dutyIdx] ?? "").trim(),
+      jobTitle: String(r[jobIdx] ?? "").trim(),
+      station: String(r[stationIdx] ?? "").trim(),
+      courses: {},
+    };
+    Object.entries(courseIdx).forEach(([name, cols]) => {
+      if (!COURSES.includes(name)) return;
+      const training = cols.t != null ? normalizeDate(r[cols.t]) : "";
+      const expiry = cols.e != null ? normalizeDate(r[cols.e]) : "";
+      const statusRaw = cols.s != null ? String(r[cols.s] ?? "").trim() : "";
+      const next = cols.n != null ? normalizeDate(r[cols.n]) : "";
+      if (!training && !expiry && !statusRaw && !next) return;
+      emp.courses[name] = {
+        trainingDate: training,
+        expiryDate: expiry,
+        status: normalizeStatus(statusRaw),
+        nextTrainingDate: next,
+      };
+    });
+    out.push(emp);
+  });
+  return out;
+}
+
+function ImportFileButton({ onImport }: { onImport: (rows: ImportedEmployee[]) => void }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const handle = async (file: File | undefined) => {
+    if (!file) return;
+    try {
+      const buf = await file.arrayBuffer();
+      const wb = XLSX.read(buf, { type: "array", cellDates: true });
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const rows = XLSX.utils.sheet_to_json<any[]>(ws, { header: 1, defval: "", raw: false });
+      const parsed = parseImportRows(rows as string[][]);
+      if (!parsed.length) {
+        toast.error("No valid rows detected. Expected the same columns as the CSV/XLSX export.");
+        return;
+      }
+      onImport(parsed);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Import failed");
+    } finally {
+      if (inputRef.current) inputRef.current.value = "";
+    }
+  };
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm"><ClipboardPaste className="h-4 w-4" /> Paste from Excel</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Paste rows from Excel</DialogTitle>
-          <DialogDescription>
-            Copy cells from Excel (5 columns: Last Name · First Name · Duty Category · Job Title · Station) and paste them below. Existing empty rows are filled first; missing rows are added.
-          </DialogDescription>
-        </DialogHeader>
-        <Textarea ref={ref} rows={10} placeholder={"Smith\tJohn\tS4\tCheck-in Agent\tCDG\nDoe\tJane\tS8\tLoad Controller\tORY"} className="font-mono text-xs" />
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
-          <Button onClick={() => {
-            const text = ref.current?.value ?? "";
-            const rows = text.split(/\r?\n/).map((l) => l.split("\t")).filter((r) => r.some((c) => c.trim()));
-            if (rows.length) onApply(rows);
-            setOpen(false);
-          }}>Apply {`(${(ref.current?.value ?? "").split(/\r?\n/).filter(Boolean).length} rows)`}</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <>
+      <input
+        ref={inputRef}
+        type="file"
+        accept=".xlsx,.xls,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel,text/csv"
+        className="sr-only"
+        onChange={(ev) => handle(ev.target.files?.[0])}
+      />
+      <Button variant="outline" size="sm" onClick={() => inputRef.current?.click()}>
+        <Upload className="h-4 w-4" /> Import Excel/CSV
+      </Button>
+    </>
   );
 }
+
 
 function DossierButton({
   attachment,
@@ -1085,11 +1214,29 @@ function EmployeeTrainingBreakdown({
               }}
             />
           </label>
+          <label className="flex items-center gap-1 text-[10px] text-muted-foreground">
+            Type
+            <Select
+              value={(r?.trainingType as string) || "__none"}
+              onValueChange={(v) =>
+                onCourseChange(courseName, { trainingType: (v === "__none" ? "" : v) as TrainingType })
+              }
+            >
+              <SelectTrigger className="h-7 w-[130px] text-[11px]"><SelectValue placeholder="—" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__none">—</SelectItem>
+                {TRAINING_TYPE_VALUES.map((t) => (
+                  <SelectItem key={t} value={t}>{t[0].toUpperCase() + t.slice(1)}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </label>
           <AttachmentCell
             attachment={r?.attachment ?? null}
             onAttach={(file) => attachFile(courseName, file, r?.attachment ?? null)}
             onRemove={() => (r?.attachment ? removeFile(courseName, r.attachment) : undefined)}
           />
+
         </div>
 
       </div>
