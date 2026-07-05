@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { usePersonnel } from "@/lib/store";
 import { useAuth } from "@/lib/auth";
-import { COURSES, DUTY_CATEGORIES, STATUS_VALUES, addYears, deriveStatus, emptyCourse, type Status, type TrainingAttachment } from "@/lib/data";
+import { COURSES, DUTY_CATEGORIES, STATUS_VALUES, TRAINING_TYPE_VALUES, addYears, deriveStatus, emptyCourse, emptyEmployee, type Status, type TrainingType, type TrainingAttachment } from "@/lib/data";
 import { useMatrix, coursesForDuty, mandatoryCoursesForDuty, optionalCoursesForDuty } from "@/lib/matrix-store";
 import { deleteAttachmentFile, downloadAttachmentFile, openAttachmentFile, saveAttachmentFile } from "@/lib/attachments";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -20,11 +20,12 @@ import {
   Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle,
 } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Trash2, Download, FileText, ClipboardPaste, RotateCcw, Search, Paperclip, ExternalLink, X, Save, ChevronLeft, ChevronRight, CheckCircle2, AlertCircle, Eye, ChevronDown } from "lucide-react";
+import { Plus, Trash2, Download, FileText, Upload, RotateCcw, Search, Paperclip, ExternalLink, X, Save, ChevronLeft, ChevronRight, CheckCircle2, AlertCircle, Eye, ChevronDown } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import * as XLSX from "xlsx";
 
 
 export const Route = createFileRoute("/personnel")({
