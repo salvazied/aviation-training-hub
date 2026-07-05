@@ -1202,11 +1202,29 @@ function EmployeeTrainingBreakdown({
               }}
             />
           </label>
+          <label className="flex items-center gap-1 text-[10px] text-muted-foreground">
+            Type
+            <Select
+              value={(r?.trainingType as string) || "__none"}
+              onValueChange={(v) =>
+                onCourseChange(courseName, { trainingType: (v === "__none" ? "" : v) as TrainingType })
+              }
+            >
+              <SelectTrigger className="h-7 w-[130px] text-[11px]"><SelectValue placeholder="—" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__none">—</SelectItem>
+                {TRAINING_TYPE_VALUES.map((t) => (
+                  <SelectItem key={t} value={t}>{t[0].toUpperCase() + t.slice(1)}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </label>
           <AttachmentCell
             attachment={r?.attachment ?? null}
             onAttach={(file) => attachFile(courseName, file, r?.attachment ?? null)}
             onRemove={() => (r?.attachment ? removeFile(courseName, r.attachment) : undefined)}
           />
+
         </div>
 
       </div>
