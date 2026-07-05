@@ -270,34 +270,49 @@ function PersonnelPage() {
           <p className="text-sm text-muted-foreground">All cells are editable. Status is auto-derived from dates; next training defaults to expiry + 2 years.</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <PasteDialog onApply={(rows) => {
-            // 5-col TSV: Last · First · Duty · Title · Station. Fills empty rows first, then adds.
-            const targets: string[] = employees.filter((e) => !e.lastName && !e.firstName).map((e) => e.id);
-            const max = employees.reduce((m, e) => {
-              const n = parseInt(e.id.replace(/\D/g, ""), 10);
-              return isNaN(n) ? m : Math.max(m, n);
-            }, 0);
-            const fresh = [...employees];
-            rows.forEach((cells, k) => {
-              let id = targets[k];
-              if (!id) {
-                id = "EMP" + String(max + 1 + (k - targets.length)).padStart(3, "0");
-                fresh.push({
-                  id, lastName: "", firstName: "", dutyCategory: "", jobTitle: "", station: "",
-                  courses: Object.fromEntries(COURSES.map((c) => [c, emptyCourse()])),
+          <ImportFileButton onImport={(imported) => {
+            // Merge by employee ID: update matching, add new; keep existing employees not present in file.
+            const map = new Map(employees.map((e) => [e.id, e]));
+            let updated = 0, added = 0;
+            imported.forEach((row) => {
+              const existing = map.get(row.id);
+              if (existing) {
+                const mergedCourses: typeof existing.courses = { ...existing.courses };
+                COURSES.forEach((c) => {
+                  const src = row.courses[c];
+                  if (!src) return;
+                  const has = src.trainingDate || src.expiryDate || src.status || src.nextTrainingDate;
+                  if (has) mergedCourses[c] = { ...existing.courses[c], ...src };
                 });
+                map.set(row.id, {
+                  ...existing,
+                  lastName: row.lastName || existing.lastName,
+                  firstName: row.firstName || existing.firstName,
+                  dutyCategory: row.dutyCategory || existing.dutyCategory,
+                  jobTitle: row.jobTitle || existing.jobTitle,
+                  station: row.station || existing.station,
+                  courses: mergedCourses,
+                });
+                updated++;
+              } else {
+                const base = emptyEmployee(row.id);
+                COURSES.forEach((c) => {
+                  const src = row.courses[c];
+                  if (src) base.courses[c] = { ...base.courses[c], ...src };
+                });
+                map.set(row.id, {
+                  ...base,
+                  lastName: row.lastName,
+                  firstName: row.firstName,
+                  dutyCategory: row.dutyCategory,
+                  jobTitle: row.jobTitle,
+                  station: row.station,
+                });
+                added++;
               }
-              const i = fresh.findIndex((e) => e.id === id);
-              fresh[i] = {
-                ...fresh[i],
-                lastName: cells[0] ?? fresh[i].lastName,
-                firstName: cells[1] ?? fresh[i].firstName,
-                dutyCategory: cells[2] ?? fresh[i].dutyCategory,
-                jobTitle: cells[3] ?? fresh[i].jobTitle,
-                station: cells[4] ?? fresh[i].station,
-              };
             });
-            replaceAll(fresh);
+            replaceAll(Array.from(map.values()));
+            toast.success(`Imported: ${added} added · ${updated} updated`);
           }} />
           <Button variant="outline" size="sm" onClick={exportCsv}><Download className="h-4 w-4" /> Export CSV</Button>
           <Button variant="outline" size="sm" onClick={exportPdf}><FileText className="h-4 w-4" /> Export PDF</Button>
