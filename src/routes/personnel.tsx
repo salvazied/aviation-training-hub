@@ -596,8 +596,20 @@ function PersonnelPage() {
                             </div>
                           </Td>
                           <Td>
-                            <Input type="date" value={r.nextTrainingDate} className="h-8 w-[140px] text-xs"
-                              onChange={(ev) => updateCourse(e.id, activeCourse, { nextTrainingDate: ev.target.value })} />
+                            <div className="flex items-center gap-1.5">
+                              <Input type="date" value={r.nextTrainingDate} className="h-8 w-[130px] text-xs"
+                                onChange={(ev) => updateCourse(e.id, activeCourse, { nextTrainingDate: ev.target.value })} />
+                              <Select
+                                value={(r.trainingType as string) || "__none"}
+                                onValueChange={(v) => updateCourse(e.id, activeCourse, { trainingType: (v === "__none" ? "" : v) as TrainingType })}
+                              >
+                                <SelectTrigger className="h-8 w-[110px] text-xs" title="Training type"><SelectValue placeholder="Type" /></SelectTrigger>
+                                <SelectContent align="end">
+                                  <SelectItem value="__none">—</SelectItem>
+                                  {TRAINING_TYPE_VALUES.map((t) => <SelectItem key={t} value={t}>{t[0].toUpperCase() + t.slice(1)}</SelectItem>)}
+                                </SelectContent>
+                              </Select>
+                            </div>
                           </Td>
                           <Td>
                             <AttachmentCell
