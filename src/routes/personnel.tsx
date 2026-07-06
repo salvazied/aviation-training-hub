@@ -456,8 +456,14 @@ function PersonnelPage() {
                           }}
                         />
                       </Td>
-                      <Td><CellInput value={e.lastName} onChange={(v) => update(e.id, { lastName: v })} placeholder="Last name" /></Td>
-                      <Td><CellInput value={e.firstName} onChange={(v) => update(e.id, { firstName: v })} placeholder="First name" /></Td>
+                      <Td>
+                        <CellInput
+                          value={[e.lastName, e.firstName].filter(Boolean).join(" ")}
+                          onChange={(v) => update(e.id, { lastName: v, firstName: "" })}
+                          placeholder="Full name"
+                        />
+                      </Td>
+
                       <Td>
                         <Select value={e.dutyCategory || "__none"} onValueChange={(v) => update(e.id, { dutyCategory: v === "__none" ? "" : v })}>
                           <SelectTrigger className="h-8 w-[90px] text-xs"><SelectValue placeholder="—" /></SelectTrigger>
