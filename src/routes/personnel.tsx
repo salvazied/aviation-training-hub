@@ -397,8 +397,8 @@ function PersonnelPage() {
                   <Th className="w-8"></Th>
                   <Th>ID</Th>
 
-                  <Th>Last Name</Th>
-                  <Th>First Name</Th>
+                  <Th>Name</Th>
+
                   <Th>Duty</Th>
                   <Th>Job Title / Function</Th>
                   <Th>Station</Th>
@@ -422,7 +422,7 @@ function PersonnelPage() {
                   const r = activeCourse === ALL_COURSES ? null : e.courses[activeCourse];
                   const status = r ? deriveStatus(r.trainingDate, r.expiryDate, r.status) : "";
                   const isOpen = expanded.has(e.id);
-                  const totalCols = activeCourse === ALL_COURSES ? 8 : 12;
+                  const totalCols = activeCourse === ALL_COURSES ? 7 : 11;
                   return (
                     <React.Fragment key={e.id}>
                     <tr
@@ -456,8 +456,14 @@ function PersonnelPage() {
                           }}
                         />
                       </Td>
-                      <Td><CellInput value={e.lastName} onChange={(v) => update(e.id, { lastName: v })} placeholder="Last name" /></Td>
-                      <Td><CellInput value={e.firstName} onChange={(v) => update(e.id, { firstName: v })} placeholder="First name" /></Td>
+                      <Td>
+                        <CellInput
+                          value={[e.lastName, e.firstName].filter(Boolean).join(" ")}
+                          onChange={(v) => update(e.id, { lastName: v, firstName: "" })}
+                          placeholder="Full name"
+                        />
+                      </Td>
+
                       <Td>
                         <Select value={e.dutyCategory || "__none"} onValueChange={(v) => update(e.id, { dutyCategory: v === "__none" ? "" : v })}>
                           <SelectTrigger className="h-8 w-[90px] text-xs"><SelectValue placeholder="—" /></SelectTrigger>
@@ -656,7 +662,7 @@ function PersonnelPage() {
                 })}
 
                 {visible.length === 0 && (
-                  <tr><td colSpan={12} className="p-6 text-center text-sm text-muted-foreground">No employees match your filters.</td></tr>
+                  <tr><td colSpan={11} className="p-6 text-center text-sm text-muted-foreground">No employees match your filters.</td></tr>
                 )}
               </tbody>
             </table>

@@ -1,0 +1,4195 @@
+[
+  {
+    "id": "0236",
+    "lastName": "علي عياد عمار البوعيشي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "موظف شحن",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Baggage Handling": {
+        "expiryDate": "2022-08-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0328",
+    "lastName": "لطفي بهاء الدين رمضان المغربي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "موظف شحن",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "Aircraft Handling & Loading": {
+        "expiryDate": "2022-10-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0334",
+    "lastName": "محمود مختار محمد عبدالله",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "موظف شحن",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "Aircraft Handling & Loading": {
+        "expiryDate": "2022-10-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0029",
+    "lastName": "احمد علي سالم بشيش",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "التخطيط والمتابعة",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0033",
+    "lastName": "سراج مصطفى امحمد ابوقصيعة",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "التخطيط والمتابعة",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0035",
+    "lastName": "بوعيشة ابراهيم خليفة بن نجمة",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0037",
+    "lastName": "الدهماني احمد الدهماني البسكيني",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "موظف شحن",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0044",
+    "lastName": "امحمد صالح محمد المقري",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "رئيس قسم نظافة طائرات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0050",
+    "lastName": "محمد مختار بشير لحيو",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0051",
+    "lastName": "اسامة محمد مفتاح العزيبي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0052",
+    "lastName": "احمد صالح حسين عون",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0062",
+    "lastName": "رياض المبروك رمضان الرويس",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "مدير الخدمات الأرضية",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0076",
+    "lastName": "محمد علي مسعود عبد الكريم",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0084",
+    "lastName": "الصديق على محمد الكريو",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني نظافة طائرات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2024-07-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0097",
+    "lastName": "مطيع محمد على الديلي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0107",
+    "lastName": "شهاب مصطفى امحمد ابوقصيعة",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0826",
+    "lastName": "سالم نوري ميلاد اللافي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "نظافة المعدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0778",
+    "lastName": "علي الشيباني امحمد الطيب",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني صيانة معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0863",
+    "lastName": "محمد علي مسعود الجنوفي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني صيانة معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0604",
+    "lastName": "منصور علي بلعيد البقى",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني صيانة معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1127",
+    "lastName": "أحمد محمد عبدالله سعيدة",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "موظف سلامة",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0805",
+    "lastName": "المعتصم بالله عبد المنعم حامد الراجحى",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "التحكم والساحات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "Turnaround Coordination": {
+        "expiryDate": "2023-04-01",
+        "trainingType": "recurrent"
+      },
+      "GSE Marshaling": {
+        "expiryDate": "2026-02-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0722",
+    "lastName": "حديفه محمد فتحي الطاهر المجريسي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "التحكم والساحات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "recurrent"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Security Awareness": {
+        "expiryDate": "2026-11-22",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "GSE Marshaling": {
+        "expiryDate": "2026-02-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1065",
+    "lastName": "محي الدين الشارف محمد كعبار",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "التحكم والساحات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "GSE Marshaling": {
+        "expiryDate": "2026-02-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0992",
+    "lastName": "محمد حسين إبراهيم الاسطى",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "التحكم والساحات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "GSE Marshaling": {
+        "expiryDate": "2026-02-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0477",
+    "lastName": "الصديق  يوسف بشير المصراتى",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "التحكم والساحات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "Turnaround Coordination": {
+        "expiryDate": "2022-09-01",
+        "trainingType": "recurrent"
+      },
+      "GSE Marshaling": {
+        "expiryDate": "2026-02-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0546",
+    "lastName": "محمد نوري علي المجراب",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "مرحل جوى",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "GSE Marshaling": {
+        "expiryDate": "2026-02-01",
+        "trainingType": "recurrent"
+      },
+      "Load Control": {
+        "expiryDate": "2025-12-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0971",
+    "lastName": "رامي سمير الصغير بنداقة",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "مرحل جوى",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "GSE Marshaling": {
+        "expiryDate": "2026-02-01",
+        "trainingType": "recurrent"
+      },
+      "Load Control": {
+        "expiryDate": "2025-12-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0712",
+    "lastName": "مودة خليل مفتاح السويحلي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "مرحل جوى",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "recurrent"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "Load Control": {
+        "expiryDate": "2025-12-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0720",
+    "lastName": "حسام الدين حسن السنوسي المناعي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "مرحل جوى",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "recurrent"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "Turnaround Coordination": {
+        "expiryDate": "2022-08-01",
+        "trainingType": "recurrent"
+      },
+      "GSE Marshaling": {
+        "expiryDate": "2026-02-01",
+        "trainingType": "recurrent"
+      },
+      "Load Control": {
+        "expiryDate": "2025-12-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0613",
+    "lastName": "حسن رحيم عبدالرحمن الفارسي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "مرحل جوى",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Turnaround Coordination": {
+        "expiryDate": "2022-09-01",
+        "trainingType": "recurrent"
+      },
+      "GSE Marshaling": {
+        "expiryDate": "2026-02-01",
+        "trainingType": "recurrent"
+      },
+      "Load Control": {
+        "expiryDate": "2025-12-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0920",
+    "lastName": "موسى طارق عريــبي الساحلي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "موظف عمليات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0921",
+    "lastName": "حسناء الحسن المور",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "مرحل جوى",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "recurrent"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "Load Control": {
+        "expiryDate": "2025-12-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1036",
+    "lastName": "محمد فرج محمد الطبيل",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2022-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0837",
+    "lastName": "احمد صالح خليفة الحداد",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0147",
+    "lastName": "عياد عبد الله على المصروب",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2022-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0069",
+    "lastName": "حسين علي محمد المجبر",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2022-07-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2022-08-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0130",
+    "lastName": "محمد مسعود محمد الاطرش",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2022-07-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0553",
+    "lastName": "حمزة ضو محمد ضو",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0923",
+    "lastName": "عبدالمهيمن محمد سوف النكيب",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل المعدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0129",
+    "lastName": "احمد محمد خليفة دردور",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0747",
+    "lastName": "علي ابراهيم مسعود فرحات",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0557",
+    "lastName": "سالم ابوعجيلة شنقير معيريص",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0811",
+    "lastName": "وليد الطاهر خليفة الصكيك",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1179",
+    "lastName": "بسام عبد الحفيظ خليفة دردور",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0338",
+    "lastName": "زياد المهدى عمر مسعود",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0988",
+    "lastName": "محمد على خليفة بالخير",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0675",
+    "lastName": "عبدالرؤوف محمد عمر ابوشنيبات",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1053",
+    "lastName": "حكيم سالم عبد القادر الجراي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0956",
+    "lastName": "حسن نصر محمد البرغوت",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0660",
+    "lastName": "رفيق صالح أحمد عكعك",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Security Awareness": {
+        "expiryDate": "2023-01-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "recurrent"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "Baggage Handling": {
+        "expiryDate": "2022-08-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0651",
+    "lastName": "فتحي مفتاح منصور أحمد",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0486",
+    "lastName": "اشرف علي محمد الشريف",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني تشغيل معدات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "expiryDate": "2026-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1165",
+    "lastName": "احمد محمد عياد المبروك",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "موظف شحن",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0466",
+    "lastName": "سيف النصر احمد الكوني",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "recurrent"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "Aircraft Handling & Loading": {
+        "trainingType": "initial"
+      },
+      "Baggage Handling": {
+        "expiryDate": "2022-08-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0818",
+    "lastName": "احمد علي إبراهيم اليونسي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0569",
+    "lastName": "ايمن عمرو جمعة لق",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "recurrent"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "recurrent"
+      },
+      "Aircraft Handling & Loading": {
+        "trainingType": "initial"
+      },
+      "Baggage Handling": {
+        "expiryDate": "2024-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0563",
+    "lastName": "عبدالوهاب عبدالسلام محمد اليعقوبي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Security Awareness": {
+        "expiryDate": "2023-01-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "recurrent"
+      },
+      "Baggage Handling": {
+        "expiryDate": "2022-08-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0830",
+    "lastName": "احمد النوري احمد ابديري",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0958",
+    "lastName": "ابوبكر مسعود ابوبكر دردور",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1028",
+    "lastName": "مسعود ضو مسعود ضو",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1060",
+    "lastName": "عمر محمد صالح كعيب",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1024",
+    "lastName": "مؤيد عمران ابوزيد فرج",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1016",
+    "lastName": "وليد مفتاح مسعود مصباح",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0982",
+    "lastName": "معتز لله الطاهر علي الشريف",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0469",
+    "lastName": "علي عاشور المختار الشعتاني",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Security Awareness": {
+        "expiryDate": "2023-01-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "recurrent"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      },
+      "Baggage Handling": {
+        "expiryDate": "2022-08-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1030",
+    "lastName": "معاد ناجي علي الجبراني",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0817",
+    "lastName": "عبدالعزيز فتحي بوجمعة صالح",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1134",
+    "lastName": "محمد صالح أبو عجيلة الزليطني",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1011",
+    "lastName": "عبد الرحمن فتحي رجب المراكبي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1110",
+    "lastName": "أحمد عبدالله الصيد المزوغي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1010",
+    "lastName": "أيوب عبدالرحمن ابراهيم ابوديب",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1096",
+    "lastName": "امحمد كامل احمد البكوش",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0764",
+    "lastName": "محمد عبد الناصر عثمان الأزرق",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0978",
+    "lastName": "أحمد الصديق التومي الدغيس",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1132",
+    "lastName": "محمد فرج علي الشريف",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0268",
+    "lastName": "رياض المهدي عمر سعود",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "recurrent"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Security Awareness": {
+        "expiryDate": "2026-12-22",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Aircraft Handling & Loading": {
+        "expiryDate": "2023-07-01",
+        "trainingType": "recurrent"
+      },
+      "Baggage Handling": {
+        "expiryDate": "2022-08-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0961",
+    "lastName": "رياض جمعه علي غومه",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0261",
+    "lastName": "محمود ابراهيم علي الشلبوط",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "رئيس قسم فرز الحقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft Handling & Loading": {
+        "expiryDate": "2022-10-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0197",
+    "lastName": "ابراهيم الفيتورى عمر سعود",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني فرز حقائب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "recurrent"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2024-07-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Aircraft Handling & Loading": {
+        "expiryDate": "2023-07-01",
+        "trainingType": "recurrent"
+      },
+      "Baggage Handling": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0807",
+    "lastName": "محمد ناصر علي كريو",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني نظافة طائرات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0228",
+    "lastName": "الصادق مصباح علي سويسي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني نظافة طائرات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0363",
+    "lastName": "ابراهيم سالم ابراهيم الشريف",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني نظافة طائرات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0950",
+    "lastName": "مؤيد سعد علي غومه",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني نظافة طائرات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0910",
+    "lastName": "الطاهر سعد سالم أبو الغيزة",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني نظافة طائرات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0552",
+    "lastName": "عمرو عبدالله مسعود ابو قطاية",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "موظف مفقودات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Lost & Found": {
+        "expiryDate": "2022-09-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0708",
+    "lastName": "رعد الطاهر محمد غيث",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "موظف مفقودات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "expiryDate": "2024-07-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Lost & Found": {
+        "expiryDate": "2022-09-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1130",
+    "lastName": "محمد مسعود امحمد سالم",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "موظف مفقودات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1180",
+    "lastName": "رمزي المختار ميلاد المهير",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "المفقودات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1043",
+    "lastName": "عبد المنتصر ناصر محمد أبو غمجة",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0876",
+    "lastName": "احمد مصطفى سليم القماطي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0865",
+    "lastName": "عبدالحميد عبدالسلام علي عبيد",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0762",
+    "lastName": "محمد عبدالمعز الهادي امحمد",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0541",
+    "lastName": "مروان بشير محمد الشريف",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2023-10-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0440",
+    "lastName": "اسعد الهادي ابوعائشة الدويهش",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0195",
+    "lastName": "سعيد علي سعيد مختار",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0822",
+    "lastName": "امام الدين ناصر عطية الامام",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1163",
+    "lastName": "سفيان عمر محمد احتيوش",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1164",
+    "lastName": "أسامة حمدى خليفة الجبو",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1105",
+    "lastName": "خالد مفتاح عبدالسلام الجحاوى",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1025",
+    "lastName": "معتصم بالله عبدالحكيم جمعة العاتي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0794",
+    "lastName": "همام علي سعيد سالم",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1150",
+    "lastName": "محمد فوزي منير قريفة",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0446",
+    "lastName": "نادر عيسى رمضان الحشائشي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0919",
+    "lastName": "ميلود محمد عبد الوهاب واو",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0809",
+    "lastName": "مسعود مولود مسعود حلاسه",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0742",
+    "lastName": "قيس ناصر محمد الجرنازي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0870",
+    "lastName": "عثمان محمد احمد الزني",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0544",
+    "lastName": "معاذ عبدالرزاق المهدي بن مسعود",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2023-10-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "676",
+    "lastName": "علي مختار علي التميمي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0874",
+    "lastName": "حسام محمد مفتاح العزيبي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0472",
+    "lastName": "عبدالرزاق محمود رجب الساحلي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1101",
+    "lastName": "عبدالمالك صلاح خليفة عويد",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0886",
+    "lastName": "محمد احمد مصطفى السعودي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1149",
+    "lastName": "مهند الصادق خليفة الهلاوي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0535",
+    "lastName": "امجد محمد عبدالله الجلالي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1129",
+    "lastName": "عبد الرحيم ميلود عاشور شمينة",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0878",
+    "lastName": "مسعود عياد مسعود عجاج",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0441",
+    "lastName": "محمود شوقي ابراهيم بزيزي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0545",
+    "lastName": "احمد خالد شعبان العالم",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1155",
+    "lastName": "عبد المهيمن محي الدين الشارف كعبار",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1103",
+    "lastName": "سند عبدالسلام ابوبنينه امحمد",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0941",
+    "lastName": "انس  محمد رجب دائر اليل",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0940",
+    "lastName": "علاء الهادي حسين شادي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1153",
+    "lastName": "همام فوزي توفيق امحمد",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0736",
+    "lastName": "احمد توفيق احمد سويدان",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0763",
+    "lastName": "سوار عيسى عمرو الشرع",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2023-10-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0844",
+    "lastName": "عمرو أبو القاسم عمرو الشرع",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0531",
+    "lastName": "حسام ابراهيم علي الشلبوط",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2022-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0718",
+    "lastName": "محمد علي غيث الرابطي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0666",
+    "lastName": "ابراهيم السيد محمد الدعيك",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1021",
+    "lastName": "محمد سليمان عمرو الشرع",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1013",
+    "lastName": "مفتاح علي مفتاح محمود",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1026",
+    "lastName": "محمد عبدالرؤوف البهلول شعبان",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1135",
+    "lastName": "فاطمة عبد الرزاق ابوجليدة شعيب",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0875",
+    "lastName": "زكرياء علي محمد البركي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0790",
+    "lastName": "رمضان عبد السلام رمضان المسلاتي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2025-07-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0793",
+    "lastName": "محمد عبد الحميد محمد الدعيك",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0847",
+    "lastName": "قصي عبد الحكيم رمضان انبية",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0657",
+    "lastName": "مفتاح مفتاح عامرالمزوغي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Security Awareness": {
+        "expiryDate": "2023-01-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "recurrent"
+      },
+      "Baggage Handling": {
+        "expiryDate": "2022-08-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1154",
+    "lastName": "شهاب عبد الحكيم عامر دحدح",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0823",
+    "lastName": "محمد فخري عطية جبر",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0968",
+    "lastName": "عبد المهيمن محمد سلامة السائح",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1136",
+    "lastName": "وئام صلاح الدين عمران أبو شهيوة",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0667",
+    "lastName": "معتز الصادق اعمار المرغني",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0716",
+    "lastName": "محمد حسن محمد امحمد",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1143",
+    "lastName": "عبدالمالك نور الدين يوسف ماطوس",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0705",
+    "lastName": "محمد شعبان صالح ادم",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1014",
+    "lastName": "صلاح عبدالحكيم علي العامري",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "خدمات ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "0930",
+    "lastName": "مؤيد خليفة سالم ابوناب",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-10-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0788",
+    "lastName": "جمال مخلوف خليفة الشرودي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1159",
+    "lastName": "صهيب محمد عاشور الشريف",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0931",
+    "lastName": "ازم حاتم جمعة قلو",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0969",
+    "lastName": "عبد الباسط محمد أحمد بن منصور",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0473",
+    "lastName": "عمرو غالب عمرو الشرع",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "رئيس قسم خدمات الركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2023-10-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0432",
+    "lastName": "نايف يوسف محمد احمد",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "رئيس قسم قبول الركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "recurrent"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2023-10-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0474",
+    "lastName": "محمد عبدالعزيز محمد بعيشو",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "مدير محطة معيتيقة",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "recurrent"
+      },
+      "Passenger Handling": {
+        "expiryDate": "2025-07-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "0479",
+    "lastName": "محمد الهادي فرج العاتي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "نائب مدير محطة معيتيقة",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1142",
+    "lastName": "ايمن جمال عمر الحصائري",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "فني نظافة طائرات",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "371",
+    "lastName": "فتحي امحمد محمد قريميدة",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "799",
+    "lastName": "هشام الطاهر احمد العلاقي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-05-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "expiryDate": "2024-07-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-04-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "973",
+    "lastName": "إيمان محمد معمر الجريبي",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1158",
+    "lastName": "علي البهلول مفتاح الفيتوري",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "مهندس سلامة",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "307",
+    "lastName": "أريج محمد مصباح ثابت",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "expiryDate": "2025-03-01",
+        "trainingType": "recurrent"
+      },
+      "Safety Management System (SMS)": {
+        "expiryDate": "2025-03-01",
+        "trainingType": "recurrent"
+      },
+      "Airside Safety": {
+        "expiryDate": "2025-03-01",
+        "trainingType": "recurrent"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "expiryDate": "2025-03-01",
+        "trainingType": "recurrent"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "1182",
+    "lastName": "سمر عبد العزيز",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "قبول ركاب",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Dangerous Goods – DGR (Carrier Operators)": {
+        "trainingType": "initial"
+      }
+    }
+  },
+  {
+    "id": "1006",
+    "lastName": "سامية علي الشريف",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  },
+  {
+    "id": "691",
+    "lastName": "علي سالم علي القنين",
+    "firstName": "",
+    "dutyCategory": "",
+    "jobTitle": "",
+    "station": "معيتيقة",
+    "courses": {
+      "Human Factors": {
+        "trainingType": "initial"
+      },
+      "Safety Management System (SMS)": {
+        "trainingType": "initial"
+      },
+      "Airside Safety": {
+        "trainingType": "initial"
+      },
+      "Aircraft GSE Operation": {
+        "expiryDate": "2026-06-01",
+        "trainingType": "recurrent"
+      }
+    }
+  }
+]
