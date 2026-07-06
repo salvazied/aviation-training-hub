@@ -1,16 +1,24 @@
 import { useEffect, useState, useCallback } from "react";
 import { COURSES, emptyEmployee, type Employee, emptyCourse } from "./data";
+import seedData from "./personnel-seed.json";
 
-const KEY = "tt_personnel_v1";
+const KEY = "tt_personnel_v2";
 
 function seed(): Employee[] {
-  const list: Employee[] = [];
-  for (let i = 1; i <= 8; i++) {
-    const id = "EMP" + String(i).padStart(3, "0");
-    list.push(emptyEmployee(id));
-  }
-  return list;
+  return (seedData as any[]).map((row) => {
+    const base = emptyEmployee(row.id);
+    base.lastName = row.lastName || "";
+    base.firstName = row.firstName || "";
+    base.dutyCategory = row.dutyCategory || "";
+    base.jobTitle = row.jobTitle || "";
+    base.station = row.station || "";
+    Object.entries(row.courses || {}).forEach(([course, patch]) => {
+      if (base.courses[course]) base.courses[course] = { ...base.courses[course], ...(patch as any) };
+    });
+    return base;
+  });
 }
+
 
 function load(): Employee[] {
   try {
