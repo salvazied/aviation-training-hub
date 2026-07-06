@@ -7,9 +7,9 @@ export interface AuthUser {
 }
 
 const ACCOUNTS: Record<string, { password: string; role: Role }> = {
-  admin: { password: "admin2026", role: "admin" },
-  user: { password: "user2026", role: "user" },
-};
+     admin: { password: "BODbod@2026", role: "admin" },
+     user: { password: "BODbod@2026", role: "user" },
+   };
 
 interface AuthContextValue {
   user: AuthUser | null;
