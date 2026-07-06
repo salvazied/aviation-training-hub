@@ -131,8 +131,8 @@ function Shell() {
 
       {/* Mobile top bar */}
       <header className="sticky top-0 z-40 flex w-full items-center gap-3 border-b bg-primary px-4 py-2.5 text-primary-foreground md:hidden">
-        <Plane className="h-5 w-5 -rotate-45" />
-        <div className="font-display text-sm font-semibold">Training Tracker</div>
+        <img src={gulfPearlLogo.url} alt="Gulf Pearl" className="h-6 w-6 rounded bg-primary-foreground/95 p-0.5 object-contain" />
+        <div className="font-display text-sm font-semibold">GulPearl Aviation</div>
         <div className="ml-auto flex items-center gap-2 overflow-x-auto">
           {navItems.map((n) => {
             const active = pathname === n.to;
