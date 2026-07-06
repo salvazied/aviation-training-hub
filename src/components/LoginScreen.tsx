@@ -3,7 +3,7 @@ import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plane } from "lucide-react";
+import gulfPearlLogo from "@/assets/gulfpearl-logo.png.asset.json";
 
 export function LoginScreen() {
   const { login } = useAuth();
