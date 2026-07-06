@@ -86,12 +86,12 @@ function Shell() {
       {/* Permanent left sidebar */}
       <aside className="sticky top-0 z-40 hidden h-screen w-60 shrink-0 flex-col bg-primary text-primary-foreground shadow-elegant md:flex">
         <Link to="/" className="flex items-center gap-2.5 border-b border-primary-foreground/15 px-5 py-4">
-          <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary-foreground/15 backdrop-blur">
-            <Plane className="h-5 w-5 -rotate-45" />
+          <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary-foreground/95 p-1">
+            <img src={gulfPearlLogo.url} alt="Gulf Pearl Aviation Services" className="h-full w-full object-contain" />
           </div>
           <div className="leading-tight">
             <div className="font-display text-[15px] font-semibold">Training Tracker</div>
-            <div className="text-[11px] text-primary-foreground/70">Ground Handling · ISAGO</div>
+            <div className="text-[11px] text-primary-foreground/70">GulPearl Aviation Services</div>
           </div>
         </Link>
 
