@@ -21,14 +21,14 @@ export function LoginScreen() {
     <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
       <div className="relative hidden gradient-hero lg:flex lg:flex-col lg:justify-between lg:p-12 text-primary-foreground">
         <div className="flex items-center gap-2.5">
-          <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary-foreground/15 backdrop-blur">
-            <Plane className="h-5 w-5 -rotate-45" />
+          <div className="grid h-11 w-11 place-items-center rounded-lg bg-primary-foreground/95 p-1">
+            <img src={gulfPearlLogo.url} alt="Gulf Pearl Aviation Services" className="h-full w-full object-contain" />
           </div>
-          <div className="font-display text-lg font-semibold">Training Tracker</div>
+          <div className="font-display text-lg font-semibold">GulPearl Aviation Services</div>
         </div>
         <div className="space-y-4">
           <h1 className="font-display text-4xl font-semibold leading-tight">
-            Ground Handling
+            GulPearl Aviation
             <br />
             Training & Compliance
           </h1>
