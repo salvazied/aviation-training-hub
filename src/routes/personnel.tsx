@@ -422,7 +422,7 @@ function PersonnelPage() {
                   const r = activeCourse === ALL_COURSES ? null : e.courses[activeCourse];
                   const status = r ? deriveStatus(r.trainingDate, r.expiryDate, r.status) : "";
                   const isOpen = expanded.has(e.id);
-                  const totalCols = activeCourse === ALL_COURSES ? 8 : 12;
+                  const totalCols = activeCourse === ALL_COURSES ? 7 : 11;
                   return (
                     <React.Fragment key={e.id}>
                     <tr
