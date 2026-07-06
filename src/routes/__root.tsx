@@ -11,7 +11,8 @@ import type { ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { LoginScreen } from "@/components/LoginScreen";
-import { Plane, LogOut, LayoutDashboard, Users, Table2, RefreshCcw } from "lucide-react";
+import { LogOut, LayoutDashboard, Users, Table2, RefreshCcw } from "lucide-react";
+import gulfPearlLogo from "@/assets/gulfpearl-logo.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -85,12 +86,12 @@ function Shell() {
       {/* Permanent left sidebar */}
       <aside className="sticky top-0 z-40 hidden h-screen w-60 shrink-0 flex-col bg-primary text-primary-foreground shadow-elegant md:flex">
         <Link to="/" className="flex items-center gap-2.5 border-b border-primary-foreground/15 px-5 py-4">
-          <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary-foreground/15 backdrop-blur">
-            <Plane className="h-5 w-5 -rotate-45" />
+          <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary-foreground/95 p-1">
+            <img src={gulfPearlLogo.url} alt="Gulf Pearl Aviation Services" className="h-full w-full object-contain" />
           </div>
           <div className="leading-tight">
             <div className="font-display text-[15px] font-semibold">Training Tracker</div>
-            <div className="text-[11px] text-primary-foreground/70">Ground Handling · ISAGO</div>
+            <div className="text-[11px] text-primary-foreground/70">GulPearl Aviation Services</div>
           </div>
         </Link>
 
@@ -130,8 +131,8 @@ function Shell() {
 
       {/* Mobile top bar */}
       <header className="sticky top-0 z-40 flex w-full items-center gap-3 border-b bg-primary px-4 py-2.5 text-primary-foreground md:hidden">
-        <Plane className="h-5 w-5 -rotate-45" />
-        <div className="font-display text-sm font-semibold">Training Tracker</div>
+        <img src={gulfPearlLogo.url} alt="Gulf Pearl" className="h-6 w-6 rounded bg-primary-foreground/95 p-0.5 object-contain" />
+        <div className="font-display text-sm font-semibold">GulPearl Aviation</div>
         <div className="ml-auto flex items-center gap-2 overflow-x-auto">
           {navItems.map((n) => {
             const active = pathname === n.to;
