@@ -397,8 +397,8 @@ function PersonnelPage() {
                   <Th className="w-8"></Th>
                   <Th>ID</Th>
 
-                  <Th>Last Name</Th>
-                  <Th>First Name</Th>
+                  <Th>Name</Th>
+
                   <Th>Duty</Th>
                   <Th>Job Title / Function</Th>
                   <Th>Station</Th>
