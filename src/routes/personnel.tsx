@@ -662,7 +662,7 @@ function PersonnelPage() {
                 })}
 
                 {visible.length === 0 && (
-                  <tr><td colSpan={12} className="p-6 text-center text-sm text-muted-foreground">No employees match your filters.</td></tr>
+                  <tr><td colSpan={11} className="p-6 text-center text-sm text-muted-foreground">No employees match your filters.</td></tr>
                 )}
               </tbody>
             </table>
