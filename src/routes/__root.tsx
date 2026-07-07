@@ -87,7 +87,7 @@ function Shell() {
       <aside className="sticky top-0 z-40 hidden h-screen w-60 shrink-0 flex-col bg-primary text-primary-foreground shadow-elegant md:flex">
         <Link to="/" className="flex items-center gap-2.5 border-b border-primary-foreground/15 px-5 py-4">
           <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary-foreground/95 p-1">
-            <img src={gulfPearlLogo.url} alt="Gulf Pearl Aviation Services" className="h-full w-full object-contain" />
+            <Plane className="h-6 w-6 text-primary" />
           </div>
           <div className="leading-tight">
             <div className="font-display text-[15px] font-semibold">Training Tracker</div>
@@ -131,7 +131,7 @@ function Shell() {
 
       {/* Mobile top bar */}
       <header className="sticky top-0 z-40 flex w-full items-center gap-3 border-b bg-primary px-4 py-2.5 text-primary-foreground md:hidden">
-        <img src={gulfPearlLogo.url} alt="Gulf Pearl" className="h-6 w-6 rounded bg-primary-foreground/95 p-0.5 object-contain" />
+        <div className="grid h-6 w-6 place-items-center rounded bg-primary-foreground/95"><Plane className="h-4 w-4 text-primary" /></div>
         <div className="font-display text-sm font-semibold">GulPearl Aviation</div>
         <div className="ml-auto flex items-center gap-2 overflow-x-auto">
           {navItems.map((n) => {
