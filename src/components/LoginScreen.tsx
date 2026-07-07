@@ -11,9 +11,12 @@ export function LoginScreen() {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState<string | null>(null);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const [busy, setBusy] = useState(false);
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const error = login(username, password);
+    setBusy(true);
+    const error = await login(username, password);
+    setBusy(false);
     setErr(error);
   };
 
