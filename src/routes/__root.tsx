@@ -70,8 +70,9 @@ function RootComponent() {
 }
 
 function Shell() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  if (loading) return <div className="grid min-h-screen place-items-center text-sm text-muted-foreground">Loading…</div>;
   if (!user) return <LoginScreen />;
 
   const navItems = [
