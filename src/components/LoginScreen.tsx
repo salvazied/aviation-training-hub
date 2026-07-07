@@ -3,7 +3,7 @@ import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
+import { Plane as PlaneIcon } from "lucide-react";
 
 export function LoginScreen() {
   const { login } = useAuth();
@@ -25,7 +25,7 @@ export function LoginScreen() {
       <div className="relative hidden gradient-hero lg:flex lg:flex-col lg:justify-between lg:p-12 text-primary-foreground">
         <div className="flex items-center gap-2.5">
           <div className="grid h-11 w-11 place-items-center rounded-lg bg-primary-foreground/95 p-1">
-           <img src="/logo.png" alt="Gulf Pearl Aviation Services" className="h-full w-full object-contain" />
+           <PlaneIcon className="h-6 w-6 text-primary" />
 
           </div>
           <div className="font-display text-lg font-semibold">GulPearl Aviation Services</div>
