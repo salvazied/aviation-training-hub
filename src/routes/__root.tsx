@@ -12,7 +12,7 @@ import appCss from "../styles.css?url";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { LoginScreen } from "@/components/LoginScreen";
 import { LogOut, LayoutDashboard, Users, Table2, RefreshCcw } from "lucide-react";
-import gulfPearlLogo from "@/assets/gulfpearl-logo.png.asset.json";
+const gulfPearlLogo = { url: "/logo.png" };
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
 

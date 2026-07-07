@@ -26,6 +26,7 @@ export function LoginScreen() {
         <div className="flex items-center gap-2.5">
           <div className="grid h-11 w-11 place-items-center rounded-lg bg-primary-foreground/95 p-1">
            <img src="/logo.png" alt="Gulf Pearl Aviation Services" className="h-full w-full object-contain" />
+
           </div>
           <div className="font-display text-lg font-semibold">GulPearl Aviation Services</div>
         </div>
