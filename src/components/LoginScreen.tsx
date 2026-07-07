@@ -11,9 +11,12 @@ export function LoginScreen() {
   const [password, setPassword] = useState("");
   const [err, setErr] = useState<string | null>(null);
 
-  const onSubmit = (e: React.FormEvent) => {
+  const [busy, setBusy] = useState(false);
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const error = login(username, password);
+    setBusy(true);
+    const error = await login(username, password);
+    setBusy(false);
     setErr(error);
   };
 
@@ -23,6 +26,7 @@ export function LoginScreen() {
         <div className="flex items-center gap-2.5">
           <div className="grid h-11 w-11 place-items-center rounded-lg bg-primary-foreground/95 p-1">
            <img src="/logo.png" alt="Gulf Pearl Aviation Services" className="h-full w-full object-contain" />
+
           </div>
           <div className="font-display text-lg font-semibold">GulPearl Aviation Services</div>
         </div>
@@ -56,7 +60,7 @@ export function LoginScreen() {
             </div>
           </div>
           {err && <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">{err}</div>}
-          <Button type="submit" className="w-full">Sign in</Button>
+          <Button type="submit" className="w-full" disabled={busy}>{busy ? "Signing in…" : "Sign in"}</Button>
         </form>
 
       </div>

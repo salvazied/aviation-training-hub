@@ -1,48 +1,58 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { getSessionFn, loginFn, logoutFn, type SessionUser, type Role } from "./auth.functions";
 
-export type Role = "admin" | "user";
-export interface AuthUser {
-  username: string;
-  role: Role;
-}
-
-const ACCOUNTS: Record<string, { password: string; role: Role }> = {
-     admin: { password: "BODbod@2026", role: "admin" },
-     user: { password: "BODbod@2026", role: "user" },
-   };
+export type { Role };
+export type AuthUser = SessionUser;
 
 interface AuthContextValue {
   user: AuthUser | null;
-  login: (u: string, p: string) => string | null;
-  logout: () => void;
+  loading: boolean;
+  login: (u: string, p: string) => Promise<string | null>;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
-const KEY = "tt_auth_user_v1";
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) setUser(JSON.parse(raw));
-    } catch {}
+    let cancelled = false;
+    getSessionFn()
+      .then((u) => {
+        if (!cancelled) setUser(u);
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const login = (username: string, password: string) => {
-    const acc = ACCOUNTS[username.trim().toLowerCase()];
-    if (!acc || acc.password !== password) return "Invalid username or password.";
-    const u: AuthUser = { username: username.trim().toLowerCase(), role: acc.role };
-    localStorage.setItem(KEY, JSON.stringify(u));
-    setUser(u);
-    return null;
+  const login = async (username: string, password: string) => {
+    try {
+      const res = await loginFn({ data: { username, password } });
+      if (!res.ok) return res.error;
+      setUser(res.user);
+      return null;
+    } catch {
+      return "Sign-in failed. Please try again.";
+    }
   };
-  const logout = () => {
-    localStorage.removeItem(KEY);
+
+  const logout = async () => {
+    try {
+      await logoutFn();
+    } catch {}
     setUser(null);
   };
 
-  return <AuthContext.Provider value={{ user, login, logout }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, loading, login, logout }}>{children}</AuthContext.Provider>
+  );
 }
 
 export function useAuth() {

@@ -12,7 +12,7 @@ import appCss from "../styles.css?url";
 import { AuthProvider, useAuth } from "@/lib/auth";
 import { LoginScreen } from "@/components/LoginScreen";
 import { LogOut, LayoutDashboard, Users, Table2, RefreshCcw } from "lucide-react";
-import gulfPearlLogo from "@/assets/gulfpearl-logo.png.asset.json";
+const gulfPearlLogo = { url: "/logo.png" };
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/sonner";
 
@@ -70,8 +70,9 @@ function RootComponent() {
 }
 
 function Shell() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  if (loading) return <div className="grid min-h-screen place-items-center text-sm text-muted-foreground">Loading…</div>;
   if (!user) return <LoginScreen />;
 
   const navItems = [
