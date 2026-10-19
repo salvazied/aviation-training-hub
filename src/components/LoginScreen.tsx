@@ -28,7 +28,7 @@ export function LoginScreen() {
            <PlaneIcon className="h-6 w-6 text-primary" />
 
           </div>
-          <div className="font-display text-lg font-semibold">GulPearl Aviation Services</div>
+          <div className="font-display text-lg font-semibold">Training Tracker</div>
         </div>
         <div className="space-y-4">
           <h1 className="font-display text-4xl font-semibold leading-tight">
