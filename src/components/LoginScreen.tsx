@@ -32,7 +32,7 @@ export function LoginScreen() {
         </div>
         <div className="space-y-4">
           <h1 className="font-display text-4xl font-semibold leading-tight">
-            GulPearl Aviation
+            Ground Handling
             <br />
             Training & Compliance
           </h1>
