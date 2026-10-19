@@ -91,7 +91,7 @@ function Shell() {
           </div>
           <div className="leading-tight">
             <div className="font-display text-[15px] font-semibold">Training Tracker</div>
-            <div className="text-[11px] text-primary-foreground/70">GulPearl Aviation Services</div>
+            <div className="text-[11px] text-primary-foreground/70">Ground Handling Operations</div>
           </div>
         </Link>
 
@@ -132,7 +132,7 @@ function Shell() {
       {/* Mobile top bar */}
       <header className="sticky top-0 z-40 flex w-full items-center gap-3 border-b bg-primary px-4 py-2.5 text-primary-foreground md:hidden">
         <div className="grid h-6 w-6 place-items-center rounded bg-primary-foreground/95"><Plane className="h-4 w-4 text-primary" /></div>
-        <div className="font-display text-sm font-semibold">GulPearl Aviation</div>
+        <div className="font-display text-sm font-semibold">Training Tracker</div>
         <div className="ml-auto flex items-center gap-2 overflow-x-auto">
           {navItems.map((n) => {
             const active = pathname === n.to;
